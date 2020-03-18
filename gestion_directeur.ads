@@ -4,7 +4,7 @@ package Gestion_Directeur is
   
 
    --------------------------------------------------
-   -- Déclaration du type pour le directeur
+   -- DÃ©claration du type pour le directeur
    --------------------------------------------------
 
    type T_Directeur is record
@@ -20,8 +20,8 @@ package Gestion_Directeur is
    end record;
 
    --------------------------------------------------
-   -- Procédures
+   -- ProcÃ©dures
    --------------------------------------------------
-
+  procedure Ajout_Secr (P_Secr: in out Pteur_Secretaire;Emp: IN T_Personne; Erreur : out Boolean);
 
 end Gestion_Directeur;
