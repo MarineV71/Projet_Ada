@@ -58,12 +58,12 @@ package body Gestion_Directeur is
    end Enr_Nvl_Emp;
    
    
-   Function Recherche (P
+   --Function Recherche (P
 
-   procedure Depart_Emp (Nom_Sup,Prenom_Sup : IN T_Mot; Fait : Out boolean) is
-   begin
+   --procedure Depart_Emp (Nom_Sup,Prenom_Sup : IN T_Mot; Fait : Out boolean) is
+   --begin
       
-   end Depart_Emp;
+   --end Depart_Emp;
    
    procedure Visualiser_Liste_Emp (Tete_S: In Pteur_Secretaire;Tete_C:In Pteur_Charge ) is
    begin
