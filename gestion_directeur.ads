@@ -1,5 +1,5 @@
-with Gestion_Etude,Gestion_Secretaire,Gestion_Charge_Etude,Connexion;
-use Gestion_Etude,Gestion_Secretaire,Gestion_Charge_Etude,Connexion;
+with Gestion_Etude,Gestion_Secretaire,Gestion_Charge_Etude,Gestion_Testeuse,Connexion;
+use Gestion_Etude,Gestion_Secretaire,Gestion_Charge_Etude,Gestion_Testeuse,Connexion;
 package Gestion_Directeur is
   
 
@@ -22,6 +22,7 @@ package Gestion_Directeur is
    --------------------------------------------------
    -- Procédures
    --------------------------------------------------
+   procedure Saisie_Personne(Emp:out T_Personne);
    procedure Ajout_Secr (P_Secr: in out Pteur_Secretaire;S: IN T_Secretaire);
    procedure Ajout_Charge (P_Charge: in out Pteur_Charge;Ce: in T_Charge_Etude);
    procedure Enr_Nvl_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge;erreur: out boolean);
@@ -30,6 +31,10 @@ package Gestion_Directeur is
    procedure Visualiser_Charge_Spe (Tete_C: in Pteur_Charge;Nom,Prenom: in T_Mot);
    procedure Visualiser_Liste_Etude (Tete: in Pteur_Etude);
    procedure Visualiser_Etude_spe (Tete: in Pteur_Etude;Id_recherche: in Integer);
+   procedure supp_secr (tete: in out Pteur_Secretaire; S: IN T_personne; erreur : out boolean);
+   procedure supp_charge (tete: in out Pteur_Charge; CE: IN T_personne; erreur : out boolean); --mettre recup
+   procedure supp_testeuse (tete: in out Pteur_Testeuse ; tstse: IN T_personne; erreur : out boolean);
+   procedure Dprt_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge; P_Testeuse : in out Pteur_Testeuse; Fait : out Boolean);
 
 
 end Gestion_Directeur;

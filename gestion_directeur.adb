@@ -2,7 +2,21 @@ with Ada.Text_Io,Ada.Integer_Text_Io;
 use Ada.Text_Io,Ada.Integer_Text_Io;
 package body Gestion_Directeur is 
    
+   procedure Saisie_Personne(Emp:out T_Personne) is
+      K:Integer;
+   begin
+       Put("Veuillez saisir les informations suivantes");New_Line;
+      Put("Nom =>");Get_Line(Emp.Nom,K);
+      Put("Prenom =>");Get_Line(Emp.Prenom,K);
+--      Emp.Login :=Emp.Nom  -> concaténation ? Ada.Stings.unbounded ?
+      Put("Mot de passe (10 caratères maximum =>");Get_Line(Emp.Mdp,K);
+      --Crypatage du mot de passe + Attention aux caractères possibles
+      --Tirage aléatoire de N dans le cryptage
+   end Saisie_Personne;
    
+   --------------------------------------------------
+   -- procedure d'ajout d'employes
+   --------------------------------------------------
    procedure Ajout_Secr (P_Secr: in out Pteur_Secretaire; S: IN T_Secretaire)is
    begin
       if P_Secr = null then
@@ -15,7 +29,7 @@ package body Gestion_Directeur is
       procedure Ajout_Charge (P_Charge: in out Pteur_Charge;CE: IN T_charge_etude)is
    begin
       if P_Charge = null then
-         P_Charge:= new T_Liste_Charge'(CE, null);
+         P_Charge:= new T_Liste_Charge'(Ce, null);
       else
          P_Charge := new T_Liste_Charge'(CE, P_charge);
       end if;         
@@ -25,20 +39,12 @@ package body Gestion_Directeur is
    procedure Enr_Nvl_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge;erreur: out boolean) is 
       Choix:Integer;
       Emp: T_Personne;
-      k:integer;
       Secr:T_Secretaire;
       charge_Et:T_charge_etude;
    begin
    --Faire une saisie sécurisée !!!
       Put("Enregistrement d'un nouvel employé");New_Line;
-      --Saisie des informations du nouvel employe
-      Put("Veuillez saisir les informations suivantes");New_Line;
-      Put("Nom =>");Get_Line(Emp.Nom,K);
-      Put("Prenom =>");Get_Line(Emp.Prenom,K);
---      Emp.Login :=Emp.Nom  -> concaténation ? Ada.Stings.unbounded ?
-      Put("Mot de passe (10 caratères maximum =>");Get_Line(Emp.Mdp,K);
-      --Crypatage du mot de passe + Attention aux caractères possibles
-      --Tirage aléatoire de N dans le cryptage
+      Saisie_Personne(Emp);
       loop
       Put("Vous enregistrez un(e) secretaire (1) ou un(e) charge d'etude (2)");New_Line;   
       Put("Faite votre choix : 1 ou 2");
@@ -51,19 +57,79 @@ package body Gestion_Directeur is
             Charge_Et.Id:=Emp;
             Ajout_Charge(P_Charge, charge_Et);
          when others =>
-            Put("Choix invalide, veuillez saisir à nouveau votre choix");
+            Put("Choix invalide, veuillez saisir �  nouveau votre choix");
             new_line;
          end case;
       end loop;
    end Enr_Nvl_Emp;
    
-   
-   --Function Recherche (P
+   --------------------------------------------------
+   -- procedure de suppression des employes
+   --------------------------------------------------
+  procedure supp_secr (tete: in out Pteur_Secretaire; S: IN T_personne; erreur : out boolean)is
+  begin 
+     if Tete = null then Erreur := True ;
+     elsif Tete.Secr.id=S then 
+        Erreur:=False;
+        Tete:=Tete.Secre_Suiv;
+     else Supp_Secr(Tete.Secre_Suiv, S, Erreur);
+     end if;
+  end Supp_Secr;
+  
+  procedure supp_charge (tete: in out Pteur_Charge; CE: IN T_personne; erreur : out boolean)is --mettre recup
+  begin 
+     if Tete = null then Erreur := True ;
+     elsif Tete.charge.id=CE then 
+        Erreur:=False;
+                 --appel de la procedure d'attribution des �tudes aux charges etudes
+        Tete:=Tete.charge_suiv;
+     else Supp_charge(Tete.charge_suiv, CE, Erreur);
+     end if;
+  end Supp_charge;
+  
+  procedure supp_testeuse (tete: in out Pteur_Testeuse ; tstse: IN T_personne; erreur : out boolean)is
+  begin 
+     if Tete = null then Erreur := True ;
+     elsif Tete.test.id=tstse then 
+        Erreur:=False;
+        Tete:=Tete.test_Suiv;
+     else Supp_testeuse(Tete.test_Suiv, tstse, Erreur);
+     end if;
+  end Supp_Testeuse;
+  
 
-   --procedure Depart_Emp (Nom_Sup,Prenom_Sup : IN T_Mot; Fait : Out boolean) is
-   --begin
+
+   procedure Dprt_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge; P_Testeuse : in out Pteur_Testeuse; Fait : out Boolean) is   
+      Emp:T_Personne;
+      Choix:Integer;
+      erreur:boolean;
+      begin
+      Put("Enregistrement du depart d'un employe");New_Line;
+      Saisie_Personne(Emp);   
+      loop
+      Put("Vous enregistrez un(e) secretaire (1) un(e) charge d'etude (2) ou une testeuse (3)");New_Line;   
+      Put("Faite votre choix : 1 ou 2");
+      Get(Choix);Skip_Line;
+      case Choix is 
+         when 1 =>
+            Supp_Secr(P_Secr, emp,erreur);
+         when 2 => 
+            supp_Charge(P_Charge, emp, erreur);
+         when 3 => 
+            supp_testeuse(P_testeuse, emp, erreur);      
+         when others =>
+            Put("Choix invalide, veuillez saisir �  nouveau votre choix");
+            new_line;
+         end case;  
+            if Erreur then Fait:=False;
+            else Fait:=True;
+            end if;     
+      end loop;
+      end Dprt_Emp;
       
-   --end Depart_Emp;
+   --------------------------------------------------
+   -- procedure d'affichage des employes
+   --------------------------------------------------
    
    procedure Visualiser_Liste_Emp (Tete_S: In Pteur_Secretaire;Tete_C:In Pteur_Charge ) is
    begin
