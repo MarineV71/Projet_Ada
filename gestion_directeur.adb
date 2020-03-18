@@ -3,21 +3,21 @@ use Ada.Text_Io,Ada.Integer_Text_Io;
 package body Gestion_Directeur is 
    
    
-   procedure Ajout_Secr (P_Secr: in out Pteur_Secretaire;Emp: IN T_Personne; Erreur : out Boolean)is
+   procedure Ajout_Secr (P_Secr: in out Pteur_Secretaire; S: IN T_Secretaire)is
    begin
       if P_Secr = null then
-         P_Secr:= new T_Liste_Secretaire'(Emp, null);
+         P_Secr:= new T_Liste_Secretaire'(S, null);
       else
-         P_Secre := new T_Liste_Secretaire'(Emp, P_Secre);
+         P_Secr := new T_Liste_Secretaire'(S, P_Secr);
       end if;        
    end Ajout_Secr;
   
-      procedure Ajout_Charge (P_Charge: in out Pteur_Charge;Emp: IN T_Personne; Erreur : out Boolean)is
+      procedure Ajout_Charge (P_Charge: in out Pteur_Charge;CE: IN T_charge_etude)is
    begin
       if P_Charge = null then
-         P_Charge:= new T_Liste_Secretaire'(Emp, null);
+         P_Charge:= new T_Liste_Charge'(CE, null);
       else
-         P_Charge := new T_Liste_Secretaire'(Emp, P_Secre);
+         P_Charge := new T_Liste_Charge'(CE, P_charge);
       end if;         
    end Ajout_Charge;
 
@@ -45,11 +45,11 @@ package body Gestion_Directeur is
       Get(Choix);Skip_Line;
       case Choix is 
          when 1 =>
-            Secr:=Emp;   
+            Secr.id:=Emp;   
             Ajout_Secr(P_Secr, Secr);
          when 2 => 
             Charge_Et.Id:=Emp;
-            Ajout_Charge(P_Charge,charge_Et);
+            Ajout_Charge(P_Charge, charge_Et);
          when others =>
             Put("Choix invalide, veuillez saisir à nouveau votre choix");
             new_line;
