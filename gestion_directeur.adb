@@ -15,7 +15,7 @@ package body Gestion_Directeur is
    end Saisie_Personne;
    
    --------------------------------------------------
-   -- procedure d'ajout d'employes
+   -- procedure d'ajout d'employes & etudes
    --------------------------------------------------
    procedure Ajout_Secr (P_Secr: in out Pteur_Secretaire; S: IN T_Secretaire)is
    begin
@@ -35,6 +35,61 @@ package body Gestion_Directeur is
       end if;         
    end Ajout_Charge;
 
+
+   procedure Creation_Etude (Tete_Etude: in out Pteur_Etude; P_Charge:in out Pteur_Charge) is 
+      Etude:T_Etude;
+      K, choix:Integer;
+      s,N,P:t_mot;
+   begin    
+      Put("creation d'une nouvelle etude :");New_Line;
+      if Tete_Etude=null then
+         Etude.Id:=1;
+      else 
+         Etude.Id:=Tete_Etude.etu.Id+1;
+      end if;
+      Put("saisir le nom du produit :");
+      Get_Line(Etude.Produit.Nom_P,K);
+      Put("saisir la categorie du produit :");
+     -- loop
+      Get_Line(S,K);
+      Etude.Produit.Cat:=T_Categorie'Value(S(1..K));
+        -- if Etude.Produit.Cat then
+          --  exit;
+        -- else 
+          --  Put("erreur de saisie");
+        -- end if;
+      --end loop;
+      Put("saisir la tranche d'age");
+      Get(Etude.Produit.Age_Min, Etude.Produit.Age_Max); Skip_Line;
+      Put("saisir le nom de l'entreprise");
+      Get_Line(Etude.Produit.Entreprise,K); 
+      put_line("Saisir (1) pour attribution manuelle du charge de l'etude ou (2) pour attribution automatique");      
+      Put("saisir votre choix :");
+      Get(Choix); Skip_Line;
+      case Choix is
+         when 1 =>
+            loop
+               Put("saisir le nom de charge de l'etude :");
+               Get_Line(N,K); --saisie sÈcurisÈe si le charge n'existe pas ou si son nombre d'etude est plein
+               Put("saisir le prenom du charge d'etude :");
+               Get_Line(P,K);
+               Verif_Saisie_Charge(P_Charge,N,P);
+               
+            end loop;
+                  
+         when 2 =>
+            --procedure attribution automatique 
+            put("ok");
+         when others=> 
+            Put("erreur de saisie");
+      end case;
+      
+      if Tete_Etude = null then 
+         Tete_Etude:=new T_Liste_Etude'(Etude,null);
+      else 
+         Tete_Etude:=new T_Liste_Etude'(Etude,Tete_Etude);
+      end if;
+   end Creation_Etude;
 
    procedure Enr_Nvl_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge;erreur: out boolean) is 
       Choix:Integer;
@@ -163,11 +218,7 @@ package body Gestion_Directeur is
          end if;
       end if;
    end Visualiser_Charge_Spe;
-   
-
---   procedure Creation_Etude () is 
---   begin    
---   end Cr√©ation_Etude;
+  
    
    procedure Visualiser_Liste_Etude (Tete: in Pteur_Etude) is
    begin

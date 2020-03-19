@@ -11,9 +11,9 @@ package Gestion_Etude is
    type T_Personne_Incluse is record 
       Nom, Prenom : T_Mot := (others=>' ');
       Nj_Jour_Test : Integer :=0;
-      Note : Integer range 0..20;
+      Note : Integer range 0..20:=-1;
       pb : boolean;
-      Commentaire : String(1..200);
+      Commentaire : String(1..200):= (others=>' ');
    end record;
    
    type T_Liste_Incluse;
