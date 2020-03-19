@@ -35,6 +35,7 @@ package Gestion_Directeur is
    procedure supp_charge (tete: in out Pteur_Charge; CE: IN T_personne; erreur : out boolean); --mettre recup
    procedure supp_testeuse (tete: in out Pteur_Testeuse ; tstse: IN T_personne; erreur : out boolean);
    procedure Dprt_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge; P_Testeuse : in out Pteur_Testeuse; Fait : out Boolean);
+   procedure Creation_Etude (Tete_Etude: in out Pteur_Etude; Etude:in out T_Etude; P_Charge:in out Pteur_Charge);
 
 
 end Gestion_Directeur;

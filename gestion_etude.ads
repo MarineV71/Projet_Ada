@@ -79,7 +79,11 @@ package Gestion_Etude is
    --------------------------------------------------
   package P_Fichier_Archive is new Sequential_Io (T_Etude_Archivee);
    
+   --------------------------------------------------
+   -- procedure d'etude
+   --------------------------------------------------
 
+  procedure Nv_Etude (Etude: in out T_Etude; P_Etude:in out Pteur_Etude) ;
 
 end Gestion_Etude;
 

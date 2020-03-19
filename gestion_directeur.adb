@@ -36,10 +36,10 @@ package body Gestion_Directeur is
    end Ajout_Charge;
 
 
-   procedure Creation_Etude (Tete_Etude: in out Pteur_Etude; P_Charge:in out Pteur_Charge) is 
-      Etude:T_Etude;
-      K, choix:Integer;
-      s,N,P:t_mot;
+   procedure Creation_Etude (Tete_Etude: in out Pteur_Etude; Etude:in out T_Etude; P_Charge:in out Pteur_Charge) is 
+      K, kn, kp,cpt, choix:Integer;
+      S,N,P:T_Mot;
+      ok:boolean;
    begin    
       Put("creation d'une nouvelle etude :");New_Line;
       if Tete_Etude=null then
@@ -70,11 +70,19 @@ package body Gestion_Directeur is
          when 1 =>
             loop
                Put("saisir le nom de charge de l'etude :");
-               Get_Line(N,K); --saisie sécurisée si le charge n'existe pas ou si son nombre d'etude est plein
+               Get_Line(N,Kn); --saisie sécurisée si le charge n'existe pas ou si son nombre d'etude est plein
                Put("saisir le prenom du charge d'etude :");
-               Get_Line(P,K);
-               Verif_Saisie_Charge(P_Charge,N,P);
-               
+               Get_Line(P,Kn); 
+               Ok:= Verif_Saisie_Charge(P_Charge,N,P); --JE NE SAIS PAS S'IL FAUT AUSSI METTRE KN ET KP
+               if Ok then 
+                  cpt:=Cpt_Etude_Charge(P_Charge,N,P); --IDEM
+                  if Cpt<3 then 
+                     Etude.Nom_Charge:=N(1..Kn);
+                     Etude.Prenom_Charge:=P(1..Kp);                     
+                     Nv_Etude(Etude,Tete_Etude);
+                     Ajout_Etude_Charge (P_Charge, tete_Etude, N,P);
+                  end if;                  
+               end if;
             end loop;
                   
          when 2 =>
@@ -84,11 +92,7 @@ package body Gestion_Directeur is
             Put("erreur de saisie");
       end case;
       
-      if Tete_Etude = null then 
-         Tete_Etude:=new T_Liste_Etude'(Etude,null);
-      else 
-         Tete_Etude:=new T_Liste_Etude'(Etude,Tete_Etude);
-      end if;
+      
    end Creation_Etude;
 
    procedure Enr_Nvl_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge;erreur: out boolean) is 

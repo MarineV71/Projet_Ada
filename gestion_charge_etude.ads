@@ -7,7 +7,7 @@ package Gestion_Charge_Etude is
    -- de chargés d'études
    --------------------------------------------------
    
-   type Tab_Etude is array (Integer range 1..3) of T_Etude;
+   type Tab_Etude is array (Integer range 1..3) of Pteur_Etude;
    type T_Charge_Etude is record
          Id         : T_Personne;
          Nb_Etude_En_Charge : Integer    := 0;
@@ -26,7 +26,10 @@ package Gestion_Charge_Etude is
    -- Procedure charges d'etudes
    --------------------------------------------------
    
-   function verif_Saisie_charge(Tete_Charge: Pteur_Charge; N,P:T_Mot)return boolean;
+   function Verif_Saisie_Charge(Tete_Charge: Pteur_Charge; N,P:T_Mot)return Boolean;
+   function Cpt_Etude_Charge (Tete_Charge: Pteur_Charge; N,P:T_Mot) return Integer ;
+   procedure Ajout_Etude_Charge (Tete_Charge: in out Pteur_Charge; P_Etude:Pteur_Etude; N,P:T_Mot);
+   
 
 end Gestion_Charge_Etude;
 
