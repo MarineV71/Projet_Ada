@@ -13,11 +13,10 @@ package Gestion_Etude is
       Nj_Jour_Test : Integer :=0;
       Note : Integer range 0..20:=-1;
       pb : boolean;
-      Commentaire : String(1..200):= (others=>' ');
    end record;
    
    type T_Liste_Incluse;
-   type Pteur_Incluse is access T_Personne_Incluse;
+   type Pteur_Incluse is access T_Liste_Incluse;
    type T_Liste_Incluse is record 
       incl: T_Personne_Incluse;
       incl_suiv : Pteur_Incluse;

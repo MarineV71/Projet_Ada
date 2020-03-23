@@ -1,5 +1,5 @@
-with Gestion_Etude, Gestion_Testeuse,Connexion;
-use Gestion_Etude, Gestion_Testeuse, Connexion;
+with Gestion_Etude,Gestion_Testeuse,Connexion;
+use Gestion_Etude,Gestion_Testeuse, Connexion;
 package Gestion_Charge_Etude is
 
    --------------------------------------------------
@@ -30,6 +30,9 @@ package Gestion_Charge_Etude is
    function Cpt_Etude_Charge (Tete_Charge: Pteur_Charge; N,P:T_Mot) return Integer ;
    procedure Ajout_Etude_Charge (Tete_Charge: in out Pteur_Charge; P_Etude:Pteur_Etude; N,P:T_Mot);
    procedure repartition_etude_charge (Etude:in out T_Etude; Tete_Charge: in out Pteur_Charge; P_Etude: in out Pteur_Etude);
+   procedure Affiche_Liste_Etude (Tete_Charge: Pteur_Charge);
+   procedure Affiche_Detail_Etude (Tete_Charge: Pteur_Charge; id_etu: integer);
+   procedure Affiche_Testeuse_Incluse(Tete_Inclu: Pteur_Incluse);
 
 
 end Gestion_Charge_Etude;

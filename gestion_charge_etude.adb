@@ -10,8 +10,8 @@ package body Gestion_Charge_Etude is
          else
             return(verif_Saisie_charge(Tete_Charge.charge_Suiv, N, P));
          end if;
-      end verif_Saisie_charge;
-    
+      end Verif_Saisie_Charge;
+      
       function Cpt_Etude_Charge (Tete_Charge: Pteur_Charge; N,P:T_Mot) return Integer is
       begin
          if Tete_Charge= null then return(0);
@@ -58,8 +58,50 @@ package body Gestion_Charge_Etude is
       end if;
       Nv_Etude(Etude,P_Etude);
       Ajout_Etude_Charge (Min, P_Etude, min.charge.id.nom, min.charge.id.prenom);
-      
    end Repartition_Etude_Charge;
    
+   procedure Affiche_liste_Etude (Tete_Charge: Pteur_Charge) is 
+      T:Tab_Etude:=Tete_Charge.Charge.Etude_En_Charge;
+      k:integer;
+begin 
+   put("Affichage de la liste des etudes en charge :");new_line;
+   for I in T'range loop
+      Put(T(I).Etu.Id); Put(" - ");
+      Put(T(I).Etu.Produit.Nom_P,k); Put(" - ");
+      Put(T_categorie'Image(T(I).Etu.Produit.Cat)); New_Line;
+   end loop;--cette procedure sera relier a la procedure affiche_detail_etude !!!!!!!!
+end Affiche_liste_etude;
+
+procedure Affiche_Detail_Etude (Tete_Charge: Pteur_Charge; id_etu: integer) is
+   T:Tab_Etude:=Tete_Charge.Charge.Etude_En_Charge; 
+   Inc:Pteur_Incluse;
+   k:integer;
+begin
+   for I in T'range loop
+      if Id_Etu=T(I).Etu.Id then
+         Put("Affichage de l etude numero"); Put(T(I).Etu.Id); Put(t_statut'image(T(I).Etu.Statut)); Put(" :");New_Line;
+         Put("Test de");Put(T(I).Etu.Produit.Nom_P,k); Put(" - ");
+         Put(t_categorie'image(T(I).Etu.Produit.Cat)); new_line;
+         Put("Pour femmes de");Put(T(I).Etu.Produit.Age_Min); Put("a"); Put(T(I).Etu.Produit.Age_Max);New_Line;
+         Put("Produit par la societe");Put(T(I).Etu.Produit.Entreprise,K);New_Line;
+         put(T(I).Etu.nb_testeuse); put("testeuse(s) participent a cette etude");new_line;
+         Inc:=T(I).Etu.P_Testeuse;
+         affiche_testeuse_incluse(inc);
+      end if;--faudra relier cette procedure avec afffiche_liste_etude
+   end loop;
+end Affiche_Detail_Etude;
+ 
+procedure Affiche_Testeuse_Incluse(Tete_Inclu: Pteur_Incluse) is
+   K:Integer;
+begin
+   if tete_Inclu/=null then
+      Put(Tete_Inclu.incl.Nom,K);
+      Put(Tete_Inclu.incl.Prenom,K); new_line; put("teste depuis:");
+      Put(Tete_Inclu.incl.Nj_Jour_Test); Put("jour(s) - note de");
+      put(tete_inclu.incl.note);new_line;put("effets indesirables :"); 
+      if Tete_Inclu.incl.Pb then Put("oui"); else Put("non"); end if;
+      Affiche_Testeuse_Incluse(tete_inclu.incl_suiv);
+   end if;
+end Affiche_Testeuse_Incluse;
 end Gestion_Charge_Etude;
 
