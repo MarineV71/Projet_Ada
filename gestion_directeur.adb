@@ -80,19 +80,16 @@ package body Gestion_Directeur is
                      Etude.Nom_Charge:=N(1..Kn);
                      Etude.Prenom_Charge:=P(1..Kp);                     
                      Nv_Etude(Etude,Tete_Etude);
-                     Ajout_Etude_Charge (P_Charge, tete_Etude, N,P);
+                     Ajout_Etude_Charge (P_Charge, Tete_Etude, N,P);
+                  else Put("ce charge d'etude a deja 3 etudes a la charge");New_Line;
                   end if;                  
                end if;
-            end loop;
-                  
+            end loop; 
          when 2 =>
-            --procedure attribution automatique 
-            put("ok");
+            repartition_etude_charge (Etude, P_Charge, tete_Etude);
          when others=> 
             Put("erreur de saisie");
-      end case;
-      
-      
+      end case;      
    end Creation_Etude;
 
    procedure Enr_Nvl_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge;erreur: out boolean) is 

@@ -29,7 +29,7 @@ package Gestion_Charge_Etude is
    function Verif_Saisie_Charge(Tete_Charge: Pteur_Charge; N,P:T_Mot)return Boolean;
    function Cpt_Etude_Charge (Tete_Charge: Pteur_Charge; N,P:T_Mot) return Integer ;
    procedure Ajout_Etude_Charge (Tete_Charge: in out Pteur_Charge; P_Etude:Pteur_Etude; N,P:T_Mot);
-   
+   procedure repartition_etude_charge (Etude:in out T_Etude; Tete_Charge: in out Pteur_Charge; P_Etude: in out Pteur_Etude);
+
 
 end Gestion_Charge_Etude;
-
