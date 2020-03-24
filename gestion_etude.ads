@@ -11,7 +11,7 @@ package Gestion_Etude is
    type T_Personne_Incluse is record 
       Nom, Prenom : T_Mot := (others=>' ');
       Nj_Jour_Test : Integer :=0;
-      Note : Integer range 0..20:=-1;
+      Note : Integer range 0..20:=0;
       pb : boolean;
    end record;
    
@@ -83,6 +83,7 @@ package Gestion_Etude is
    --------------------------------------------------
 
   procedure Nv_Etude (Etude: in out T_Etude; P_Etude:in out Pteur_Etude) ;
-
+  procedure Nv_Incluse (Incluse: in out T_Personne_Incluse; P_Inclu:in out Pteur_Incluse);
+  
 end Gestion_Etude;
 

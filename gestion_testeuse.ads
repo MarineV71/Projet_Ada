@@ -18,6 +18,7 @@ package Gestion_Testeuse is
       test: T_Testeuse;
       test_Suiv : Pteur_Testeuse;
    end record;
-
+function Verif_Saisie_Testeuse (Tete_testeuse: Pteur_testeuse; N,P:T_Mot) return pteur_testeuse;
+ function Verif_Testeuse_Etude (tete_etu:pteur_etude; Tete_Test: Pteur_Testeuse) return pteur_testeuse;
 
 end Gestion_Testeuse;

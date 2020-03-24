@@ -103,5 +103,49 @@ begin
       Affiche_Testeuse_Incluse(tete_inclu.incl_suiv);
    end if;
 end Affiche_Testeuse_Incluse;
+   
+   procedure Ajout_Testeuse (Tete_Charge: Pteur_Charge; tete_test: in out pteur_testeuse; id_etu: integer) is
+      T:Tab_Etude:=Tete_Charge.Charge.Etude_En_Charge; 
+      Tete_Incl: Pteur_Incluse;
+      incl:t_personne_incluse;
+      K:Integer;
+      nom,prenom:t_mot;
+   begin
+      for I in T'range loop
+         if Id_Etu=T(I).Etu.Id then --verifie que l'etude existe 
+            if T(I).Etu.Statut=Cree then
+            Put("saisir le nom de la testeuse :");
+            Get_Line(Nom,K);
+            Put("saisir le prenom de la testeuse");
+            Get_Line(Prenom,K);--je ne sais pas s'il un K /= de celui du nom ou pas
+            tete_incl:=T(i).etu.P_testeuse;
+            Tete_Test:=Verif_Saisie_Testeuse(Tete_Test,nom,Prenom);
+            Tete_Test:=Verif_Testeuse_Etude(T(I), Tete_Test);
+            if tete_test/=null then --si la testeuse peut etre inclus dans l'etude, l'ajouter et lui donner un pteur d'etude
+               incl.Nom:=Nom;
+               Incl.Prenom:=Prenom;
+               Nv_Incluse(Incl,Tete_Incl);
+               tete_test.test.etude:=T(i);
+            else 
+               put_line("cette testeuse ne peut pas participer a cette etude");
+            end if;
+            end if;
+         else Put_Line("l'etude n'a plus le statut creee");
+         end if;
+      end loop;
+   end Ajout_Testeuse;
+   
+   procedure Modif_Statut(P_Charge:in out Pteur_Charge; id_etu:integer)is
+      T:Tab_Etude:=P_Charge.Charge.Etude_En_Charge; 
+   begin 
+      for I in T'range loop 
+         if Id_Etu=T(I).Etu.Id then
+            if T(I).Etu.Statut/=T_Statut'Last then 
+               T(I).Etu.Statut:=T_Statut'val(T_Statut'pos(T(I).etu.statut)+1);
+            end if;
+         end if;
+      end loop;
+   end Modif_Statut;
 end Gestion_Charge_Etude;
+
 

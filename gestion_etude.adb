@@ -9,5 +9,14 @@ package body Gestion_Etude is
          P_Etude:=new T_Liste_Etude'(Etude,P_Etude);
       end if;
    end Nv_Etude;
+   
+procedure Nv_incluse (incluse: in out T_personne_incluse; P_inclu:in out Pteur_incluse) is
+   begin
+      if P_inclu= null then 
+         P_inclu:=new T_Liste_incluse'(incluse,null);
+      else 
+         P_inclu:=new T_Liste_incluse'(incluse,P_inclu);
+      end if;
+   end Nv_incluse;
 end Gestion_Etude;
 
