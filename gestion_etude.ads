@@ -12,7 +12,7 @@ package Gestion_Etude is
       Nom, Prenom : T_Mot := (others=>' ');
       Nj_Jour_Test : Integer :=0;
       Note : Integer range 0..20:=0;
-      pb : boolean;
+      pb : boolean:=false;
    end record;
    
    type T_Liste_Incluse;
@@ -49,7 +49,7 @@ package Gestion_Etude is
       P_Testeuse : Pteur_Incluse;
       Note_Moy : Integer := -1;
       Nb_Significatif : Integer :=0;
-      Risque : Boolean;
+      Risque : Boolean:=false;
    end record;
 
    Type T_Liste_Etude;
@@ -84,6 +84,7 @@ package Gestion_Etude is
 
   procedure Nv_Etude (Etude: in out T_Etude; P_Etude:in out Pteur_Etude) ;
   procedure Nv_Incluse (Incluse: in out T_Personne_Incluse; P_Inclu:in out Pteur_Incluse);
+  procedure Nv_Etude_Cloturee(P_Etude_Clo:in out Pteur_Etude); 
   
 end Gestion_Etude;
 
