@@ -25,5 +25,40 @@ package body Gestion_Testeuse is
          else return (null);
          end if;
       end Verif_Testeuse_Etude; 
-         end Gestion_Testeuse;
-   
+      
+      procedure Modification_Etude_Retour (P_Test:in out Pteur_Testeuse) is 
+         P_Incl:Pteur_Incluse;
+         P_Etu:Pteur_Etude;
+         pb:integer;
+      begin
+         P_Test:= Verif_Saisie_Testeuse(P_Test,P_Test.test.Id.Nom,P_Test.test.Id.Prenom);
+         if P_Test/=null and then P_Test.Test.Etude/=null then 
+            P_Etu:=P_Test.Test.Etude;
+            if P_Etu.Etu.Statut=En_Cours then
+               P_Incl:=p_etu.etu.p_testeuse;
+               while P_Incl/=null loop
+                  if p_incl.incl.nom=P_test.test.Id.Nom and then p_incl.incl.prenom=P_test.test.Id.Prenom then
+                     Put("attribuer une note au produit :");
+                     Get(P_Incl.Incl.Note);Skip_Line;
+                     Put("combien de jours l'avez vous teste ?");
+                     Get(P_Incl.Incl.Nj_Jour_Test);Skip_Line;
+                     Put("avez vous des effets indesirables ?(1=oui, 0=non)");
+                     loop
+                        Get(Pb);Skip_Line;
+                        if Pb=1 then
+                           P_Incl.Incl.Pb:=True;
+                           exit;
+                        elsif Pb=0 then
+                           P_Incl.Incl.Pb:=False;
+                           exit;
+                        else 
+                           put("vous avez mal saisie, repondez par 1 ou 0");
+                        end if;
+                     end loop;
+                  end if;
+                  P_Incl:=P_Incl.Incl_Suiv;
+               end loop;
+            end if;
+         end if;
+      end Modification_Etude_Retour;   
+   end Gestion_Testeuse;
