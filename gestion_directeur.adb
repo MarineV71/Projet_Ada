@@ -8,10 +8,10 @@ package body Gestion_Directeur is
        Put("Veuillez saisir les informations suivantes");New_Line;
       Put("Nom =>");Get_Line(Emp.Nom,K);
       Put("Prenom =>");Get_Line(Emp.Prenom,K);
---      Emp.Login :=Emp.Nom  -> concaténation ? Ada.Stings.unbounded ?
-      Put("Mot de passe (10 caratères maximum =>");Get_Line(Emp.Mdp,K);
-      --Crypatage du mot de passe + Attention aux caractères possibles
-      --Tirage aléatoire de N dans le cryptage
+--      Emp.Login :=Emp.Nom  -> concatÃ©nation ? Ada.Stings.unbounded ?
+      Put("Mot de passe (10 caratÃ¨res maximum =>");Get_Line(Emp.Mdp,K);
+      --Crypatage du mot de passe + Attention aux caractÃ¨res possibles
+      --Tirage alÃ©atoire de N dans le cryptage
    end Saisie_Personne;
    
    --------------------------------------------------
@@ -70,7 +70,7 @@ package body Gestion_Directeur is
          when 1 =>
             loop
                Put("saisir le nom de charge de l'etude :");
-               Get_Line(N,Kn); --saisie s�curis�e si le charge n'existe pas ou si son nombre d'etude est plein
+               Get_Line(N,Kn); --saisie sécurisée si le charge n'existe pas ou si son nombre d'etude est plein
                Put("saisir le prenom du charge d'etude :");
                Get_Line(P,Kn); 
                Ok:= Verif_Saisie_Charge(P_Charge,N,P); --JE NE SAIS PAS S'IL FAUT AUSSI METTRE KN ET KP
@@ -98,8 +98,8 @@ package body Gestion_Directeur is
       Secr:T_Secretaire;
       charge_Et:T_charge_etude;
    begin
-   --Faire une saisie sécurisée !!!
-      Put("Enregistrement d'un nouvel employé");New_Line;
+   --Faire une saisie sÃ©curisÃ©e !!!
+      Put("Enregistrement d'un nouvel employe");New_Line;
       Saisie_Personne(Emp);
       loop
       Put("Vous enregistrez un(e) secretaire (1) ou un(e) charge d'etude (2)");New_Line;   
@@ -107,13 +107,31 @@ package body Gestion_Directeur is
       Get(Choix);Skip_Line;
       case Choix is 
          when 1 =>
-            Secr.id:=Emp;   
-            Ajout_Secr(P_Secr, Secr);
+            while p_aux1/=null loop
+               if p_aux1.secr.id.nom=P_secr.secr.Id.Nom and then p_aux1.secr.id.prenom=p_secr.secr.Id.Prenom then
+                  existe:=true;
+               else
+                  p_aux1:=p_aux1.secr_suiv;
+               end if;
+            end loop;
+            if existe=false then
+               Secr.id:=Emp;   
+               Ajout_Secr(P_Secr, Secr);
+            end if;
          when 2 => 
-            Charge_Et.Id:=Emp;
-            Ajout_Charge(P_Charge, charge_Et);
+            while p_aux2/=null loop
+               if p_aux2.charge.id.nom=P_charge.charge.Id.Nom and then p_aux2.charge.id.prenom=p_charge.charge.Id.Prenom then
+                  existe:=true;
+               else
+                  p_aux2:=p_aux2.charge_suiv;
+               end if;
+            end loop;
+            if existe=false then
+               Charge_Et.Id:=Emp;
+               Ajout_Charge(P_Charge, charge_Et);
+            end if;
          when others =>
-            Put("Choix invalide, veuillez saisir �  nouveau votre choix");
+            Put("Choix invalide, veuillez saisir a nouveau votre choix");
             new_line;
          end case;
       end loop;
@@ -137,7 +155,7 @@ package body Gestion_Directeur is
      if Tete = null then Erreur := True ;
      elsif Tete.charge.id=CE then 
         Erreur:=False;
-                 --appel de la procedure d'attribution des �tudes aux charges etudes
+                 --appel de la procedure d'attribution des études aux charges etudes
         Tete:=Tete.charge_suiv;
      else Supp_charge(Tete.charge_suiv, CE, Erreur);
      end if;
@@ -174,7 +192,7 @@ package body Gestion_Directeur is
          when 3 => 
             supp_testeuse(P_testeuse, emp, erreur);      
          when others =>
-            Put("Choix invalide, veuillez saisir �  nouveau votre choix");
+            Put("Choix invalide, veuillez saisir Ã  nouveau votre choix");
             new_line;
          end case;  
             if Erreur then Fait:=False;
@@ -227,10 +245,10 @@ package body Gestion_Directeur is
          Put("Identifiant =>");
          Put(Tete.Etu.Id);
          New_Line;
-         Put("Produit testé =>");
+         Put("Produit testÃ© =>");
          Put(Tete.Etu.Produit.Nom_P);
          New_Line;
-         Put("Catégorie =>");
+         Put("CatÃ©gorie =>");
          Put(T_Categorie'image(Tete.Etu.Produit.Cat));
          New_Line;
          Visualiser_Liste_Etude(Tete.Etu_Suiv);
@@ -241,13 +259,13 @@ package body Gestion_Directeur is
    begin
       if Tete/=null then
          if Tete.Etu.Id=Id_Recherche then 
-            Put("Le Produit testé lors de cette étude est =>");
+            Put("Le Produit testÃ© lors de cette Ã©tude est =>");
             Put(Tete.Etu.Produit.Nom_P);
             New_Line;
             Put(Tete.Etu.Nb_Testeuse);
             Put("testeuses ont ete incluses");
             New_Line;
-            Put("La personne en charge de cette etude est/était");
+            Put("La personne en charge de cette etude est/Ã©tait");
             Put(Tete.Etu.Prenom_Charge);Put(Tete.Etu.Nom_Charge);New_Line;
             Put("L'etude est ");Put(T_Statut'Image(Tete.Etu.Statut));New_Line;
             if Tete.Etu.Note_Moy/=-1 then
@@ -259,9 +277,9 @@ package body Gestion_Directeur is
             Put(Tete.Etu.Nb_Significatif);
             New_Line;
             if Tete.Etu.Risque then 
-               Put("Ce produit présente un risque");
+               Put("Ce produit prÃ©sente un risque");
             else
-               Put("Ce produit ne présente pas de risque");
+               Put("Ce produit ne prÃ©sente pas de risque");
             end if;
             New_Line;
          end if;
