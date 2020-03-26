@@ -1,6 +1,54 @@
 with Ada.Text_Io,Ada.Integer_Text_Io;
 use Ada.Text_Io,Ada.Integer_Text_Io;
 package body Gestion_Etude is 
+   procedure Aj_user (direc:out pteur_directeur; chg : out pteur_charge; scrt:out pteur_secretaire) is
+   begin
+   direc.dir.id.nom:="WAYNE          ";
+   direc.dir.id.prenom:="John           ";
+   direc.dir.id.login:="john.wayne                     ";
+   direc.dir.id.mdp:="nMYnaee!43";
+   direc.dir.id.n:=12;
+   direc.dir.nb_etude_C:=7;
+   direc:=new T_Liste_directeur'(direc,null);
+   
+   scrt.secr.id.nom:="GUERRE         ";
+   scrt.secr.id.prenom:="Martin         ";
+   scrt.secr.id.login:="martin.guerre                  ";
+   scrt.secr.id.mdp:="6wJYZWs?9!";
+   scrt.secr.id.n:=5;
+   ajout_secr(scrt,scrt.secr);
+   
+   chg.charge.id.nom:="PERSONNE       ";
+   chg.charge.id.prenom:="Paul           ";
+   chg.charge.id.login:="paul.personne                  ";
+   chg.charge.id.mdp:="5678!.?def";
+   chg.charge.id.n:=14;
+   chg.charge.nb_etude_en_charge:=3;
+   --chg.charge.etude_en_charge
+   chg.charge.nb_etude_t:=0;
+   ajout_charge(chg,chg.charge);
+   
+   chg.charge_suiv.id.nom:="FER            ";
+   chg.charge_suiv.id.prenom:="Lucie          ";
+   chg.charge_suiv.id.login:="lucie.fer                      ";
+   chg.charge_suiv.id.mdp:="tQXXeFMD46";
+   chg.charge_suiv.id.n:=12;
+   chg.charge_suiv.nb_etude_en_charge:=2;
+   --chg.charge_suiv.etude_en_charge
+   chg.charge_suiv.nb_etude_t:=0;
+   ajout_charge(chg,chg.charge_suiv);
+   
+   chg.charge_suiv.id.nom:="GRANT          ";
+   chg.charge_suiv.id.prenom:="Hermine        ";
+   chg.charge_suiv.id.login:="hermine.grant                  ";
+   chg.charge_suiv.id.mdp:="!5ef8h0jk3";
+   chg.charge_suiv.id.n:=4;
+   chg.charge_suiv.nb_etude_en_charge:=2;
+   --chg.charge_suiv.etude_en_charge
+   chg.charge_suiv.nb_etude_t:=0;
+   ajout_charge(chg,chg.charge_suiv);
+   
+   end aj_user;
    procedure Nv_Etude (Etude: in out T_Etude; P_Etude:in out Pteur_Etude) is
    begin
       if P_Etude = null then 
