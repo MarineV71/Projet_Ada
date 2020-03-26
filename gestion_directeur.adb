@@ -111,7 +111,7 @@ package body Gestion_Directeur is
                if p_aux1.secr.id.nom=P_secr.secr.Id.Nom and then p_aux1.secr.id.prenom=p_secr.secr.Id.Prenom then
                   existe:=true;
                else
-                  p_aux1:=p_aux1.secr_suiv;
+                  p_aux1:=p_aux1.secre_suiv;
                end if;
             end loop;
             if existe=false then
