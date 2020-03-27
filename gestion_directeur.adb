@@ -3,20 +3,20 @@ use Ada.Text_Io,Ada.Integer_Text_Io;
 package body Gestion_Directeur is 
    procedure Aj_user (direc:out pteur_directeur; chg : out pteur_charge; scrt:out pteur_secretaire; t:out pteur_testeuse; E:out pteur_etude; I:out pteur_incluse) is
    begin
+   direc:=new T_Liste_directeur'(direc.dir,null);
    direc.dir.id.nom:="WAYNE          ";
    direc.dir.id.prenom:="John           ";
    direc.dir.id.login:="john.wayne                     ";
    direc.dir.id.mdp:="nMYnaee!43";
    direc.dir.id.n:=12;
    direc.dir.nb_etude_C:=7;
-   direc:=new T_Liste_directeur'(direc.dir,null);
    
+   ajout_secr(scrt,scrt.secr);
    scrt.secr.id.nom:="GUERRE         ";
    scrt.secr.id.prenom:="Martin         ";
    scrt.secr.id.login:="martin.guerre                  ";
    scrt.secr.id.mdp:="6wJYZWs?9!";
    scrt.secr.id.n:=5;
-   ajout_secr(scrt,scrt.secr);
    
       Ajout_Charge(Chg,Chg.Charge);
       chg.charge.id.nom:="PERSONNE       ";
@@ -485,18 +485,7 @@ package body Gestion_Directeur is
 
 
 
-   procedure Saisie_Personne(Emp:out T_Personne) is
-      K:Integer;
-   begin
-       Put("Veuillez saisir les informations suivantes");New_Line;
-      Put("Nom =>");Get_Line(Emp.Nom,K);
-      Put("Prenom =>");Get_Line(Emp.Prenom,K);
---      Emp.Login :=Emp.Nom  -> concatÃ©nation ? Ada.Stings.unbounded ?
-      Put("Mot de passe (10 caratÃ¨res maximum =>");Get_Line(Emp.Mdp,K);
-      --Crypatage du mot de passe + Attention aux caractÃ¨res possibles
-      --Tirage alÃ©atoire de N dans le cryptage
-   end Saisie_Personne;
-   
+
    --------------------------------------------------
    -- procedure d'ajout d'employes & etudes
    --------------------------------------------------

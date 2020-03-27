@@ -4,9 +4,13 @@ procedure Main is
    Tete_Etude:Pteur_Etude;
    Etude:T_Etude;
    P_Charge:Pteur_Charge;
+   D:Pteur_Directeur;
+   I:Pteur_Incluse;
+   Scr:Pteur_Secretaire;
+   T:Pteur_Testeuse;  
    
 begin
-   Creation_Etude (Tete_Etude, Etude, P_Charge);
+   Aj_User (D, P_Charge, Scr, T, Tete_Etude, I);
 end Main;
 
    

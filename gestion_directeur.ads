@@ -22,7 +22,6 @@ package Gestion_Directeur is
    --------------------------------------------------
    -- Procédures
    --------------------------------------------------
-   procedure Saisie_Personne(Emp:out T_Personne);
    procedure Ajout_Secr (P_Secr: in out Pteur_Secretaire;S: IN T_Secretaire);
    procedure Ajout_Charge (P_Charge: in out Pteur_Charge;Ce: in T_Charge_Etude);
    procedure Enr_Nvl_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge;erreur: out boolean);
