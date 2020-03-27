@@ -1,7 +1,490 @@
 with Ada.Text_Io,Ada.Integer_Text_Io;
 use Ada.Text_Io,Ada.Integer_Text_Io;
 package body Gestion_Directeur is 
+   procedure Aj_user (direc:out pteur_directeur; chg : out pteur_charge; scrt:out pteur_secretaire; t:out pteur_testeuse; E:out pteur_etude; I:out pteur_incluse) is
+   begin
+   direc.dir.id.nom:="WAYNE          ";
+   direc.dir.id.prenom:="John           ";
+   direc.dir.id.login:="john.wayne                     ";
+   direc.dir.id.mdp:="nMYnaee!43";
+   direc.dir.id.n:=12;
+   direc.dir.nb_etude_C:=7;
+   direc:=new T_Liste_directeur'(direc.dir,null);
    
+   scrt.secr.id.nom:="GUERRE         ";
+   scrt.secr.id.prenom:="Martin         ";
+   scrt.secr.id.login:="martin.guerre                  ";
+   scrt.secr.id.mdp:="6wJYZWs?9!";
+   scrt.secr.id.n:=5;
+   ajout_secr(scrt,scrt.secr);
+   
+      Ajout_Charge(Chg,Chg.Charge);
+      chg.charge.id.nom:="PERSONNE       ";
+   chg.charge.id.prenom:="Paul           ";
+   chg.charge.id.login:="paul.personne                  ";
+   chg.charge.id.mdp:="5678!.?def";
+   chg.charge.id.n:=14;
+   chg.charge.nb_etude_en_charge:=3;
+   --chg.charge.etude_en_charge
+   chg.charge.nb_etude_t:=0;
+   
+   
+   ajout_charge(chg,chg.charge);
+   chg.charge.id.nom:="FER            ";
+   chg.charge.id.prenom:="Lucie          ";
+   chg.charge.id.login:="lucie.fer                      ";
+   chg.charge.id.mdp:="tQXXeFMD46";
+   chg.charge.id.n:=12;
+   chg.charge.nb_etude_en_charge:=2;
+   --chg.charge.etude_en_charge
+   chg.charge.nb_etude_t:=0;
+   
+   Ajout_Charge(Chg,Chg.Charge);
+   chg.charge.id.nom:="GRANT          ";
+   chg.charge.id.prenom:="Hermine        ";
+   chg.charge.id.login:="hermine.grant                  ";
+   chg.charge.id.mdp:="!5ef8h0jk3";
+   chg.charge.id.n:=4;
+   chg.charge.nb_etude_en_charge:=2;
+   --chg.charge.etude_en_charge
+   chg.charge.nb_etude_t:=0;
+     
+      T:=new T_Liste_Testeuse'(T.Test,null);
+      T.Test.Id.Nom:="BELOEIL        ";
+      T.Test.id.prenom:="Coco           ";
+      T.Test.id.login:="coco.beloeil                   ";
+      T.Test.id.mdp:="?hThT678!2";
+      T.Test.Id.N:=5;
+      T.Test.Age:=19;
+      --T.Test.etude:=1;
+
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="TIGRESSE       ";
+      T.Test.id.prenom:="Lily           ";
+      T.Test.id.login:="lily.tigresse                  ";
+      T.Test.id.mdp:="zODOBzKX21";
+      T.Test.Id.N:=10;
+      T.Test.Age:=27;
+      --T.Test.etude:=1;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="ARC            ";
+      T.Test.id.prenom:="Jeanne         ";
+      T.Test.id.login:="jeanne.arc                     ";
+      T.Test.id.mdp:="90tWJQFSW#";
+      T.Test.Id.N:=5;
+      T.Test.Age:=66;
+      --T.Test.etude:=5;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="SOUBIROUX      ";
+      T.Test.id.prenom:="Bernadette     ";
+      T.Test.id.login:="bernadette.soubiroux           ";
+      T.Test.id.mdp:="xAGDPQE$#6";
+      T.Test.Id.N:=12;
+      T.Test.Age:=59;
+      --T.Test.etude:=0;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="DUBOIS         ";
+      T.Test.id.prenom:="Josette        ";
+      T.Test.id.login:="josette.dubois                 ";
+      T.Test.id.mdp:="#pUYO$cGRJ";
+      T.Test.Id.N:=6;
+      T.Test.Age:=65;
+      --T.Test.etude:=1;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="BELLE          ";
+      T.Test.id.prenom:="Lucille        ";
+      T.Test.id.login:="lucille.belle                  ";
+      T.Test.id.mdp:="aJRXAAT780";
+      T.Test.Id.N:=15;
+      T.Test.Age:=21;
+      --T.Test.etude:=6;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="HEPBURN        ";
+      T.Test.id.prenom:="Audrey         ";
+      T.Test.id.login:="audrey.hepburn                 ";
+      T.Test.id.mdp:="oMDKS#sDMZ";
+      T.Test.Id.N:=12;
+      T.Test.Age:=35;
+      --T.Test.etude:=7;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="LUNE           ";
+      T.Test.id.prenom:="Valeria        ";
+      T.Test.id.login:="valeria.lune                   ";
+      T.Test.id.mdp:="nCV346YJ!R";
+      T.Test.Id.N:=21;
+      T.Test.Age:=17;
+      --T.Test.etude:=6;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="CLARK          ";
+      T.Test.id.prenom:="Anna           ";
+      T.Test.id.login:="anna.clark                     ";
+      T.Test.id.mdp:="tUKTVTWTUK";
+      T.Test.Id.N:=19;
+      T.Test.Age:=24;
+      --T.Test.etude:=6;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="SCHUMAN        ";
+      T.Test.id.prenom:="Clara          ";
+      T.Test.id.login:="clara.schuman                  ";
+      T.Test.id.mdp:="wCQTLSRMI1";
+      T.Test.Id.N:=4;
+      T.Test.Age:=39;
+      --T.Test.etude:=7;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="ROMEO          ";
+      T.Test.id.prenom:="Juliette       ";
+      T.Test.id.login:="juliette.romeo                 ";
+      T.Test.id.mdp:="#01#64#vHL";
+      T.Test.Id.N:=18;
+      T.Test.Age:=47;
+      --T.Test.etude:=7;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="VALLADE        ";
+      T.Test.id.prenom:="Martine        ";
+      T.Test.id.login:="martine.vallade                ";
+      T.Test.id.mdp:="876yare678";
+      T.Test.Id.N:=24;
+      T.Test.Age:=59;
+      --T.Test.etude:=7;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="MOUTON         ";
+      T.Test.id.prenom:="Aline          ";
+      T.Test.id.login:="mouton.mouton                  ";
+      T.Test.id.mdp:="iLL890kVKV";
+      T.Test.Id.N:=7;
+      T.Test.Age:=45;
+      --T.Test.etude:=7;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="REBEL          ";
+      T.Test.id.prenom:="Alicia         ";
+      T.Test.id.login:="alicia.rebel                   ";
+      T.Test.id.mdp:="vXWyFM!wJ?";
+      T.Test.Id.N:=9;
+      T.Test.Age:=19;
+      --T.Test.etude:=6;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="FLEUR          ";
+      T.Test.id.prenom:="Caroline       ";
+      T.Test.id.login:="caroline.fleur                 ";
+      T.Test.id.mdp:="hYCO39!rVM";
+      T.Test.Id.N:=16;
+      T.Test.Age:=52;
+      --T.Test.etude:=0;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="BARTOK         ";
+      T.Test.id.prenom:="Belle          ";
+      T.Test.id.login:="belle.bartok                   ";
+      T.Test.id.mdp:="#bJHXZ994$";
+      T.Test.Id.N:=15;
+      T.Test.Age:=72;
+      --T.Test.etude:=1;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="BELLE          ";
+      T.Test.id.prenom:="Marie          ";
+      T.Test.id.login:="marie.belle                    ";
+      T.Test.id.mdp:="!?cNHYR.27";
+      T.Test.Id.N:=13;
+      T.Test.Age:=74;
+      --T.Test.etude:=5;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="BLEUE          ";
+      T.Test.id.prenom:="Agathe         ";
+      T.Test.id.login:="agathe.bleue                   ";
+      T.Test.id.mdp:="sktLm!$#01";
+      T.Test.Id.N:=6;
+      T.Test.Age:=62;
+      --T.Test.etude:=5;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="ARC            ";
+      T.Test.id.prenom:="Mireille       ";
+      T.Test.id.login:="mireille.arc                   ";
+      T.Test.id.mdp:="dZDZfGVIR!";
+      T.Test.Id.N:=17;
+      T.Test.Age:=67;
+      --T.Test.etude:=5;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="CADET          ";
+      T.Test.id.prenom:="Benjamine      ";
+      T.Test.id.login:="benjamine.cadet                ";
+      T.Test.id.mdp:="sHWLWHrXUV";
+      T.Test.Id.N:=3;
+      T.Test.Age:=41;
+      --T.Test.etude:=3;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="BLANC          ";
+      T.Test.id.prenom:="Aline          ";
+      T.Test.id.login:="aline.blanc                    ";
+      T.Test.id.mdp:="?i91hjk!#$";
+      T.Test.Id.N:=7;
+      T.Test.Age:=52;
+      --T.Test.etude:=3;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="POPPINS        ";
+      T.Test.id.prenom:="Mary           ";
+      T.Test.id.login:="mary.poppins                   ";
+      T.Test.id.mdp:="uWRGTECNKH";
+      T.Test.Id.N:=2;
+      T.Test.Age:=31;
+      --T.Test.etude:=3;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="PIERRE         ";
+      T.Test.id.prenom:="Jeanette       ";
+      T.Test.id.login:="jeanette.pierre                ";
+      T.Test.id.mdp:="aWEFCPaLD!";
+      T.Test.Id.N:=11;
+      T.Test.Age:=47;
+      --T.Test.etude:=3;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="KRUL           ";
+      T.Test.id.prenom:="Cathy          ";
+      T.Test.id.login:="cathy.krul                     ";
+      T.Test.id.mdp:="#$mVYLAm$!";
+      T.Test.Id.N:=7;
+      T.Test.Age:=39;
+      --T.Test.etude:=3;
+      
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="BONPAIN        ";
+      T.Test.id.prenom:="Karine         ";
+      T.Test.id.login:="karine.bonpain                 ";
+      T.Test.id.mdp:="nDJEX!nDE#";
+      T.Test.Id.N:=15;
+      T.Test.Age:=45;
+      --T.Test.etude:=3;
+      
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="MAILLARD       ";
+      T.Test.id.prenom:="Yvette         ";
+      T.Test.id.login:="yvette.maillard                ";
+      T.Test.id.mdp:="mOO346?#1m";
+      T.Test.Id.N:=12;
+      T.Test.Age:=51;
+      --T.Test.etude:=0;
+       
+      T:=new T_Liste_Testeuse'(T.Test,T);
+      T.Test.Id.Nom:="BEAUSONGE      ";
+      T.Test.id.prenom:="Iseult         ";
+      T.Test.id.login:="iseult.beausonge               ";
+      T.Test.id.mdp:="7jHYIJQDJ0?";
+      T.Test.Id.N:=16;
+      T.Test.Age:=21;
+      --T.Test.etude:=0;
+      
+      E:=new T_Liste_Etude'(E.Etu,null);
+      E.Etu.Id:=1;
+      E.Etu.Produit.Nom_P:="Peau Douce     ";
+      E.Etu.Produit.Cat:=T_Categorie'val(T_Categorie'pos(Lotion_Visage));
+      E.Etu.Produit.Age_Min:=15;
+      E.Etu.Produit.Age_Max:=75;
+      E.Etu.Produit.Entreprise:="Belle Peau     ";
+      E.Etu.Nb_Testeuse:=4;
+      E.Etu.Nom_Charge:="PERSONNE       ";
+      E.Etu.Prenom_Charge:="Paul           ";
+      I:=new T_Liste_Incluse'(I.incl,null);
+      I.Incl.Nom:="BELOEIL        ";
+      I.Incl.Prenom:="Coco           ";
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="TIGRESSE       ";
+      I.Incl.Prenom:="Lily           ";
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="DUBOIS         ";
+      I.Incl.Prenom:="Josette        ";
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="BARTOK         ";
+      I.Incl.Prenom:="Belle          ";
+      E.Etu.P_Testeuse:=I;
+      
+      E:=new T_Liste_Etude'(E.Etu,E);
+      E.Etu.Id:=2;
+      E.Etu.Produit.Nom_P:="Bonne nuit     ";
+      E.Etu.Produit.Cat:=T_Categorie'Val(T_Categorie'pos(Soin_nuit));
+      E.Etu.Produit.Age_Min:=26;
+      E.Etu.Produit.Age_Max:=55;
+      E.Etu.Produit.Entreprise:="Clarte         ";
+      E.Etu.Nom_Charge:="FER            ";
+      E.Etu.Prenom_Charge:="Lucie          ";
+      
+      E:=new T_Liste_Etude'(E.Etu,E);
+      E.Etu.Id:=3;
+      E.Etu.Produit.Nom_P:="Peau Nette     ";
+      E.Etu.Produit.Cat:=T_Categorie'Val(T_Categorie'pos(Lotion_visage));
+      E.Etu.Produit.Age_Min:=26;
+      E.Etu.Produit.Age_Max:=55;
+      E.Etu.Produit.Entreprise:="Belle Peau     ";
+      E.Etu.Nb_Testeuse:=5;
+      E.Etu.Nom_Charge:="GRANT          ";
+      E.Etu.Prenom_Charge:="Hermione       ";
+      E.Etu.Statut:=T_Statut'Val(T_Statut'pos(en_cours));
+      I:=Null;
+      I:=new T_Liste_Incluse'(I.incl,null);
+      I.Incl.Nom:="CADET          ";
+      I.Incl.Prenom:="Benjamine      ";
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="BLANC          ";
+      I.Incl.Prenom:="Aline          ";
+      I.Incl.Nj_Jour_Test:=5;
+      I.Incl.Note:=16;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="POPPINS        ";
+      I.Incl.Prenom:="Mary           ";
+      I.Incl.Nj_Jour_Test:=2;
+      I.Incl.Note:=17;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="PIERRE         ";
+      I.Incl.Prenom:="Jeannette      ";
+      I.Incl.Nj_Jour_Test:=6;
+      I.Incl.Note:=19;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="KRUL           ";
+      I.Incl.Prenom:="Cathy          ";
+      I.Incl.Nj_Jour_Test:=6;
+      I.Incl.Note:=15;
+      E.Etu.P_Testeuse:=I;
+      
+      E:=new T_Liste_Etude'(E.Etu,E);
+      E.Etu.Id:=4;
+      E.Etu.Produit.Nom_P:="SunSun         ";
+      E.Etu.Produit.Cat:=T_Categorie'Val(t_categorie'pos(Solaire));
+      E.Etu.Produit.Age_Min:=56;
+      E.Etu.Produit.Age_Max:=75;
+      E.Etu.Produit.Entreprise:="Nature Toujours";
+      E.Etu.Nom_Charge:="GRANT          ";
+      E.Etu.Prenom_Charge:="Hermine        ";
+      
+      
+      E:=new T_Liste_Etude'(E.Etu,E);
+      E.Etu.Id:=5;
+      E.Etu.Produit.Nom_P:="Dodo           ";
+      E.Etu.Produit.Cat:=T_Categorie'Val(t_categorie'pos(soin_nuit));
+      E.Etu.Produit.Age_Min:=56;
+      E.Etu.Produit.Age_Max:=75;
+      E.Etu.Produit.Entreprise:="Nature_Toujours";
+      E.Etu.Nb_Testeuse:=4;
+      E.Etu.Nom_Charge:="FER            ";
+      E.Etu.Prenom_Charge:="Lucie          ";
+      E.Etu.Statut:=T_Statut'Val(T_Statut'Pos(En_Cours));
+      I:=Null;
+      I:=new T_Liste_Incluse'(I.incl,null);
+      I.Incl.Nom:="ARC            ";
+      I.Incl.Prenom:="Jeanne         ";
+      I.Incl.Nj_Jour_Test:=2;
+      I.Incl.Note:=15;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="BELLE          ";
+      I.Incl.Prenom:="Marie          ";
+      I.Incl.Nj_Jour_Test:=5;
+      I.Incl.Note:=10;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="BLEUE          ";
+      I.Incl.Prenom:="Agathe         ";
+      I.Incl.Nj_Jour_Test:=7;
+      I.Incl.Note:=12;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="ARC            ";
+      I.Incl.Prenom:="Mireille       ";
+      I.Incl.Nj_Jour_Test:=6;
+      I.Incl.Note:=13;
+      E.Etu.P_Testeuse:=I;
+      
+      E:=new T_Liste_Etude'(E.Etu,E);
+      E.Etu.Id:=6;
+      E.Etu.Produit.Nom_P:="Velour         ";
+      E.Etu.Produit.Cat:=T_Categorie'Val(t_categorie'pos(lait_corporel));
+      E.Etu.Produit.Age_Min:=15;
+      E.Etu.Produit.Age_Max:=25;
+      E.Etu.Produit.Entreprise:="Belle Peau     ";
+      E.Etu.Nb_Testeuse:=4;
+      E.Etu.Nom_Charge:="PERSONNE       ";
+      E.Etu.Prenom_Charge:="Paul           ";
+      E.Etu.Statut:=T_Statut'Val(T_Statut'Pos(En_Cours));
+      I:=Null;
+      I:=new T_Liste_Incluse'(I.incl,null);
+      I.Incl.Nom:="BELLE          ";
+      I.Incl.Prenom:="Lucie          ";
+      I.Incl.Nj_Jour_Test:=4;
+      I.Incl.Note:=15;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="LUNE           ";
+      I.Incl.Prenom:="Valeria        ";
+      I.Incl.Nj_Jour_Test:=5;
+      I.Incl.Note:=12;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="CLARK          ";
+      I.Incl.Prenom:="Anna           ";
+      I.Incl.Nj_Jour_Test:=1;
+      I.Incl.Note:=7;
+      I.Incl.Pb:=True;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="REBEL          ";
+      I.Incl.Prenom:="Alicia         ";
+      I.Incl.Nj_Jour_Test:=12;
+      I.Incl.Note:=14;
+      E.Etu.P_Testeuse:=I;
+      
+      E:=new T_Liste_Etude'(E.Etu,E);
+      E.Etu.Id:=7;
+      E.Etu.Produit.Nom_P:="Tout Doux      ";
+      E.Etu.Produit.Cat:=T_Categorie'Val(t_categorie'pos(lait_corporel));
+      E.Etu.Produit.Age_Min:=26;
+      E.Etu.Produit.Age_Max:=55;
+      E.Etu.Produit.Entreprise:="Clarte         ";
+      E.Etu.Nb_Testeuse:=5;
+      E.Etu.Nom_Charge:="PERSONNE       ";
+      E.Etu.Prenom_Charge:="Paul           ";
+      E.Etu.Statut:=T_Statut'Val(T_Statut'Pos(En_Cours));
+      I:=Null;
+      I:=new T_Liste_Incluse'(I.incl,null);
+      I.Incl.Nom:="HEPBURN        ";
+      I.Incl.Prenom:="Audrey         ";
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="SCHUMAN        ";
+      I.Incl.Prenom:="Clara          ";
+      I.Incl.Nj_Jour_Test:=5;
+      I.Incl.Note:=14;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="ROMEO          ";
+      I.Incl.Prenom:="Juliette       ";
+      I.Incl.Nj_Jour_Test:=7;
+      I.Incl.Note:=15;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="VALLADE        ";
+      I.Incl.Prenom:="Martine        ";
+      I.Incl.Nj_Jour_Test:=4;
+      I.Incl.Note:=12;
+      I:=new T_Liste_Incluse'(I.incl,I);
+      I.Incl.Nom:="MOUTON         ";
+      I.Incl.Prenom:="Aline          ";
+      I.Incl.Nj_Jour_Test:=5;
+      I.Incl.Note:=13;
+      E.Etu.P_Testeuse:=I;
+   end Aj_User;
+   
+
+
+
    procedure Saisie_Personne(Emp:out T_Personne) is
       K:Integer;
    begin
@@ -96,7 +579,10 @@ package body Gestion_Directeur is
       Choix:Integer;
       Emp: T_Personne;
       Secr:T_Secretaire;
-      charge_Et:T_charge_etude;
+      Charge_Et:T_Charge_Etude;
+      P_Aux1:Pteur_Secretaire:=P_Secr;
+      P_Aux2:Pteur_Charge:=P_Charge;
+      existe:boolean:=false;
    begin
    --Faire une saisie sÃ©curisÃ©e !!!
       Put("Enregistrement d'un nouvel employe");New_Line;

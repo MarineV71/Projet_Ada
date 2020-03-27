@@ -36,6 +36,7 @@ package Gestion_Directeur is
    procedure supp_testeuse (tete: in out Pteur_Testeuse ; tstse: IN T_personne; erreur : out boolean);
    procedure Dprt_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge; P_Testeuse : in out Pteur_Testeuse; Fait : out Boolean);
    procedure Creation_Etude (Tete_Etude: in out Pteur_Etude; Etude:in out T_Etude; P_Charge:in out Pteur_Charge);
+  procedure Aj_user (direc:out pteur_directeur; chg : out pteur_charge; scrt:out pteur_secretaire; t:out pteur_testeuse; e:out pteur_etude;I:out pteur_incluse);
 
 
 end Gestion_Directeur;
