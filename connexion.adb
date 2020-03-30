@@ -3,10 +3,10 @@ use Ada.Integer_Text_Io,Ada.Text_Io,Aleatoire,Ada.Characters.Handling;
 
 package body Connexion is 
    
-   procedure Cryp_Mdp (P: OUT T_Personne) is 
+   procedure Cryp_Mdp (P: IN OUT T_Personne) is 
       Cpt:Integer:=1;
       C: Character;
-      N: Integer;
+      N: Integer; 
    begin
       Initialise(0,25);
       N:= Random;
@@ -47,7 +47,7 @@ package body Connexion is
                null;
          end case;
          exit when Cpt = 11;
-      end loop;
+      end loop;     
       
                
    end Cryp_Mdp;

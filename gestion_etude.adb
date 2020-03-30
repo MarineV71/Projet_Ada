@@ -1,56 +1,71 @@
-with Ada.Text_Io,Ada.Integer_Text_Io;
-use Ada.Text_Io,Ada.Integer_Text_Io;
-package body Gestion_Etude is 
-   
-   procedure Saisie_Personne(Emp:out T_Personne) is
-      K:Integer;
-   begin
-       Put("Veuillez saisir les informations suivantes");New_Line;
-      Put("Nom =>");Get_Line(Emp.Nom,K);
-      Put("Prenom =>");Get_Line(Emp.Prenom,K);
---      Emp.Login :=Emp.Nom  -> concatÃ©nation ? Ada.Stings.unbounded ?
-      Put("Mot de passe (10 caratÃ¨res maximum =>");Get_Line(Emp.Mdp,K);
-      --Crypatage du mot de passe + Attention aux caractÃ¨res possibles
-      --Tirage alÃ©atoire de N dans le cryptage
-   end Saisie_Personne;
-   
+with Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
+use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
+package body Gestion_Etude is
 
-   procedure Nv_Etude (Etude: in out T_Etude; P_Etude:in out Pteur_Etude) is
+   procedure Saisie_Personne (
+         Emp :    out T_Personne) is
+      K_nom,K_prenom : Integer; 
    begin
-      if P_Etude = null then 
+
+      Put("Veuillez saisir les informations suivantes");
+      New_Line;
+      Put("Nom =>");
+      Get_Line(Emp.Nom,K_nom);
+      Put("Prenom =>");
+      Get_Line(Emp.Prenom,K_prenom);
+
+      --Formation du login pour la connexion
+      -- prenom.nom
+      Emp.Login(1..K_Prenom):=To_Lower(Emp.Prenom);
+      Emp.Login(K_Prenom+1):='.';
+      Emp.Login(K_Prenom+2..K_nom):=to_lower(Emp.Nom);
+
+
+   end Saisie_Personne;
+
+
+   procedure Nv_Etude (
+         Etude   : in out T_Etude;
+         P_Etude : in out Pteur_Etude) is
+   begin
+      if P_Etude = null then
          P_Etude:=new T_Liste_Etude'(Etude,null);
-      else 
+      else
          P_Etude:=new T_Liste_Etude'(Etude,P_Etude);
       end if;
    end Nv_Etude;
-   
-procedure Nv_incluse (incluse: in out T_personne_incluse; P_inclu:in out Pteur_incluse) is
+
+   procedure Nv_Incluse (
+         Incluse : in out T_Personne_Incluse;
+         P_Inclu : in out Pteur_Incluse) is
    begin
-      if P_inclu= null then 
-         P_inclu:=new T_Liste_incluse'(incluse,null);
-      else 
-         P_inclu:=new T_Liste_incluse'(incluse,P_inclu);
+      if P_Inclu= null then
+         P_Inclu:=new T_Liste_Incluse'(Incluse,null);
+      else
+         P_Inclu:=new T_Liste_Incluse'(Incluse,P_Inclu);
       end if;
    end Nv_Incluse;
-   
-   procedure Nv_Etude_Cloturee(P_Etude_Clo:in out Pteur_Etude) is 
-      P_Incl:Pteur_Incluse:=P_Etude_Clo.Etu.P_Testeuse;
-      Moy,Cpt:Integer:=0;
-   begin 
-      if P_Etude_clo.Etu.Statut=Cloturee then
+
+   procedure Nv_Etude_Cloturee (
+         P_Etude_Clo : in out Pteur_Etude) is
+      P_Incl : Pteur_Incluse := P_Etude_Clo.Etu.P_Testeuse;
+      Moy,
+      Cpt    : Integer       := 0;
+   begin
+      if P_Etude_Clo.Etu.Statut=Cloturee then
          while P_Incl/=null loop
-            if P_Incl.incl.Nj_Jour_Test>=4 then
+            if P_Incl.Incl.Nj_Jour_Test>=4 then
                Moy:=Moy+P_Incl.Incl.Note;
                Cpt:=Cpt+1;
             end if;
-            if P_Etude_Clo.Etu.risque=False and then P_Incl.Incl.Pb=True then
-               P_Etude_Clo.Etu.risque:=True;
+            if P_Etude_Clo.Etu.Risque=False and then P_Incl.Incl.Pb=True then
+               P_Etude_Clo.Etu.Risque:=True;
             end if;
             P_Incl:=P_Incl.Incl_Suiv;
          end loop;
          P_Etude_Clo.Etu.Note_Moy:=Moy/Cpt;
       end if;
    end Nv_Etude_Cloturee;
-   
+
 end Gestion_Etude;
 
