@@ -171,7 +171,7 @@ package body Gestion_Directeur is
 
       T.Id.Nom:="MOUTON         ";
       T.Id.Prenom:="Aline          ";
-      T.Id.Login:="aline.mouton                  ";
+      T.Id.Login:="aline.mouton                   ";
       T.Id.Mdp:="iXX890kHWH";
       T.Id.N:=7;
       T.Age:=45;
