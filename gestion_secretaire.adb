@@ -1,5 +1,5 @@
-with Ada.Text_Io,Ada.Integer_Text_Io;
-use Ada.Text_Io,Ada.Integer_Text_Io;
+with Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
+use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
 package body Gestion_Secretaire is
 
    --------------------------------------------------
@@ -7,26 +7,31 @@ package body Gestion_Secretaire is
    --------------------------------------------------
 
    procedure Ajout_Testeuse(P_Testeuse : in out Pteur_Testeuse; T : in T_Testeuse) is
-   -- Ajout en tete ici
-   --Pour ajout en fin Tete.suiv := new t_cell'(T,null) ?
+
    begin
+      
       if P_Testeuse = null then
          P_Testeuse := new T_Liste_Testeuse'(T,null);
       else
          P_Testeuse := new T_Liste_Testeuse'(T,P_Testeuse);
       end if;
+      
    end Ajout_Testeuse;
    
    
    procedure Inscrip_Testeuse (
          P_Testeuse : in   Out  Pteur_Testeuse) is
+      
       Testeuse      : T_Personne;
       T : T_Testeuse;
       P      : Pteur_Testeuse := P_Testeuse;
-      Existe : Boolean := false;
+      Existe : Boolean := False;
+      
    begin
+      
       Put("Inscription d'une nouvelle testeuse");
       Saisie_Personne(Testeuse);
+      
       --Vérif de la non existence
       while P /=null loop
          if Testeuse.Nom /= P.Test.Id.Nom and Testeuse.Prenom /= P.Test.Id.Prenom then
@@ -43,11 +48,18 @@ package body Gestion_Secretaire is
       If existe then
          Put("Une testeuse avec les mêmes nom et prénom existe deja");
          New_Line;
-      else 
+      else
+         Cryp_Mdp(Testeuse);
          T.Id := Testeuse;
          Put("Saisir l'age de cette testeuse =>");
-         Get(T.Age);         
-         Ajout_Testeuse (P_Testeuse,T);
+         Get(T.Age);
+         if T.Age<15 then
+            Put("Cette testeuse est trop jeune.");New_Line;
+         elsif T.Age>75 then
+            Put("Cette testeuse est trop agee.");New_Line;
+         else
+            Ajout_Testeuse (P_Testeuse,T);
+         end if;
       end if;
       
    end Inscrip_Testeuse;
@@ -96,7 +108,7 @@ package body Gestion_Secretaire is
       --Prog Principal
       --Put("Vous recherchez une testeuse en particulier :");
       --Put("Saisissez son nom => ");Get_Line(N,K);
-      --Put("Saisissez son prenom => "); Get_Line(N,K);
+      --Put("Saisissez son prenom => "); Get_Line(P,K);
       if P_Testeuse /= null then
          if N = P_Testeuse.test.Id.Nom and P = P_Testeuse.Test.Id.Prenom then
             Put("Cette testeuse a ");
@@ -125,15 +137,24 @@ package body Gestion_Secretaire is
    --------------------------------------------------
 
    procedure Desinscrip_Testeuse (P_Testeuse : IN OUT Pteur_Testeuse;N,P : IN T_Mot; Fait : Out Boolean) is
+   
    begin
+      
       if P_Testeuse = null then 
          Put("Aucune Testeuse avec cette identite"); 
       Elsif P_Testeuse /= null then 
-         if P_Testeuse.Test.Id.Nom = N and then P_Testeuse.Test.Id.Prenom = P then
-            P_Testeuse := P_Testeuse.Test_Suiv;
+         if To_Lower(P_Testeuse.Test.Id.Nom) = To_Lower(N) and then To_Lower(P_Testeuse.Test.Id.Prenom)=To_Lower(P) then
+            if  P_Testeuse.test.Etude /= null then --Pteur sur l'etude ? ou identifiant ?
+               P_Testeuse := P_Testeuse.Test_Suiv;
+               Fait:= true;
+            else
+               Put("Cette testeuse est actuellement incluse dans une étude");New_Line;
+               Fait:=false;
+            end if;
          else
-            null;
+            Desinscrip_Testeuse (P_Testeuse.Test_Suiv,N,P,Fait);
          end if;
+         
       end if;
             
    end Desinscrip_Testeuse;
@@ -144,7 +165,7 @@ package body Gestion_Secretaire is
    --------------------------------------------------
 
 -- dans le prog principal --> Traiter l'ouverture du fichier en mode in file pour vérifier que le fichier existe
-   procedure Archive_Etude (P_Etude : IN OUT Pteur_Etude; F: IN OUT P_Fichier_Archive.file_type) is -- P_Fichier_Archive.file_type ?
+   procedure Archive_Etude (P_Etude : IN OUT Pteur_Etude; F: IN OUT P_Fichier_Archive.file_type) is 
       Id_Et: Integer;
       P_Aux:Pteur_Etude:=P_Etude;
       A_Archiver : T_Etude_Archivee;
@@ -164,16 +185,16 @@ package body Gestion_Secretaire is
                A_Archiver.nom_Charge := P_Aux.etu.nom_charge;
                A_Archiver.prenom_Charge := P_Aux.etu.prenom_Charge;
                A_Archiver.Note_Moy := P_Aux.etu.Note_Moy;
-               A_Archiver.Nb_Significatif := P_Aux.etu.Nb_Significatif;
+               A_Archiver.Nb_Significatif := P_Aux.etu.Nb_Significatif; --Calcul du nombre de testeuses significatives lors de la cloture ?
                A_Archiver.Risque := P_Aux.Etu.Risque;
                -- ouverture avec exception append --> dans le Prog PRINCIPAL ?
-               --begin
-               --   Open(F,Append_File,"Fichier_Archive");
-               --exception
-               --when others => create (F, name=>"Fichier_Archive");
-               --end;
-               --Close(F);
-               --manipulation de la séquence
+               begin
+                  Open(F,Append_File,"Fichier_Archive");
+                  exception
+                  when others => create (F, name=>"Fichier_Archive");
+                  end;
+                  Close(F);
+               --manipulation du fichier 
                Open(F,Append_File,"Fichier_Archive");
                Write(F,A_Archiver);
                Close(F);
@@ -199,7 +220,9 @@ package body Gestion_Secretaire is
    --------------------------------------------------
 
    procedure Vis_Etude_Clot (P_Etude : In Pteur_Etude) is
+  
    begin
+      
       if P_Etude /= null then
          if P_Etude.Etu.Statut = Cloturee then
             Put(P_Etude.Etu.Id);
@@ -207,7 +230,9 @@ package body Gestion_Secretaire is
             Put(T_Categorie'image(P_Etude.etu.Produit.Cat));
             Put(P_Etude.Etu.Produit.Entreprise);
          end if;
+         Vis_Etude_Clot(P_Etude.Etu_Suiv);
       end if;
+      
    end Vis_Etude_Clot;
    
    
