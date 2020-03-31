@@ -35,7 +35,7 @@ package Gestion_Charge_Etude is
    procedure Affiche_Detail_Etude (Tete_Charge: Pteur_Charge; id_etu: integer);
    procedure Affiche_Testeuse_Incluse(Tete_Inclu: Pteur_Incluse);
    procedure Ajout_Testeuse (Tete_Charge: Pteur_Charge; tete_test: in out pteur_testeuse);
-   procedure Modif_Statut(P_Charge:in out Pteur_Charge; Id_Etu:Integer);
+   procedure Modif_Statut(P_Charge:in out Pteur_Charge);
    
 
 end Gestion_Charge_Etude;

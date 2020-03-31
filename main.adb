@@ -9,7 +9,7 @@ procedure Main is
    T:Pteur_Testeuse;
    P:t_personne;  
    Choix, cat, id:Integer;
-   
+ 
 begin
    Aj_User (D, C, S, T, Tete_Etude, I);
    -----------------------------------------------------------
@@ -17,12 +17,23 @@ begin
    -----------------------------------------------------------
    Put("      --BIENVENUE--");New_Line;
    Put("   --Veuillez vous connecter--"); New_Line;
-   Put("saisir votre categorie :");New_Line;
+   
    Put("1. Directeur");New_Line;
    Put_Line("2. Secretaire");
    Put_Line("3. Charge d'etude");
    put_line("4. Testeuse");
-   Get(Cat);Skip_Line;
+   Put("saisir votre categorie :");New_Line;
+   loop  --securise la saisie
+      begin
+         Get(Cat);Skip_Line;
+         if Cat in 1..4 then exit;
+         end if;
+   exception
+            when Data_Error =>
+              Skip_Line;
+                  Put_Line("erreur de saisie");
+            end; 
+         end loop;
    Put("saisir votre login :");
    Get(P.Login);Skip_Line;
    --loop
@@ -41,14 +52,16 @@ begin
    --                    MENU SECRETAIRE                    --
    -----------------------------------------------------------
    
-      when 3 => Clear_Screen (Black);
-         C:=Trouve_Charge(C,P);
+      when 3 => 
+         Clear_Screen (Black);
+          C:=Trouve_Charge(C,P); loop
    put_line("-----------------------------------------------------------");
    put_line("--                  MENU CHARGE D'ETUDE                  --");
    put_line("-----------------------------------------------------------");
    put_line("1. Inclure une testeuse dans une etude");
    put_line("2. Visualiser la liste des testeuses");
    Put_Line("3. Modifier le statut d'une etude");
+   Put_Line("4. Pour quitter sa session");
          
    put_line("Faites votre choix");
    Get(Choix);Skip_Line;
@@ -58,10 +71,12 @@ begin
             when 2 => Affiche_Liste_Etude (C);
                Put("visualiser les details d'une etude :");
                Get(Id);Skip_Line;
-               Affiche_Detail_Etude (C, id);
-            when others => Put("sortir");
+                  Affiche_Detail_Etude (C, Id);
+               when 3 =>
+                  modif_statut(C);
+            when others => Put("sortir"); exit;
          end case;
-   
+   end loop;
 
       when 4 => Clear_Screen (Black);
       T:=trouve_testeuse(T,P);
