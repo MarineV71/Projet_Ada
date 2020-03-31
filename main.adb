@@ -43,6 +43,12 @@ begin
    
       when 3 => Clear_Screen (Black);
          C:=Trouve_Charge(C,P);
+         --C.charge.etude_en_charge(1):=tete_etude;
+         Put(Tete_Etude.Etu.Nom_Charge);
+         Put(Tete_Etude.Etu.Prenom_Charge);
+         Put(Tete_Etude.Etu.Id);
+         put(c.charge.id.prenom);
+         --Ajout_Etude_Charge (C, tete_etude, tete_etude.etu.nom_charge, tete_Etude.etu.prenom_charge);
    put_line("-----------------------------------------------------------");
    put_line("--                  MENU CHARGE D'ETUDE                  --");
    put_line("-----------------------------------------------------------");
