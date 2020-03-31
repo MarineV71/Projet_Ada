@@ -1,7 +1,20 @@
 with Ada.Text_Io,Ada.Integer_Text_Io;
 use Ada.Text_Io,Ada.Integer_Text_Io;
 package body Gestion_Charge_Etude is 
+   function trouve_Charge (Tete_C: Pteur_Charge;personne: T_Personne)return pteur_charge is
+   begin
+      if Tete_C/=null then
+         if Tete_C.charge.Id.login=personne.login and then Tete_C.charge.Id.mdp=personne.mdp then
+            return(tete_c);
+         else
+            return(trouve_charge(tete_c.charge_suiv,personne));
+         end if;
+      else 
+         return(null);
+      end if;
+   end trouve_charge;
    
+
    function Verif_Saisie_Charge (Tete_Charge: Pteur_Charge; N,P:T_Mot) return Boolean is 
       begin
       if Tete_Charge= null then return(False);
@@ -24,13 +37,16 @@ package body Gestion_Charge_Etude is
       
 
       procedure Ajout_Etude_Charge (Tete_Charge: in out Pteur_Charge; P_Etude:Pteur_Etude; N,P:T_Mot) is
-      T:tab_etude:=Tete_Charge.Charge.Etude_En_Charge;
+        Fait:Boolean:=False;
       begin
-         if Tete_Charge/= null then
-            if N=Tete_Charge.Charge.Id.Nom and then P=Tete_Charge.Charge.Id.Prenom then
-                  for I in T'range loop
-                     if T(I).etu.Id=0 then
-                        T(I):=P_Etude;     
+         if Tete_Charge/= null then 
+            if N=Tete_Charge.Charge.Id.Nom and then P=Tete_Charge.Charge.Id.Prenom then                
+               for I in Tete_Charge.Charge.Etude_En_Charge'range loop
+                  if fait=false then                   
+                     if Tete_Charge.Charge.Etude_En_Charge(i)=null then
+                        Tete_Charge.Charge.Etude_En_Charge(I):=P_Etude; 
+                        fait:=true;  
+                     end if;    
                      end if;
                   end loop;
             else 
@@ -62,28 +78,28 @@ package body Gestion_Charge_Etude is
    
    procedure Affiche_liste_Etude (Tete_Charge: Pteur_Charge) is 
       T:Tab_Etude:=Tete_Charge.Charge.Etude_En_Charge;
-      k:integer;
-begin 
-   put("Affichage de la liste des etudes en charge :");new_line;
+   begin 
+   Put("Affichage de la liste des etudes en charge :");New_Line;
    for I in T'range loop
+      if t(i)/=null then
       Put(T(I).Etu.Id); Put(" - ");
-      Put(T(I).Etu.Produit.Nom_P,k); Put(" - ");
-      Put(T_categorie'Image(T(I).Etu.Produit.Cat)); New_Line;
+      Put(T(I).Etu.Produit.Nom_P); Put(" - ");
+         Put(T_Categorie'Image(T(I).Etu.Produit.Cat)); New_Line;
+         end if;
    end loop;--cette procedure sera relier a la procedure affiche_detail_etude !!!!!!!!
 end Affiche_liste_etude;
 
 procedure Affiche_Detail_Etude (Tete_Charge: Pteur_Charge; id_etu: integer) is
    T:Tab_Etude:=Tete_Charge.Charge.Etude_En_Charge; 
    Inc:Pteur_Incluse;
-   k:integer;
 begin
    for I in T'range loop
       if Id_Etu=T(I).Etu.Id then
          Put("Affichage de l etude numero"); Put(T(I).Etu.Id); Put(t_statut'image(T(I).Etu.Statut)); Put(" :");New_Line;
-         Put("Test de");Put(T(I).Etu.Produit.Nom_P,k); Put(" - ");
+         Put("Test de");Put(T(I).Etu.Produit.Nom_P); Put(" - ");
          Put(t_categorie'image(T(I).Etu.Produit.Cat)); new_line;
          Put("Pour femmes de");Put(T(I).Etu.Produit.Age_Min); Put("a"); Put(T(I).Etu.Produit.Age_Max);New_Line;
-         Put("Produit par la societe");Put(T(I).Etu.Produit.Entreprise,K);New_Line;
+         Put("Produit par la societe");Put(T(I).Etu.Produit.Entreprise);New_Line;
          put(T(I).Etu.nb_testeuse); put("testeuse(s) participent a cette etude");new_line;
          Inc:=T(I).Etu.P_Testeuse;
          affiche_testeuse_incluse(inc);
@@ -92,11 +108,10 @@ begin
 end Affiche_Detail_Etude;
  
 procedure Affiche_Testeuse_Incluse(Tete_Inclu: Pteur_Incluse) is
-   K:Integer;
 begin
    if tete_Inclu/=null then
-      Put(Tete_Inclu.incl.Nom,K);
-      Put(Tete_Inclu.incl.Prenom,K); new_line; put("teste depuis:");
+      Put(Tete_Inclu.incl.Nom);
+      Put(Tete_Inclu.incl.Prenom); new_line; put("teste depuis:");
       Put(Tete_Inclu.incl.Nj_Jour_Test); Put("jour(s) - note de");
       put(tete_inclu.incl.note);new_line;put("effets indesirables :"); 
       if Tete_Inclu.incl.Pb then Put("oui"); else Put("non"); end if;
@@ -104,13 +119,15 @@ begin
    end if;
 end Affiche_Testeuse_Incluse;
    
-   procedure Ajout_Testeuse (Tete_Charge: Pteur_Charge; tete_test: in out pteur_testeuse; id_etu: integer) is
+   procedure Ajout_Testeuse (Tete_Charge: Pteur_Charge; tete_test: in out pteur_testeuse) is
       T:Tab_Etude:=Tete_Charge.Charge.Etude_En_Charge; 
       Tete_Incl: Pteur_Incluse;
       incl:t_personne_incluse;
-      K:Integer;
+      K, id_etu:Integer;
       nom,prenom:t_mot;
    begin
+      Put("saisir l'id de l'etude");
+      Get(Id_Etu);Skip_Line;
       for I in T'range loop
          if Id_Etu=T(I).Etu.Id then --verifie que l'etude existe 
             if T(I).Etu.Statut=Cree then
@@ -128,9 +145,10 @@ end Affiche_Testeuse_Incluse;
                tete_test.test.etude:=T(i);
             else 
                put_line("cette testeuse ne peut pas participer a cette etude");
+               end if;
+               else Put_Line("l'etude n'a plus le statut creee");
             end if;
-            end if;
-         else Put_Line("l'etude n'a plus le statut creee");
+         else Put_Line("l'etude ne fait pas partie de vos etudes");
          end if;
       end loop;
    end Ajout_Testeuse;

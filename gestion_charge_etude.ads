@@ -25,7 +25,8 @@ package Gestion_Charge_Etude is
    --------------------------------------------------
    -- Procedure charges d'etudes
    --------------------------------------------------
-   
+      function trouve_Charge (Tete_C: Pteur_Charge;personne: T_Personne)return pteur_charge;   
+
    function Verif_Saisie_Charge(Tete_Charge: Pteur_Charge; N,P:T_Mot)return Boolean;
    function Cpt_Etude_Charge (Tete_Charge: Pteur_Charge; N,P:T_Mot) return Integer ;
    procedure Ajout_Etude_Charge (Tete_Charge: in out Pteur_Charge; P_Etude:Pteur_Etude; N,P:T_Mot);
@@ -33,7 +34,7 @@ package Gestion_Charge_Etude is
    procedure Affiche_Liste_Etude (Tete_Charge: Pteur_Charge);
    procedure Affiche_Detail_Etude (Tete_Charge: Pteur_Charge; id_etu: integer);
    procedure Affiche_Testeuse_Incluse(Tete_Inclu: Pteur_Incluse);
-   procedure Ajout_Testeuse (Tete_Charge: Pteur_Charge; tete_test: in out pteur_testeuse; id_etu: integer);
+   procedure Ajout_Testeuse (Tete_Charge: Pteur_Charge; tete_test: in out pteur_testeuse);
    procedure Modif_Statut(P_Charge:in out Pteur_Charge; Id_Etu:Integer);
    
 
