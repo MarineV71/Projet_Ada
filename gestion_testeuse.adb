@@ -60,5 +60,37 @@ package body Gestion_Testeuse is
                end loop;
             end if;
          end if;
-      end Modification_Etude_Retour;   
+      end Modification_Etude_Retour; 
+      
+      procedure Ajout_Etude_Testeuse (Teste: in out Pteur_Testeuse; P_Etude:Pteur_Etude; N,P:T_Mot) is
+      begin
+         if Teste/= null then 
+            if N=Teste.test.Id.Nom and then P=Teste.test.Id.Prenom then                
+                     Teste.test.Etude:=P_Etude;   put(Teste.test.Etude.etu.id); put(teste.test.id.nom);  
+            else 
+               Ajout_Etude_testeuse(Teste.test_Suiv, P_Etude,N,P);
+            end if;
+         else 
+            put("le nom et prenom ne correspondent pas avec une testeuse");
+         end if;
+         end Ajout_Etude_testeuse;
+
+      procedure Ajout_Debut_Etu_Test (T:in out Pteur_Testeuse; E:in out Pteur_Etude) is
+      I:Pteur_Incluse;
+      begin 
+         if T/=null then
+            while E/=null loop
+               I:=E.Etu.P_Testeuse;
+               while I/=null loop
+                  if I.Incl.Nom=T.Test.Id.Nom and then I.Incl.Prenom=T.Test.Id.Prenom then
+                     T.Test.Etude:=E;
+                  end if;
+                  I:=I.Incl_Suiv;
+               end loop;
+               E:=E.Etu_Suiv;
+            end loop;
+            Ajout_Debut_Etu_Test(T.Test_Suiv,E);
+         end if;
+      end Ajout_Debut_Etu_Test;
+      
    end Gestion_Testeuse;

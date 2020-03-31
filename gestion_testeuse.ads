@@ -20,5 +20,7 @@ package Gestion_Testeuse is
    end record;
 function Verif_Saisie_Testeuse (Tete_testeuse: Pteur_testeuse; N,P:T_Mot) return pteur_testeuse;
  function Verif_Testeuse_Etude (tete_etu:pteur_etude; Tete_Test: Pteur_Testeuse) return pteur_testeuse;
-procedure Modification_Etude_Retour (P_Test:in out Pteur_Testeuse);
+ procedure Modification_Etude_Retour (P_Test:in out Pteur_Testeuse);
+ procedure Ajout_Etude_Testeuse (Teste: in out Pteur_Testeuse; P_Etude:Pteur_Etude; N,P:T_Mot);
+ procedure Ajout_Debut_Etu_Test (T:in out Pteur_Testeuse; E:in out Pteur_Etude);
 end Gestion_Testeuse;

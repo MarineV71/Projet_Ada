@@ -327,6 +327,7 @@ package body Gestion_Directeur is
       Inc:=new T_Liste_Incluse'(I,Inc);
       E.P_Testeuse:=Inc;
       Etu:=new T_Liste_Etude'(E,null);
+      Ajout_Etude_Charge (Chg, Etu, E.Nom_Charge, E.Prenom_Charge);
 
       E.Id:=2;
       E.Produit.Nom_P:="Bonne nuit     ";
@@ -339,6 +340,7 @@ package body Gestion_Directeur is
       E.Prenom_Charge:="Lucie          ";
       E.P_Testeuse:=null;
       Etu:=new T_Liste_Etude'(E,Etu);
+      Ajout_Etude_Charge (Chg, Etu, E.Nom_Charge, E.Prenom_Charge);
 
       E.Id:=3;
       E.Produit.Nom_P:="Peau Nette     ";
@@ -375,6 +377,7 @@ package body Gestion_Directeur is
       Inc:=new T_Liste_Incluse'(I,Inc);
       E.P_Testeuse:=Inc;
       Etu:=new T_Liste_Etude'(E,Etu);
+      Ajout_Etude_Charge (Chg, Etu, E.Nom_Charge, E.Prenom_Charge);
 
 
       E.Id:=4;
@@ -389,6 +392,7 @@ package body Gestion_Directeur is
       E.Statut:=T_Statut'Val(T_Statut'Pos(Cree));
       E.P_Testeuse:=null;
       Etu:=new T_Liste_Etude'(E,Etu);
+      Ajout_Etude_Charge (Chg, Etu, E.Nom_Charge, E.Prenom_Charge);
 
 
       E.Id:=5;
@@ -423,6 +427,7 @@ package body Gestion_Directeur is
       Inc:=new T_Liste_Incluse'(I,Inc);
       E.P_Testeuse:=Inc;
       Etu:=new T_Liste_Etude'(E,Etu);
+      Ajout_Etude_Charge (Chg, Etu, E.Nom_Charge, E.Prenom_Charge);
 
       E.Id:=6;
       E.Produit.Nom_P:="Velour         ";
@@ -458,6 +463,7 @@ package body Gestion_Directeur is
       Inc:=new T_Liste_Incluse'(I,Inc);
       E.P_Testeuse:=Inc;
       Etu:=new T_Liste_Etude'(E,Etu);
+      Ajout_Etude_Charge (Chg, Etu, E.Nom_Charge, E.Prenom_Charge);
 
       E.Id:=7;
       E.Produit.Nom_P:="Tout Doux      ";
@@ -496,7 +502,11 @@ package body Gestion_Directeur is
       Inc:=new T_Liste_Incluse'(I,Inc);
       E.P_Testeuse:=Inc;
       Etu:=new T_Liste_Etude'(E,Etu);
-   end Aj_User;
+      Ajout_Etude_Charge (Chg, Etu, E.Nom_Charge, E.Prenom_Charge);
+      
+      Ajout_Debut_Etu_Test (Test, Etu);
+         
+      end Aj_User;
 
 
 
