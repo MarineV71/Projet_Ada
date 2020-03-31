@@ -8,7 +8,7 @@ procedure Main is
    S:Pteur_Secretaire;
    T:Pteur_Testeuse;
    P:t_personne;  
-   Choix, cat, k:Integer;
+   Choix, cat, id:Integer;
    
 begin
    Aj_User (D, C, S, T, Tete_Etude, I);
@@ -43,33 +43,33 @@ begin
    
       when 3 => Clear_Screen (Black);
          C:=Trouve_Charge(C,P);
-         --C.charge.etude_en_charge(1):=tete_etude;
-         Put(Tete_Etude.Etu.Nom_Charge);
-         Put(Tete_Etude.Etu.Prenom_Charge);
-         Put(Tete_Etude.Etu.Id);
-         put(c.charge.id.prenom);
-         --Ajout_Etude_Charge (C, tete_etude, tete_etude.etu.nom_charge, tete_Etude.etu.prenom_charge);
    put_line("-----------------------------------------------------------");
    put_line("--                  MENU CHARGE D'ETUDE                  --");
    put_line("-----------------------------------------------------------");
    put_line("1. Inclure une testeuse dans une etude");
    put_line("2. Visualiser la liste des testeuses");
-         Put_Line("3. Modifier le statut d'une etude");
-         Affiche_liste_Etude (C);
+   Put_Line("3. Modifier le statut d'une etude");
+         
    put_line("Faites votre choix");
    Get(Choix);Skip_Line;
-   case Choix is
-      when 1 => 
-         Ajout_Testeuse (C,T);
-      when others => put("nul");
-   end case;
+         case Choix is
+            when 1 => 
+               Ajout_Testeuse (C,T);
+            when 2 => Affiche_Liste_Etude (C);
+               Put("visualiser les details d'une etude :");
+               Get(Id);Skip_Line;
+               Affiche_Detail_Etude (C, id);
+            when others => Put("sortir");
+         end case;
    
 
       when 4 => Clear_Screen (Black);
+      T:=trouve_testeuse(T,P);
    -----------------------------------------------------------
    --                     MENU TESTEUSE                     --
    -----------------------------------------------------------
-
+         Put("participe a l'etude : "); Put(T.Test.Etude.Etu.Id);
+         
       when others => Clear_Screen (Black);
    end case;
 end Main;

@@ -1,6 +1,20 @@
 with Ada.Text_Io,Ada.Integer_Text_Io;
 use Ada.Text_Io,Ada.Integer_Text_Io;
 package body Gestion_Testeuse is 
+   
+   function trouve_testeuse(Tete_T: Pteur_testeuse;personne: T_Personne)return pteur_testeuse is
+   begin
+      if Tete_T/=null then
+         if Tete_T.test.Id.login=personne.login and then Tete_T.test.Id.mdp=personne.mdp then
+            return(tete_t);
+         else
+            return(trouve_testeuse(tete_t.test_suiv,personne));
+         end if;
+      else 
+         return(null);
+      end if;
+   end trouve_testeuse;
+
    function Verif_Saisie_Testeuse (Tete_testeuse: Pteur_testeuse; N,P:T_Mot) return pteur_testeuse is 
       begin
       if Tete_testeuse= null then return (null);
@@ -75,12 +89,14 @@ package body Gestion_Testeuse is
          end if;
          end Ajout_Etude_testeuse;
 
-      procedure Ajout_Debut_Etu_Test (T:in out Pteur_Testeuse; E:in out Pteur_Etude) is
-      I:Pteur_Incluse;
+      procedure Ajout_Debut_Etu_Test (T:in out Pteur_Testeuse; ET:in Pteur_Etude) is
+         I:Pteur_Incluse;
+         E:Pteur_etude;
       begin 
          if T/=null then
+            E:=ET;
             while E/=null loop
-               I:=E.Etu.P_Testeuse;
+               I:=E.Etu.P_Testeuse; 
                while I/=null loop
                   if I.Incl.Nom=T.Test.Id.Nom and then I.Incl.Prenom=T.Test.Id.Prenom then
                      T.Test.Etude:=E;
@@ -89,7 +105,7 @@ package body Gestion_Testeuse is
                end loop;
                E:=E.Etu_Suiv;
             end loop;
-            Ajout_Debut_Etu_Test(T.Test_Suiv,E);
+            Ajout_Debut_Etu_Test(T.Test_Suiv,ET);
          end if;
       end Ajout_Debut_Etu_Test;
       

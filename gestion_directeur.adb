@@ -366,7 +366,7 @@ package body Gestion_Directeur is
       I.Note:=17;
       Inc:=new T_Liste_Incluse'(I,Inc);
       I.Nom:="PIERRE         ";
-      I.Prenom:="Jeannette      ";
+      I.Prenom:="Jeanette       ";
       I.Nj_Jour_Test:=6;
       I.Note:=19;
       Inc:=new T_Liste_Incluse'(I,Inc);
@@ -440,7 +440,7 @@ package body Gestion_Directeur is
       E.Prenom_Charge:="Paul           ";
       E.Statut:=T_Statut'Val(T_Statut'Pos(En_Cours));
       I.Nom:="BELLE          ";
-      I.Prenom:="Lucie          ";
+      I.Prenom:="Lucille        ";
       I.Nj_Jour_Test:=4;
       I.Note:=15;
       Inc:=new T_Liste_Incluse'(I,null);
@@ -479,7 +479,7 @@ package body Gestion_Directeur is
       I.Prenom:="Audrey         ";
       I.Nj_Jour_Test:=0;
       I.Note:=0;
-      Inc:=new T_Liste_Incluse'(I,Inc);
+      Inc:=new T_Liste_Incluse'(I,null);
       I.Nom:="SCHUMAN        ";
       I.Prenom:="Clara          ";
       I.Nj_Jour_Test:=5;
