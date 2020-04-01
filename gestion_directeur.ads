@@ -39,6 +39,6 @@ package Gestion_Directeur is
    procedure Dprt_Emp (P_Secr : IN OUT Pteur_Secretaire;P_Charge: IN OUT Pteur_Charge; P_Testeuse : in out Pteur_Testeuse; Fait : out Boolean);
    procedure Creation_Etude (Tete_Etude: in out Pteur_Etude; Etude:in out T_Etude; P_Charge:in out Pteur_Charge);
    procedure Aj_user (direc: out pteur_directeur; chg : out pteur_charge; scrt:out pteur_secretaire; test:out pteur_testeuse; Etu:out pteur_etude; Inc:out pteur_incluse);
-
+   procedure Connexion_Log (Cat: in Integer;P_Dir: in Pteur_Directeur;P_Secr: in Pteur_Secretaire;P_Charge: in Pteur_Charge;P_Test: in Pteur_Testeuse;Connecte: IN out Boolean);
 
 end Gestion_Directeur;

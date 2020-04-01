@@ -503,10 +503,10 @@ package body Gestion_Directeur is
       E.P_Testeuse:=Inc;
       Etu:=new T_Liste_Etude'(E,Etu);
       Ajout_Etude_Charge (Chg, Etu, E.Nom_Charge, E.Prenom_Charge);
-      
+
       Ajout_Debut_Etu_Test (Test, Etu);
-         
-      end Aj_User;
+
+   end Aj_User;
 
 
 
@@ -525,7 +525,7 @@ package body Gestion_Directeur is
          P_Secr := new T_Liste_Secretaire'(S, P_Secr);
       end if;
    end Ajout_Secr;
-   
+
    -------------------------------------------------------
    procedure Ajout_Charge (
          P_Charge : in out Pteur_Charge;
@@ -537,11 +537,11 @@ package body Gestion_Directeur is
          P_Charge := new T_Liste_Charge'(Ce, P_Charge);
       end if;
    end Ajout_Charge;
-   
+
    -------------------------------------------------------
    procedure Ajout_Directeur (
-         P_Dir : in out Pteur_Directeur;
-         Directeur       : in     T_Directeur) is
+         P_Dir     : in out Pteur_Directeur;
+         Directeur : in     T_Directeur) is
    begin
       if P_Dir = null then
          P_Dir:= new T_Liste_Directeur'(Directeur, null);
@@ -549,7 +549,7 @@ package body Gestion_Directeur is
          P_Dir := new T_Liste_Directeur'(Directeur, P_Dir);
       end if;
    end Ajout_Directeur;
-   
+
    --------------------------------------------------------
    --------------------------------------------------------
 
@@ -636,8 +636,8 @@ package body Gestion_Directeur is
       P_Aux1    : Pteur_Secretaire := P_Secr;
       P_Aux2    : Pteur_Charge     := P_Charge;
       P_Aux3    : Pteur_Directeur  := P_Dir;
-      Existe : Boolean := False;
-      N : Integer;
+      Existe    : Boolean          := False;
+      N         : Integer;
 
    begin
 
@@ -711,318 +711,345 @@ package body Gestion_Directeur is
 
       end case;
 
-end Enr_Nvl_Emp;
+   end Enr_Nvl_Emp;
 
---------------------------------------------------
--- procedure de suppression des employes
---------------------------------------------------
-procedure Supp_Secr (
-      Tete   : in out Pteur_Secretaire;
-      S      : in     T_Personne;
-      Erreur :    out Boolean) is
+   --------------------------------------------------
+   -- procedure de suppression des employes
+   --------------------------------------------------
+   procedure Supp_Secr (
+         Tete   : in out Pteur_Secretaire;
+         S      : in     T_Personne;
+         Erreur :    out Boolean) is
 
-begin
-   if Tete = null then
-      Erreur := True ;
-   elsif Tete.Secr.Id=S then
-      Erreur:=False;
-      Tete:=Tete.Secre_Suiv;
-   else
-      Supp_Secr(Tete.Secre_Suiv, S, Erreur);
-   end if;
-   
-end Supp_Secr;
-
----------------------------------------------------
-procedure Supp_Charge (
-      Tete   : in out Pteur_Charge;
-      Ce     : in     T_Personne;
-      Erreur :    out Boolean) is--mettre recup
-
-begin
-   if Tete = null then
-      Erreur := True ;
-   elsif Tete.Charge.Id=Ce then
-      Erreur:=False;
-      --Verifier si etude en cours et réattribution 
-      --appel de la procedure d'attribution des etudes aux charges etudes
-      Tete:=Tete.Charge_Suiv;
-   else
-      Supp_Charge(Tete.Charge_Suiv, Ce, Erreur);
-   end if;
-   
-end Supp_Charge;
-
---------------------------------------------------------------------
-procedure Supp_Testeuse (
-      Tete   : in out Pteur_Testeuse;
-      Tstse  : in     T_Personne;
-      Erreur :    out Boolean) is
-begin
-   if Tete = null then
-      Erreur := True ;
-   elsif Tete.Test.Id=Tstse then
-      Erreur:=False;
-      Tete:=Tete.Test_Suiv;
-   else
-      Supp_Testeuse(Tete.Test_Suiv, Tstse, Erreur);
-   end if;
-   
-end Supp_Testeuse;
-
-
------------------------------------------------------------
-
-procedure Dprt_Emp (
-      P_Secr     : in out Pteur_Secretaire;
-      P_Charge   : in out Pteur_Charge;
-      P_Testeuse : in out Pteur_Testeuse;
-      Fait       :    out Boolean) is
-   Emp    : T_Personne;
-   Choix  : Integer;
-   Erreur : Boolean;
-
-begin
-   
-   Put("Enregistrement du depart d'un employe");
-   New_Line;
-   Saisie_Personne(Emp);
-   loop
-      Put("Vous enregistrez le depart d'un(e) secretaire (1), d'un(e) charge d'etude (2) ou d'une testeuse (3)");
-      New_Line;
-      Put("Faite votre choix : 1 ou 2");
-      Get(Choix);
-      Skip_Line;
-      case Choix is
-         when 1 =>
-            Supp_Secr(P_Secr, Emp,Erreur);
-         when 2 =>
-            Supp_Charge(P_Charge, Emp, Erreur);
-         when 3 =>
-            Supp_Testeuse(P_Testeuse, Emp, Erreur);
-         when others =>
-            Put("Choix invalide, veuillez saisir a nouveau votre choix");
-            New_Line;
-      end case;
-      if Erreur then
-         Fait:=False;
+   begin
+      if Tete = null then
+         Erreur := True ;
+      elsif To_Lower(Tete.Secr.Id.Nom)=to_lower(S.Nom) and then To_Lower(Tete.Secr.Id.Prenom) = to_lower(S.Prenom) then
+         Erreur:=False;
+         Tete:=Tete.Secre_Suiv;
       else
-         Fait:=True;
+         Supp_Secr(Tete.Secre_Suiv, S, Erreur);
       end if;
-   end loop;
-end Dprt_Emp;
 
---------------------------------------------------
--- procedure d'affichage des employes
---------------------------------------------------
+   end Supp_Secr;
 
-procedure Vis_Liste_Dir (Tete_D: in Pteur_Directeur) is 
+   ---------------------------------------------------
+   procedure Supp_Charge (
+         Tete   : in out Pteur_Charge;
+         Ce     : in     T_Personne;
+         Erreur :    out Boolean) is--mettre recup
 
-begin 
-   
-   if Tete_D/=null then
-      Put(Tete_D.Dir.Id.Nom);
-      Put(Tete_D.Dir.Id.Prenom);
-      New_Line;
-      Vis_Liste_Dir(Tete_D.Dir_Suiv);
-   end if;
-   
-end Vis_Liste_Dir;
-
-----------------------------------------------------------
-procedure Vis_Liste_Secr (Tete_S: in Pteur_Secretaire) is 
-
-begin 
-   
-   if Tete_S/=null then
-      Put(Tete_S.Secr.Id.Nom);
-      Put(Tete_S.Secr.Id.Prenom);
-      New_Line;
-      Vis_Liste_Secr(Tete_S.Secre_Suiv);
-   end if;
-   
-end Vis_Liste_Secr;
-
------------------------------------------------------------
-procedure Vis_Liste_Charge (Tete_C: in Pteur_Charge) is 
-
-begin 
-   
-   if Tete_C/=null then
-      Put(Tete_C.Charge.Id.Nom);
-      Put(Tete_C.Charge.Id.Prenom);
-      New_Line;
-      Vis_Liste_Charge(Tete_C.Charge_Suiv);
-   end if;
-   
-end Vis_Liste_Charge;
-
-
-------------------------------------------------------------
-procedure Visualiser_Liste_Emp (
-      Tete_S : in     Pteur_Secretaire;
-   Tete_C : in     Pteur_Charge;
-      Tete_D : in Pteur_Directeur) is
-begin
-   
-   Put("Directeur(s) =>");
-   New_Line;
-   Vis_Liste_Dir(Tete_D);
-   New_Line;
-   New_line;      
-   Put("Secretaire(s) =>");
-   New_Line;
-   Vis_Liste_Secr(Tete_S);
-   New_Line;   
-   New_line;
-   Put("Charge(s) d'etudes =>");
-   New_Line;
-   Vis_Liste_Charge(Tete_C);
-   New_Line;
-
-end Visualiser_Liste_Emp;
-
----------------------------------------------------------------------------
-procedure Visualiser_Secre_Spe (
-      Tete_S : in     Pteur_Secretaire;
-      Nom,
-      Prenom : in     T_Mot) is
-
-begin
-   
-   if Tete_S/=null then
-      if to_lower(Tete_S.Secr.Id.Nom)=to_lower(Nom) and then to_lower(Tete_S.Secr.Id.Prenom)=to_lower(Prenom) then
-         Put("Informations sur la secretaire :");
-         Put(Nom);Put(" ");Put(Prenom);New_Line;
-         Put("Login :");Put(Tete_S.Secr.Id.Login);
-         Put("Mot de passe crypte et parametre N : ");
-         Put(Tete_S.Secr.Id.Login);Put("  N=");Put(Tete_S.Secr.Id.N);
-         New_Line;
-         
+   begin
+      if Tete = null then
+         Erreur := True ;
+      elsif To_Lower(Tete.Charge.Id.Nom) = To_Lower(Ce.Nom) and then to_lower(Tete.Charge.Id.Prenom) = To_Lower(Ce.Prenom) then
+         Erreur:=False;
+         --Verifier si etude en cours et reattribution
+         --appel de la procedure d'attribution des etudes aux charges etudes
+         Tete:=Tete.Charge_Suiv;
+      else
+         Supp_Charge(Tete.Charge_Suiv, Ce, Erreur);
       end if;
+
+   end Supp_Charge;
+
+   --------------------------------------------------------------------
+   procedure Supp_Testeuse (
+         Tete   : in out Pteur_Testeuse;
+         Tstse  : in     T_Personne;
+         Erreur :    out Boolean) is
+   
+   begin
       
-      Visualiser_Secre_Spe(Tete_S.Secre_Suiv,Nom,Prenom);
-   end if;
-   
-end Visualiser_Secre_Spe;
-
----------------------------------------------------------------------------------
-procedure Visualiser_Charge_Spe (
-      Tete_C : in     Pteur_Charge;
-      Nom,
-      Prenom : in     T_Mot) is
-         Choix:character;
-
-begin
-   
-   if Tete_C/=null then
-      if To_lower(Tete_C.Charge.Id.Nom)=to_lower(Nom) and then to_lower(Tete_C.Charge.Id.Prenom)=to_lower(Prenom) then
-         Put("Informations sur le charge d'etude :");
-         Put(Nom);Put(" ");Put(Prenom);New_Line;
-         Put("Login :");Put(Tete_C.Charge.Id.Login);
-         Put("Mot de passe crypte et parametre N : ");
-         Put(Tete_C.Charge.Id.Login);Put("  N=");Put(Tete_C.Charge.Id.N);
-         New_Line;
-         -----------------------------------------------------------
-         -----Afficher le nombre d'etude en cours du charge + ID
-         -----Voir comment est geré les etudes en cours d'un charge
-         -----------------------------------------------------------
-         Put("Nb d'etudes achevees :");Put(Tete_C.Charge.Nb_Etude_T);
-         loop
-            Put("Souhaitez vous voir les produits testes ? Oui => O Non => N");
-            new_line;
-            Get(Choix);Skip_Line;
-            exit when Choix='O' or Choix='N';
-            Put("Choix invalide, retentez !");
-         end loop;
-         if Choix ='O' then
-            ----------------------------------------------------------------
-            ----Afficher les produits apres avoir parcouru la liste d'etude
-            ---- Depend aussi de la facon dont sont enregistres les etudes 
-            ---- dans le type charge 
-            ----------------------------------------------------------------
-            null;
+      if Tete = null then
+         Erreur := True ;
+      
+      elsif To_Lower(Tete.Test.Id.Nom)=To_Lower(Tstse.Nom) and then To_Lower(Tete.Test.Id.Prenom) = To_Lower(Tstse.Prenom) then
+         --verif de la presence de la testeuse dans une etude 
+         if Tete.Test.Etude /= null then
+            Put("Cette testeuse est actuellement engagee dans une etude");
+            New_Line;
+            erreur := true;
+         else
+            Erreur:=False;
+            Tete:=Tete.Test_Suiv;
          end if;
-                 
-         New_Line;
+          
+      else
+         Supp_Testeuse(Tete.Test_Suiv, Tstse, Erreur);
       end if;
-      
-      Visualiser_Charge_Spe (Tete_C.Charge_Suiv,Nom,Prenom);
-   end if;
-   
-end Visualiser_Charge_Spe;
+
+   end Supp_Testeuse;
 
 
-procedure Visualiser_Liste_Etude (
-      Tete : in     Pteur_Etude) is
+   -----------------------------------------------------------
 
-begin
-   
-   if Tete/=null then
-      Put("Identifiant =>");
-      Put(Tete.Etu.Id);
-      New_Line;
-      Put("Produit teste =>");
-      Put(Tete.Etu.Produit.Nom_P);
-      New_Line;
-      Put("Categorie =>");
-      Put(T_Categorie'Image(Tete.Etu.Produit.Cat));
-      New_Line;
-      Put("-------------------------------");
-      New_Line;
-      Visualiser_Liste_Etude(Tete.Etu_Suiv);
-   end if;
-   
-end Visualiser_Liste_Etude;
+   procedure Dprt_Emp (
+         P_Secr     : in out Pteur_Secretaire;
+         P_Charge   : in out Pteur_Charge;
+         P_Testeuse : in out Pteur_Testeuse;
+         Fait       :    out Boolean) is
+      Emp    : T_Personne;
+      Choix  : Integer;
+      Erreur : Boolean;
 
---------------------------------------------------------------
-procedure Visualiser_Etude_Spe (
-      Tete         : in     Pteur_Etude;
-      Id_Recherche : in     Integer) is
-begin
-   if Tete/=null then
-      if Tete.Etu.Id=Id_Recherche then
-         Put("Le Produit teste lors de cette etude est =>");
+   begin
+
+      Put("Enregistrement du depart d'un employe");
+      New_Line;
+--      Saisie_Personne(Emp);
+--      loop
+         Put("Vous enregistrez le depart d'un(e) secretaire (1), d'un(e) charge d'etude (2) ou d'une testeuse (3)");
+         New_Line;
+         Put("Faite votre choix : 1 ou 2 ou 3");
+         Secure_Saisie(Choix,3);
+         new_line;
+         Saisie_Personne(Emp);
+         new_line;
+         case Choix is
+            when 1 =>
+               Supp_Secr(P_Secr, Emp,Erreur);
+            when 2 =>
+               Supp_Charge(P_Charge, Emp, Erreur);
+            when others =>
+               Supp_Testeuse(P_Testeuse, Emp, Erreur);
+         end case;
+         if Erreur then
+            Fait:=False;
+         else
+            Fait:=True;
+         end if;
+--      end loop;
+   end Dprt_Emp;
+
+   --------------------------------------------------
+   -- procedure d'affichage des employes
+   --------------------------------------------------
+
+   procedure Vis_Liste_Dir (
+         Tete_D : in     Pteur_Directeur) is
+
+   begin
+
+      if Tete_D/=null then
+         Put(Tete_D.Dir.Id.Nom);
+         Put(Tete_D.Dir.Id.Prenom);
+         New_Line;
+         Vis_Liste_Dir(Tete_D.Dir_Suiv);
+      end if;
+
+   end Vis_Liste_Dir;
+
+   ----------------------------------------------------------
+   procedure Vis_Liste_Secr (
+         Tete_S : in     Pteur_Secretaire) is
+
+   begin
+
+      if Tete_S/=null then
+         Put(Tete_S.Secr.Id.Nom);
+         Put(Tete_S.Secr.Id.Prenom);
+         New_Line;
+         Vis_Liste_Secr(Tete_S.Secre_Suiv);
+      end if;
+
+   end Vis_Liste_Secr;
+
+   -----------------------------------------------------------
+   procedure Vis_Liste_Charge (
+         Tete_C : in     Pteur_Charge) is
+
+   begin
+
+      if Tete_C/=null then
+         Put(Tete_C.Charge.Id.Nom);
+         Put(Tete_C.Charge.Id.Prenom);
+         New_Line;
+         Vis_Liste_Charge(Tete_C.Charge_Suiv);
+      end if;
+
+   end Vis_Liste_Charge;
+
+
+   ------------------------------------------------------------
+   procedure Visualiser_Liste_Emp (
+         Tete_S : in     Pteur_Secretaire;
+         Tete_C : in     Pteur_Charge;
+         Tete_D : in     Pteur_Directeur) is
+   begin
+
+      Put("Directeur(s) =>");
+      New_Line;
+      Vis_Liste_Dir(Tete_D);
+      New_Line;
+      New_Line;
+      Put("Secretaire(s) =>");
+      New_Line;
+      Vis_Liste_Secr(Tete_S);
+      New_Line;
+      New_Line;
+      Put("Charge(s) d'etudes =>");
+      New_Line;
+      Vis_Liste_Charge(Tete_C);
+      New_Line;
+
+   end Visualiser_Liste_Emp;
+
+   ---------------------------------------------------------------------------
+   procedure Visualiser_Secre_Spe (
+         Tete_S : in     Pteur_Secretaire;
+         Nom,
+         Prenom : in     T_Mot) is
+
+   begin
+
+      if Tete_S/=null then
+         if To_Lower(Tete_S.Secr.Id.Nom)=To_Lower(Nom) and then To_Lower(Tete_S.Secr.Id.Prenom)=To_Lower(Prenom) then
+            Put("Informations sur la secretaire :");
+            Put(Nom);
+            Put(" ");
+            Put(Prenom);
+            New_Line;
+            Put("Login :");
+            Put(Tete_S.Secr.Id.Login);
+            Put("Mot de passe crypte et parametre N : ");
+            Put(Tete_S.Secr.Id.Login);
+            Put("  N=");
+            Put(Tete_S.Secr.Id.N);
+            New_Line;
+
+         end if;
+
+         Visualiser_Secre_Spe(Tete_S.Secre_Suiv,Nom,Prenom);
+      end if;
+
+   end Visualiser_Secre_Spe;
+
+   ---------------------------------------------------------------------------------
+   procedure Visualiser_Charge_Spe (
+         Tete_C : in     Pteur_Charge;
+         Nom,
+         Prenom : in     T_Mot) is
+      Choix : Character;
+
+   begin
+
+      if Tete_C/=null then
+         if To_Lower(Tete_C.Charge.Id.Nom)=To_Lower(Nom) and then To_Lower(Tete_C.Charge.Id.Prenom)=To_Lower(Prenom) then
+            Put("Informations sur le charge d'etude :");
+            Put(Nom);
+            Put(" ");
+            Put(Prenom);
+            New_Line;
+            Put("Login :");
+            Put(Tete_C.Charge.Id.Login);
+            Put("Mot de passe crypte et parametre N : ");
+            Put(Tete_C.Charge.Id.Login);
+            Put("  N=");
+            Put(Tete_C.Charge.Id.N);
+            New_Line;
+            -----------------------------------------------------------
+            -----Afficher le nombre d'etude en cours du charge + ID
+            -----Voir comment est geré les etudes en cours d'un charge
+            -----------------------------------------------------------
+            Put("Nb d'etudes achevees :");
+            Put(Tete_C.Charge.Nb_Etude_T);
+            loop
+               Put("Souhaitez vous voir les produits testes ? Oui => O Non => N");
+               New_Line;
+               Get(Choix);
+               Skip_Line;
+               exit when Choix='O' or Choix='N';
+               Put("Choix invalide, retentez !");
+            end loop;
+            if Choix ='O' then
+               ----------------------------------------------------------------
+               ----Afficher les produits apres avoir parcouru la liste d'etude
+               ---- Depend aussi de la facon dont sont enregistres les etudes
+               ---- dans le type charge
+               ----------------------------------------------------------------
+               null;
+            end if;
+
+            New_Line;
+         end if;
+
+         Visualiser_Charge_Spe (Tete_C.Charge_Suiv,Nom,Prenom);
+      end if;
+
+   end Visualiser_Charge_Spe;
+
+
+   procedure Visualiser_Liste_Etude (
+         Tete : in     Pteur_Etude) is
+
+   begin
+
+      if Tete/=null then
+         Put("Identifiant =>");
+         Put(Tete.Etu.Id);
+         New_Line;
+         Put("Produit teste =>");
          Put(Tete.Etu.Produit.Nom_P);
          New_Line;
-         Put(Tete.Etu.Nb_Testeuse);
-         Put("testeuses ont ete incluses");
-         New_Line; 
-         Put("La personne en charge de cette etude est/etait");
-         Put(Tete.Etu.Prenom_Charge);
-         Put(Tete.Etu.Nom_Charge);
+         Put("Categorie =>");
+         Put(T_Categorie'Image(Tete.Etu.Produit.Cat));
          New_Line;
-         Put("L'etude est ");
-         Put(T_Statut'Image(Tete.Etu.Statut));
+         Put("-------------------------------");
          New_Line;
-         if Tete.Etu.Note_Moy/=-1 then
-            Put("La note de ce produit est =>");
-            Put(Tete.Etu.Note_Moy);
+         Visualiser_Liste_Etude(Tete.Etu_Suiv);
+      end if;
+
+   end Visualiser_Liste_Etude;
+
+   --------------------------------------------------------------
+   procedure Visualiser_Etude_Spe (
+         Tete         : in     Pteur_Etude;
+         Id_Recherche : in     Integer) is
+   begin
+      if Tete/=null then
+         if Tete.Etu.Id=Id_Recherche then
+            Put("Le Produit teste lors de cette etude est =>");
+            Put(Tete.Etu.Produit.Nom_P);
+            New_Line;
+            Put(Tete.Etu.Nb_Testeuse);
+            Put("testeuses ont ete incluses");
+            New_Line;
+            Put("La personne en charge de cette etude est/etait");
+            Put(Tete.Etu.Prenom_Charge);
+            Put(Tete.Etu.Nom_Charge);
+            New_Line;
+            Put("L'etude est ");
+            Put(T_Statut'Image(Tete.Etu.Statut));
+            New_Line;
+            if Tete.Etu.Note_Moy/=-1 then
+               Put("La note de ce produit est =>");
+               Put(Tete.Etu.Note_Moy);
+               New_Line;
+            end if;
+            Put("Le nombre de patientes significative est =>");
+            Put(Tete.Etu.Nb_Significatif);
+            New_Line;
+            if Tete.Etu.Risque then
+               Put("Ce produit presente un risque");
+            else
+               Put("Ce produit ne presente pas de risque");
+            end if;
             New_Line;
          end if;
-         Put("Le nombre de patientes significative est =>");
-         Put(Tete.Etu.Nb_Significatif);
-         New_Line;
-         if Tete.Etu.Risque then
-            Put("Ce produit presente un risque");
-         else
-            Put("Ce produit ne presente pas de risque");
-         end if;
-         New_Line;
+         Visualiser_Etude_Spe(Tete.Etu_Suiv,Id_Recherche);
       end if;
-      Visualiser_Etude_Spe(Tete.Etu_Suiv,Id_Recherche);
-   end if;
-end Visualiser_Etude_Spe;
+   end Visualiser_Etude_Spe;
 
 
--------------------------------------------------------------------------------------
-   procedure Connexion (
+   -------------------------------------------------------------------------------------
+   procedure Connexion_Log (
          Cat      : in     Integer;
          P_Dir    : in     Pteur_Directeur;
          P_Secr   : in     Pteur_Secretaire;
          P_Charge : in     Pteur_Charge;
          P_Test   : in     Pteur_Testeuse;
-         Connecte :    out Boolean) is
+         Connecte : in out Boolean) is
 
       Connexion : T_Personne;
       K         : Integer;
@@ -1038,13 +1065,14 @@ end Visualiser_Etude_Spe;
    begin
       Put("Saisir votre login => ");
       Get_Line(Connexion.Login,K);
-      --récup de N et Mdp crypte dans la liste
+      --recup de N et Mdp crypte dans la liste
       case Cat is
          when 1 =>
             while P_Aux1 /= null loop
-               if P_Aux1.Dir.Id.Login =To_Lower(Connexion.Login) then
+               if P_Aux1.Dir.Id.Login = To_Lower(Connexion.Login) then
                   Param_N := P_Aux1.Dir.Id.N;
                   Mdp_Cryp := P_Aux1.Dir.Id.Mdp;
+                  exit;
                else
                   P_Aux1 := P_Aux1.Dir_Suiv;
                end if;
@@ -1054,6 +1082,7 @@ end Visualiser_Etude_Spe;
                if P_Aux2.Secr.Id.Login =To_Lower(Connexion.Login) then
                   Param_N := P_Aux2.Secr.Id.N;
                   Mdp_Cryp := P_Aux2.Secr.Id.Mdp;
+                  exit;
                else
                   P_Aux2 := P_Aux2.Secre_Suiv;
                end if;
@@ -1063,6 +1092,7 @@ end Visualiser_Etude_Spe;
                if P_Aux3.Charge.Id.Login =To_Lower(Connexion.Login) then
                   Param_N := P_Aux3.Charge.Id.N;
                   Mdp_Cryp := P_Aux3.Charge.Id.Mdp;
+                  exit;
                else
                   P_Aux3 := P_Aux3.Charge_Suiv;
                end if;
@@ -1072,6 +1102,7 @@ end Visualiser_Etude_Spe;
                if P_Aux4.Test.Id.Login =To_Lower(Connexion.Login) then
                   Param_N := P_Aux4.Test.Id.N;
                   Mdp_Cryp := P_Aux4.Test.Id.Mdp;
+                  exit;
                else
                   P_Aux4 := P_Aux4.Test_Suiv;
                end if;
@@ -1109,10 +1140,11 @@ end Visualiser_Etude_Spe;
          Put("Ce login ne correspond a aucun utilisateur !");
          New_Line;
          Connecte := False;
+         delay(3.0);
          --retour a l'ecran d'accueil
       end if;
 
-   end Connexion;
+   end Connexion_Log;
 
 
 

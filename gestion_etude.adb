@@ -12,13 +12,15 @@ package body Gestion_Etude is
       Put("Nom =>");
       Get_Line(Emp.Nom,K_nom);
       Put("Prenom =>");
-      Get_Line(Emp.Prenom,K_prenom);
+      Get_Line(Emp.Prenom,K_Prenom);
+      Put(Emp.Nom);New_Line;
+      Put(Emp.Prenom);Put("ok");
 
       --Formation du login pour la connexion
       -- prenom.nom
-      Emp.Login(1..K_Prenom):=To_Lower(Emp.Prenom);
+      Emp.Login(1..K_Prenom):=To_Lower(Emp.Prenom(1..K_Prenom));
       Emp.Login(K_Prenom+1):='.';
-      Emp.Login(K_Prenom+2..K_nom):=to_lower(Emp.Nom);
+      Emp.Login(K_Prenom+2..K_prenom+1+K_nom):=to_lower(Emp.Nom(1..K_Nom));
 
 
    end Saisie_Personne;
