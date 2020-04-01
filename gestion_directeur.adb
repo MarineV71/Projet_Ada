@@ -1014,8 +1014,107 @@ begin
    end if;
 end Visualiser_Etude_Spe;
 
+
+-------------------------------------------------------------------------------------
+   procedure Connexion (
+         Cat      : in     Integer;
+         P_Dir    : in     Pteur_Directeur;
+         P_Secr   : in     Pteur_Secretaire;
+         P_Charge : in     Pteur_Charge;
+         P_Test   : in     Pteur_Testeuse;
+         Connecte :    out Boolean) is
+
+      Connexion : T_Personne;
+      K         : Integer;
+      Cpt       : Integer          := 0;
+      Verif     : Boolean;
+      P_Aux1    : Pteur_Directeur  := P_Dir;
+      P_Aux2    : Pteur_Secretaire := P_Secr;
+      P_Aux3    : Pteur_Charge     := P_Charge;
+      P_Aux4    : Pteur_Testeuse   := P_Test;
+      Param_N   : Integer          := - 1;
+      Mdp_Cryp  : T_Mdp;
+
+   begin
+      Put("Saisir votre login => ");
+      Get_Line(Connexion.Login,K);
+      --récup de N et Mdp crypte dans la liste
+      case Cat is
+         when 1 =>
+            while P_Aux1 /= null loop
+               if P_Aux1.Dir.Id.Login =To_Lower(Connexion.Login) then
+                  Param_N := P_Aux1.Dir.Id.N;
+                  Mdp_Cryp := P_Aux1.Dir.Id.Mdp;
+               else
+                  P_Aux1 := P_Aux1.Dir_Suiv;
+               end if;
+            end loop;
+         when 2 =>
+            while P_Aux2 /= null loop
+               if P_Aux2.Secr.Id.Login =To_Lower(Connexion.Login) then
+                  Param_N := P_Aux2.Secr.Id.N;
+                  Mdp_Cryp := P_Aux2.Secr.Id.Mdp;
+               else
+                  P_Aux2 := P_Aux2.Secre_Suiv;
+               end if;
+            end loop;
+         when 3 =>
+            while P_Aux3 /= null loop
+               if P_Aux3.Charge.Id.Login =To_Lower(Connexion.Login) then
+                  Param_N := P_Aux3.Charge.Id.N;
+                  Mdp_Cryp := P_Aux3.Charge.Id.Mdp;
+               else
+                  P_Aux3 := P_Aux3.Charge_Suiv;
+               end if;
+            end loop;
+         when others =>
+            while P_Aux4 /= null loop
+               if P_Aux4.Test.Id.Login =To_Lower(Connexion.Login) then
+                  Param_N := P_Aux4.Test.Id.N;
+                  Mdp_Cryp := P_Aux4.Test.Id.Mdp;
+               else
+                  P_Aux4 := P_Aux4.Test_Suiv;
+               end if;
+            end loop;
+      end case;
+
+      -- Si recup alors ce login existe et on continue
+
+      if Param_N /=-1 then
+
+         Put("Saisir votre mot de passe => ");
+         New_Line;
+         loop
+            Cryp_Mdp(Connexion, Param_N);
+            Cpt := Cpt+1;
+            if Connexion.Mdp = Mdp_Cryp then
+               Verif :=True;
+            else
+               Verif := False;
+            end if;
+            --Verif:= Verif_Dir(Connexion.Login,Connexion.Mdp);
+            exit when Verif= True or Cpt = 3;
+            New_Line;
+            Put("Le mot de passe ne correspond pas ! Retentez ... ");
+            New_Line;
+         end loop;
+         if Verif then
+            Connecte := True;
+            --Si retour True dans le Prg principal alors affichage menu employe
+         else
+            Connecte := False;
+            --Dans le prog principal -> si retour de false alors retour ecran démarrage
+         end if;
+      else
+         Put("Ce login ne correspond a aucun utilisateur !");
+         New_Line;
+         Connecte := False;
+         --retour a l'ecran d'accueil
+      end if;
+
+   end Connexion;
+
+
+
+
 end Gestion_Directeur;
-
-
-
-         
