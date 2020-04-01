@@ -11,7 +11,7 @@ procedure Main is
    Choix, cat, id:Integer;
  
 begin
-   Aj_User (D, C, S, T, Tete_Etude, I);
+   Aj_User (D, C, S, T, Tete_Etude, I);loop
    -----------------------------------------------------------
    --                       CONNEXION                       --
    -----------------------------------------------------------
@@ -64,13 +64,33 @@ begin
    Put_Line("4. Pour quitter sa session");
          
    put_line("Faites votre choix");
-   Get(Choix);Skip_Line;
+            loop 
+               begin
+                  Get(Choix);Skip_Line;
+                  if Choix in 1..4 then exit;
+                  end if;
+               exception
+                  when Data_Error =>
+                     Skip_Line;
+                     Put_Line("erreur de saisie");
+               end; 
+            end loop;
+
          case Choix is
             when 1 => 
                Ajout_Testeuse (C,T);
             when 2 => Affiche_Liste_Etude (C);
                Put("visualiser les details d'une etude :");
-               Get(Id);Skip_Line;
+                  loop 
+                     begin
+                        Get(Id);Skip_Line;exit;
+                     exception
+                        when Data_Error =>
+                           Skip_Line;
+                           Put_Line("erreur de saisie");
+                     end; 
+                  end loop;
+
                   Affiche_Detail_Etude (C, Id);
                when 3 =>
                   modif_statut(C);
@@ -79,14 +99,33 @@ begin
    end loop;
 
       when 4 => Clear_Screen (Black);
-      T:=trouve_testeuse(T,P);
+      T:=trouve_testeuse(T,P); loop
    -----------------------------------------------------------
    --                     MENU TESTEUSE                     --
    -----------------------------------------------------------
-         Put("participe a l'etude : "); Put(T.Test.Etude.Etu.Id);
-         
-      when others => Clear_Screen (Black);
-   end case;
+   put_line("1. Modifier les retours de sur le produit");
+   put_line("2. Quitter");
+   Put("participe a l'etude : "); Put(T.Test.Etude.Etu.Id);    
+   put_line("Faites votre choix");
+            loop 
+               begin
+                  Get(Choix);Skip_Line;
+                  if Choix in 1..2 then exit;
+                  end if;
+               exception
+                  when Data_Error =>
+                     Skip_Line;
+                     Put_Line("erreur de saisie");
+               end; 
+            end loop;
+         case Choix is
+               when 1 => Put("modifier l'etude"); --procedure 
+               when others => exit;
+            end case;
+         end loop;
+      when others => Clear_Screen (Black);exit;
+      end case;
+   end loop;
 end Main;
 
    
