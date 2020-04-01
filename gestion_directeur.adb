@@ -1,5 +1,5 @@
-with Ada.Text_Io,Ada.Integer_Text_Io, Ada.Characters.Handling;
-use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
+with Ada.Text_Io,Ada.Integer_Text_Io, Ada.Characters.Handling,Aleatoire;
+use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling,Aleatoire;
 package body Gestion_Directeur is
    procedure Aj_User (
          Direc :    out Pteur_Directeur;
