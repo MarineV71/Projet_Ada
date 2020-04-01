@@ -637,11 +637,14 @@ package body Gestion_Directeur is
       P_Aux2    : Pteur_Charge     := P_Charge;
       P_Aux3    : Pteur_Directeur  := P_Dir;
       Existe : Boolean := False;
+      N : Integer;
 
    begin
 
       Put("Enregistrement d'un nouvel employe");
       New_Line;
+      Initialise(0,25);
+      N := Random;
 
       loop
          Put("Vous enregistrez un(e) secretaire (1) ou un(e) charge d'etude (2) ou un directeur (3)");
@@ -664,7 +667,7 @@ package body Gestion_Directeur is
                end if;
             end loop;
             if Existe=False then
-               Cryp_Mdp(Emp);
+               Cryp_Mdp(Emp,N);
                Secr.Id:=Emp;
                Ajout_Secr(P_Secr, Secr);
             else
@@ -681,7 +684,7 @@ package body Gestion_Directeur is
                end if;
             end loop;
             if Existe=False then
-               Cryp_Mdp(Emp);
+               Cryp_Mdp(Emp,N);
                Charge_Et.Id:=Emp;
                Ajout_Charge(P_Charge, Charge_Et);
             else
@@ -698,7 +701,7 @@ package body Gestion_Directeur is
                end if;
             end loop;
             if Existe=False then
-               Cryp_Mdp(Emp);
+               Cryp_Mdp(Emp,N);
                Directeur.Id:=Emp;
                Ajout_Directeur(P_Dir, Directeur);
             else
@@ -741,7 +744,7 @@ begin
       Erreur := True ;
    elsif Tete.Charge.Id=Ce then
       Erreur:=False;
-      --Verifier si etude en cours et réattribution 
+      --Verifier si etude en cours et rÃ©attribution 
       --appel de la procedure d'attribution des etudes aux charges etudes
       Tete:=Tete.Charge_Suiv;
    else
@@ -922,7 +925,7 @@ begin
          New_Line;
          -----------------------------------------------------------
          -----Afficher le nombre d'etude en cours du charge + ID
-         -----Voir comment est geré les etudes en cours d'un charge
+         -----Voir comment est gerÃ© les etudes en cours d'un charge
          -----------------------------------------------------------
          Put("Nb d'etudes achevees :");Put(Tete_C.Charge.Nb_Etude_T);
          loop
