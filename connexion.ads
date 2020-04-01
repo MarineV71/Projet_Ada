@@ -11,6 +11,6 @@ package Connexion is
          N          : Integer:=0;
    end record;
       
-   procedure Cryp_Mdp (P: IN OUT T_Personne);
+   procedure Cryp_Mdp (P: IN OUT T_Personne;N: IN integer);
 
 end Connexion;

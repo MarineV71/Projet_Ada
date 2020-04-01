@@ -3,14 +3,14 @@ use Ada.Integer_Text_Io,Ada.Text_Io,Aleatoire,Ada.Characters.Handling;
 
 package body Connexion is 
    
-   procedure Cryp_Mdp (P: IN OUT T_Personne) is 
+   procedure Cryp_Mdp (P: IN OUT T_Personne;N:IN Integer) is 
       Cpt:Integer:=1;
       C: Character;
       N: Integer; 
    begin
-      Initialise(0,25);
-      N:= Random;
-      P.N:=N;
+      --Initialise(0,25);
+      --N:= Random;
+      --P.N:=N;
       Put("Veuillez saisir un mot de passe de 10 caractères");
       New_Line;
       loop

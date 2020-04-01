@@ -1,5 +1,5 @@
-with Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
-use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
+with Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling,Aleatoire;
+use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling,Aleatoire;
 package body Gestion_Secretaire is
 
    --------------------------------------------------
@@ -26,6 +26,7 @@ package body Gestion_Secretaire is
       T : T_Testeuse;
       P      : Pteur_Testeuse := P_Testeuse;
       Existe : Boolean := False;
+      N:integer;
       
    begin
       
@@ -36,6 +37,7 @@ package body Gestion_Secretaire is
       while P /=null loop
          if Testeuse.Nom /= P.Test.Id.Nom and Testeuse.Prenom /= P.Test.Id.Prenom then
             P:=P.Test_Suiv;
+            Existe:=False;
          elsif Testeuse.Nom = P.Test.Id.Nom then
             if Testeuse.Prenom /= P.Test.Id.Prenom then
                P:=P.Test_Suiv;
@@ -49,7 +51,10 @@ package body Gestion_Secretaire is
          Put("Une testeuse avec les mêmes nom et prénom existe deja");
          New_Line;
       else
-         Cryp_Mdp(Testeuse);
+         Initialise(0,25);
+         N:=Random;
+         Testeuse.N:=N;
+         Cryp_Mdp(Testeuse,N);
          T.Id := Testeuse;
          Put("Saisir l'age de cette testeuse =>");
          Get(T.Age);
