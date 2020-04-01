@@ -12,5 +12,6 @@ package Connexion is
    end record;
       
    procedure Cryp_Mdp (P: IN OUT T_Personne;N: IN integer);
+   procedure Secure_Saisie (N:in out Integer; m: integer) ;
 
 end Connexion;

@@ -2,11 +2,25 @@ with Ada.Integer_Text_Io,Ada.Text_Io,Aleatoire,Ada.Characters.Handling;
 use Ada.Integer_Text_Io,Ada.Text_Io,Aleatoire,Ada.Characters.Handling;
 
 package body Connexion is 
-   
+   procedure Secure_Saisie (N:in out Integer; m: integer) is 
+   begin
+      loop           
+              begin
+                  Get(N);Skip_Line;
+                  if n in 1..m then exit;
+                  else put_line("ce choix n'est pas valide");
+                  end if;
+               exception
+                  when Data_Error =>
+                     Skip_Line;
+                     Put_Line("erreur de saisie");
+               end; 
+            end loop;
+            end secure_saisie;
    procedure Cryp_Mdp (P: IN OUT T_Personne;N:IN Integer) is 
       Cpt:Integer:=1;
       C: Character;
-      N: Integer; 
+       
    begin
       --Initialise(0,25);
       --N:= Random;
