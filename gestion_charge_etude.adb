@@ -149,6 +149,8 @@ package body Gestion_Charge_Etude is
             New_Line;
             Inc:=T(I).Etu.P_Testeuse;
             Affiche_Testeuse_Incluse(Inc);
+         else 
+            put(" ");
          end if;--faudra relier cette procedure avec afffiche_liste_etude
       end loop;
    end Affiche_Detail_Etude;

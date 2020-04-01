@@ -23,17 +23,8 @@ begin
    Put_Line("3. Charge d'etude");
    put_line("4. Testeuse");
    Put("saisir votre categorie :");New_Line;
-   loop  --securise la saisie
-      begin
-         Get(Cat);Skip_Line;
-         if Cat in 1..4 then exit;
-         end if;
-   exception
-            when Data_Error =>
-              Skip_Line;
-                  Put_Line("erreur de saisie");
-            end; 
-         end loop;
+      Secure_Saisie(Cat,5);
+      if cat/=5 then
    Put("saisir votre login :");
    Get(P.Login);Skip_Line;
    --loop
@@ -41,6 +32,8 @@ begin
    Get(P.Mdp);Skip_Line;
    --verif_mdp
    --end loop
+   else put("sortie");
+   end if;
    case Cat is
       when 1 => Clear_Screen (Black);
    -----------------------------------------------------------
@@ -54,78 +47,55 @@ begin
    
       when 3 => 
          Clear_Screen (Black);
-          C:=Trouve_Charge(C,P); loop
+            C:=Trouve_Charge(C,P); 
+            if C.charge.id.login=P.login then
+                loop
    put_line("-----------------------------------------------------------");
    put_line("--                  MENU CHARGE D'ETUDE                  --");
    put_line("-----------------------------------------------------------");
    put_line("1. Inclure une testeuse dans une etude");
-   put_line("2. Visualiser la liste des testeuses");
+   put_line("2. Visualiser la liste des etudes");
    Put_Line("3. Modifier le statut d'une etude");
    Put_Line("4. Pour quitter sa session");
          
    put_line("Faites votre choix");
-            loop 
-               begin
-                  Get(Choix);Skip_Line;
-                  if Choix in 1..4 then exit;
-                  end if;
-               exception
-                  when Data_Error =>
-                     Skip_Line;
-                     Put_Line("erreur de saisie");
-               end; 
-            end loop;
-
-         case Choix is
+       Secure_Saisie(Choix,4);
+       case Choix is
             when 1 => 
                Ajout_Testeuse (C,T);
             when 2 => Affiche_Liste_Etude (C);
-               Put("visualiser les details d'une etude :");
-                  loop 
-                     begin
-                        Get(Id);Skip_Line;exit;
-                     exception
-                        when Data_Error =>
-                           Skip_Line;
-                           Put_Line("erreur de saisie");
-                     end; 
-                  end loop;
-
+                        Put("visualiser les details d'une etude :");
+                     Secure_Saisie(id,999);
                   Affiche_Detail_Etude (C, Id);
                when 3 =>
                   modif_statut(C);
-            when others => Put("sortir"); exit;
+            when others => Put("sortie"); exit;
          end case;
-   end loop;
-
+               end loop;
+      else put("mauvais identifiant"); end if;--a voir s'il n'y a pas la procedure de connexion
       when 4 => Clear_Screen (Black);
-      T:=trouve_testeuse(T,P); loop
+            T:=Trouve_Testeuse(T,P);
+            if T.test.id.login=P.login then 
+                loop
    -----------------------------------------------------------
    --                     MENU TESTEUSE                     --
    -----------------------------------------------------------
-   put_line("1. Modifier les retours de sur le produit");
+   put_line("1. Modifier les retours sur le produit");
    put_line("2. Quitter");
-   Put("participe a l'etude : "); Put(T.Test.Etude.Etu.Id);    
+               Put("participe a l'etude : ");
+               if T.Test.Etude/=null then Put(T.Test.Etude.Etu.Id); 
+               else put("aucune"); end if;new_line;
    put_line("Faites votre choix");
-            loop 
-               begin
-                  Get(Choix);Skip_Line;
-                  if Choix in 1..2 then exit;
-                  end if;
-               exception
-                  when Data_Error =>
-                     Skip_Line;
-                     Put_Line("erreur de saisie");
-               end; 
-            end loop;
+                  Secure_Saisie(choix,2);
          case Choix is
-               when 1 => Put("modifier l'etude"); --procedure 
+               when 1 => Put_line("modifier l'etude"); Modification_Etude_Retour(T);
                when others => exit;
             end case;
-         end loop;
+               end loop; 
+      else put_line("mauvais identifiant"); end if;--a voir s'il n'y a pas la procedure de connexion
       when others => Clear_Screen (Black);exit;
       end case;
-   end loop;
+      end loop;
 end Main;
 
    

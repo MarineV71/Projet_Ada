@@ -25,7 +25,7 @@ package body Gestion_Testeuse is
          end if;
       end Verif_Saisie_Testeuse;
       
-      function Verif_Testeuse_Etude (tete_etu:pteur_etude; Tete_Test: Pteur_Testeuse) return pteur_testeuse is
+      function Verif_Testeuse_Etude (tete_etu:pteur_etude; Tete_Test: Pteur_Testeuse) return pteur_testeuse is --verifie si la testeuse peut participer a l'etude
       begin
          if tete_test/=null then
             if Tete_test=null then return(null);
