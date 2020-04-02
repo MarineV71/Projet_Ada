@@ -193,6 +193,7 @@ begin
             when 3 =>
                
                Clear_Screen (Black);
+               C:=trouve_charge(C,P);               
                loop
                   Put_Line("-----------------------------------------------------------");
                   Put_Line("--                  MENU CHARGE D'ETUDE                  --");
@@ -230,6 +231,7 @@ begin
             when others =>
 
                Clear_Screen (Black);
+               T:=trouve_testeuse(T,P);
                loop
                   Put_Line("-----------------------------------------------------------");
                   Put_Line("--                     MENU TESTEUSE                     --");
