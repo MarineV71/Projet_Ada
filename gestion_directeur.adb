@@ -724,7 +724,7 @@ package body Gestion_Directeur is
    begin
       if Tete = null then
          Erreur := True ;
-      elsif To_Lower(Tete.Secr.Id.Nom)=to_lower(S.Nom) and then To_Lower(Tete.Secr.Id.Prenom) = to_lower(S.Prenom) then
+      elsif To_Lower(Tete.Secr.Id.Nom)=To_Lower(S.Nom) and then To_Lower(Tete.Secr.Id.Prenom) = To_Lower(S.Prenom) then
          Erreur:=False;
          Tete:=Tete.Secre_Suiv;
       else
@@ -742,7 +742,7 @@ package body Gestion_Directeur is
    begin
       if Tete = null then
          Erreur := True ;
-      elsif To_Lower(Tete.Charge.Id.Nom) = To_Lower(Ce.Nom) and then to_lower(Tete.Charge.Id.Prenom) = To_Lower(Ce.Prenom) then
+      elsif To_Lower(Tete.Charge.Id.Nom) = To_Lower(Ce.Nom) and then To_Lower(Tete.Charge.Id.Prenom) = To_Lower(Ce.Prenom) then
          Erreur:=False;
          --Verifier si etude en cours et reattribution
          --appel de la procedure d'attribution des etudes aux charges etudes
@@ -758,23 +758,23 @@ package body Gestion_Directeur is
          Tete   : in out Pteur_Testeuse;
          Tstse  : in     T_Personne;
          Erreur :    out Boolean) is
-   
+
    begin
-      
+
       if Tete = null then
          Erreur := True ;
-      
+
       elsif To_Lower(Tete.Test.Id.Nom)=To_Lower(Tstse.Nom) and then To_Lower(Tete.Test.Id.Prenom) = To_Lower(Tstse.Prenom) then
-         --verif de la presence de la testeuse dans une etude 
+         --verif de la presence de la testeuse dans une etude
          if Tete.Test.Etude /= null then
             Put("Cette testeuse est actuellement engagee dans une etude");
             New_Line;
-            erreur := true;
+            Erreur := True;
          else
             Erreur:=False;
             Tete:=Tete.Test_Suiv;
          end if;
-          
+
       else
          Supp_Testeuse(Tete.Test_Suiv, Tstse, Erreur);
       end if;
@@ -797,29 +797,29 @@ package body Gestion_Directeur is
 
       Put("Enregistrement du depart d'un employe");
       New_Line;
---      Saisie_Personne(Emp);
---      loop
-         Put("Vous enregistrez le depart d'un(e) secretaire (1), d'un(e) charge d'etude (2) ou d'une testeuse (3)");
-         New_Line;
-         Put("Faite votre choix : 1 ou 2 ou 3");
-         Secure_Saisie(Choix,3);
-         new_line;
-         Saisie_Personne(Emp);
-         new_line;
-         case Choix is
-            when 1 =>
-               Supp_Secr(P_Secr, Emp,Erreur);
-            when 2 =>
-               Supp_Charge(P_Charge, Emp, Erreur);
-            when others =>
-               Supp_Testeuse(P_Testeuse, Emp, Erreur);
-         end case;
-         if Erreur then
-            Fait:=False;
-         else
-            Fait:=True;
-         end if;
---      end loop;
+      --      Saisie_Personne(Emp);
+      --      loop
+      Put("Vous enregistrez le depart d'un(e) secretaire (1), d'un(e) charge d'etude (2) ou d'une testeuse (3)");
+      New_Line;
+      Put("Faite votre choix : 1 ou 2 ou 3");
+      Secure_Saisie(Choix,3);
+      New_Line;
+      Saisie_Personne(Emp);
+      New_Line;
+      case Choix is
+         when 1 =>
+            Supp_Secr(P_Secr, Emp,Erreur);
+         when 2 =>
+            Supp_Charge(P_Charge, Emp, Erreur);
+         when others =>
+            Supp_Testeuse(P_Testeuse, Emp, Erreur);
+      end case;
+      if Erreur then
+         Fait:=False;
+      else
+         Fait:=True;
+      end if;
+      --      end loop;
    end Dprt_Emp;
 
    --------------------------------------------------
@@ -1044,12 +1044,13 @@ package body Gestion_Directeur is
 
    -------------------------------------------------------------------------------------
    procedure Connexion_Log (
-         Cat      : in     Integer;
-         P_Dir    : in     Pteur_Directeur;
-         P_Secr   : in     Pteur_Secretaire;
-         P_Charge : in     Pteur_Charge;
-         P_Test   : in     Pteur_Testeuse;
-         Connecte : in out Boolean) is
+         Cat            : in     Integer;
+         P_Dir          : in     Pteur_Directeur;
+         P_Secr         : in     Pteur_Secretaire;
+         P_Charge       : in     Pteur_Charge;
+         P_Test         : in     Pteur_Testeuse;
+         Connecte       : in out Boolean;
+         Info_Connexion :    out T_Personne) is
 
       Connexion : T_Personne;
       K         : Integer;
@@ -1072,6 +1073,7 @@ package body Gestion_Directeur is
                if P_Aux1.Dir.Id.Login = To_Lower(Connexion.Login) then
                   Param_N := P_Aux1.Dir.Id.N;
                   Mdp_Cryp := P_Aux1.Dir.Id.Mdp;
+                  Connexion.Mdp := P_Aux1.Dir.Id.Mdp;
                   exit;
                else
                   P_Aux1 := P_Aux1.Dir_Suiv;
@@ -1123,7 +1125,7 @@ package body Gestion_Directeur is
             else
                Verif := False;
             end if;
-            --Verif:= Verif_Dir(Connexion.Login,Connexion.Mdp);
+
             exit when Verif= True or Cpt = 3;
             New_Line;
             Put("Le mot de passe ne correspond pas ! Retentez ... ");
@@ -1131,6 +1133,9 @@ package body Gestion_Directeur is
          end loop;
          if Verif then
             Connecte := True;
+            --Recup des infos de connexion
+            Info_Connexion.Login := Connexion.Login;
+            Info_Connexion.Mdp := Mdp_Cryp;
             --Si retour True dans le Prg principal alors affichage menu employe
          else
             Connecte := False;

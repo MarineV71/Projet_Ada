@@ -7,7 +7,7 @@ procedure Main is
    I          : Pteur_Incluse;
    S          : Pteur_Secretaire;
    T          : Pteur_Testeuse;
-   P          : T_Personne;
+   P,Info_Connexion          : T_Personne;
    Choix,
    Cat,
    Id         : Integer;
@@ -22,8 +22,8 @@ begin
    Visualiser_Liste_Emp (S,C,D);
    --   Enr_Nvl_Emp (S,C,D,Erreur);
    --   Visualiser_Liste_Emp (S,C,D);
-   Dprt_Emp (S,C,T,Fait);
-   Visualiser_Liste_Emp (S,C,D);
+   --Dprt_Emp (S,C,T,Fait);
+   --Visualiser_Liste_Emp (S,C,D);
 
 
    loop
@@ -44,7 +44,8 @@ begin
       New_Line;
       Secure_Saisie(Cat,5);
       if Cat/=5 then
-         Connexion_Log (Cat,D,S,C,T,Connect);
+         Connexion_Log (Cat,D,S,C,T,Connect,Info_Connexion);
+         Put(Info_Connexion.Login);
       else
          Put("Sortie");
          exit;
@@ -157,9 +158,10 @@ begin
                         Put("Votre choix");
                         Secure_Saisie(Choix,2);
                         if Choix = 1 then
-                           null;
+                           Vis_Liste_Testeuse (T);
                         else
-                           null;
+                           Vis_Testeuse_Spe (T,Nom,Prenom);
+
                         end if;
 
 
