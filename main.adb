@@ -7,7 +7,7 @@ procedure Main is
    I          : Pteur_Incluse;
    S          : Pteur_Secretaire;
    T          : Pteur_Testeuse;
-   P,Info_Connexion          : T_Personne;
+   Info_Connexion          : T_Personne;
    Choix,
    Cat,
    Id         : Integer;
@@ -193,7 +193,7 @@ begin
             when 3 =>
                
                Clear_Screen (Black);
-               C:=trouve_charge(C,P);               
+               C:=trouve_charge(C,Info_Connexion);               
                loop
                   Put_Line("-----------------------------------------------------------");
                   Put_Line("--                  MENU CHARGE D'ETUDE                  --");
@@ -231,7 +231,7 @@ begin
             when others =>
 
                Clear_Screen (Black);
-               T:=trouve_testeuse(T,P);
+               T:=trouve_testeuse(T,Info_Connexion);
                loop
                   Put_Line("-----------------------------------------------------------");
                   Put_Line("--                     MENU TESTEUSE                     --");
