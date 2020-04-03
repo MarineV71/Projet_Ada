@@ -13,8 +13,7 @@ package body Gestion_Etude is
       Get_Line(Emp.Nom,K_nom);
       Put("Prenom =>");
       Get_Line(Emp.Prenom,K_Prenom);
-      Put(Emp.Nom);New_Line;
-      Put(Emp.Prenom);Put("ok");
+
 
       --Formation du login pour la connexion
       -- prenom.nom
