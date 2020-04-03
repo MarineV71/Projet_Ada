@@ -1,5 +1,5 @@
-with Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
-use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
+with Ada.Text_Io,  Ada.Characters.Handling;
+use Ada.Text_Io, Ada.Characters.Handling;
 package body Gestion_Etude is
 
    procedure Saisie_Personne (
@@ -51,21 +51,22 @@ package body Gestion_Etude is
    procedure Nv_Etude_Cloturee (
          P_Etude_Clo : in out Pteur_Etude) is
       P_Incl : Pteur_Incluse := P_Etude_Clo.Etu.P_Testeuse;
-      Moy,
+      Moy   :float:=0.0;
       Cpt    : Integer       := 0;
    begin
       if P_Etude_Clo.Etu.Statut=Cloturee then
          while P_Incl/=null loop
             if P_Incl.Incl.Nj_Jour_Test>=4 then
-               Moy:=Moy+P_Incl.Incl.Note;
+               Moy:=Moy+float(P_Incl.Incl.Note);
                Cpt:=Cpt+1;
             end if;
-            if P_Etude_Clo.Etu.Risque=False and then P_Incl.Incl.Pb=True then
+               if P_Incl.Incl.Pb=True then
                P_Etude_Clo.Etu.Risque:=True;
-            end if;
+               end if;
             P_Incl:=P_Incl.Incl_Suiv;
          end loop;
-         P_Etude_Clo.Etu.Note_Moy:=Moy/Cpt;
+         P_Etude_Clo.Etu.Nb_Significatif:=Cpt;
+         P_Etude_Clo.Etu.Note_Moy:=Moy/float(Cpt);
       end if;
    end Nv_Etude_Cloturee;
 

@@ -19,9 +19,10 @@ package Gestion_Testeuse is
       test_Suiv : Pteur_Testeuse;
    end record;
    function trouve_testeuse(Tete_T: Pteur_testeuse;personne: T_Personne)return pteur_testeuse;
-function Verif_Saisie_Testeuse (Tete_testeuse: Pteur_testeuse; N,P:T_Mot) return pteur_testeuse;
+function Verif_Saisie_Testeuse (Tete_testeuse: Pteur_testeuse; N,P:T_Mot) return boolean;
  function Verif_Testeuse_Etude (tete_etu:pteur_etude; Tete_Test: Pteur_Testeuse) return pteur_testeuse;
  procedure Modification_Etude_Retour (P_Test:in out Pteur_Testeuse);
  procedure Ajout_Etude_Testeuse (Teste: in out Pteur_Testeuse; P_Etude:Pteur_Etude; N,P:T_Mot);
- procedure Ajout_Debut_Etu_Test (T:in out Pteur_Testeuse; ET:in Pteur_Etude);
+ procedure Ajout_Debut_Etu_Test (T:in out Pteur_Testeuse; Et:in Pteur_Etude);
+ procedure Enregistre_Testeuse(T:in out Pteur_Testeuse;T_Aux:Pteur_Testeuse);
 end Gestion_Testeuse;

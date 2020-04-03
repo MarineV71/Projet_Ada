@@ -1,5 +1,5 @@
-with Ada.Text_Io,Ada.Integer_Text_Io;
-use Ada.Text_Io,Ada.Integer_Text_Io;
+with Ada.Text_Io,ada.Float_Text_IO,Ada.Integer_Text_Io;
+use Ada.Text_Io,ada.Float_Text_IO, Ada.Integer_Text_Io;
 package body Gestion_Charge_Etude is
    function Trouve_Charge (
          Tete_C   : Pteur_Charge;
@@ -119,10 +119,11 @@ package body Gestion_Charge_Etude is
          Tete_Charge : Pteur_Charge;
          Id_Etu      : Integer) is
       T   : Tab_Etude     := Tete_Charge.Charge.Etude_En_Charge;
-      Inc : Pteur_Incluse;
+      Inc : Pteur_Incluse; 
    begin
+     
       for I in T'range loop
-         if Id_Etu=T(I).Etu.Id then
+         if Id_Etu=T(I).Etu.Id and then t(i).etu.statut/=cloturee then
             Put("Affichage de l etude numero");
             Put(T(I).Etu.Id);
             New_Line;
@@ -149,9 +150,26 @@ package body Gestion_Charge_Etude is
             New_Line;
             Inc:=T(I).Etu.P_Testeuse;
             Affiche_Testeuse_Incluse(Inc);
-         else 
-            put(" ");
-         end if;--faudra relier cette procedure avec afffiche_liste_etude
+         elsif Id_Etu=T(I).Etu.Id and then t(i).etu.statut=cloturee then
+            Put("Statut de l'etude : ");
+            Put(T_Statut'Image(T(I).Etu.Statut));
+            New_Line;
+            Put("Nom du produit teste : ");
+            Put(T(I).Etu.Produit.Nom_P);
+            New_Line;
+            Put("Note moyenne : ");
+            Put(T(I).Etu.Note_moy,Exp =>0, Aft => 2);
+            New_Line;
+            Put("nombre de testeuses significatives : ");
+            Put(t(i).etu.nb_significatif);
+            New_Line;
+            if T(I).Etu.Risque then
+               Put("Produit non sur");
+            else
+               Put("Produit sur");
+            end if;
+            New_Line;
+         end if;
       end loop;
    end Affiche_Detail_Etude;
 
@@ -185,33 +203,40 @@ package body Gestion_Charge_Etude is
       T         : Tab_Etude          := Tete_Charge.Charge.Etude_En_Charge;
       Tete_Incl : Pteur_Incluse;
       Incl      : T_Personne_Incluse;
-      Id_Etu    : Integer;
-      Nom,
-      Prenom    : T_Mot;
-      Fait      : Boolean            := False;
+      nom, prenom :t_mot;
+      Id_Etu,
+      K         : Integer;
+      Fait,ok      : Boolean            := False;
    begin
       Put("saisir l'id de l'etude");
-      Get(Id_Etu);
-      Skip_Line;
+      Secure_Saisie(Id_Etu,Id_Etu);
       for I in T'range loop
          if Fait=False then
-            if Id_Etu=T(I).Etu.Id then --verifie que l'etude existe
+            if Id_Etu=T(I).Etu.Id then
+               Fait:=True;--l'etude existe
                if T(I).Etu.Statut=Cree then
+                  Nom:=(others=>' ');
+                  prenom:=(others=>' ');
                   Put("saisir le nom de la testeuse :");
-                  Get(Nom);
-                  Skip_Line;
+                  Get_Line(Nom,K);
                   Put("saisir le prenom de la testeuse :");
-                  Get(Prenom);
-                  Skip_Line;
+                  Get_Line(prenom,K); 
                   Tete_Incl:=T(I).Etu.P_Testeuse;
-                  Tete_Test:=Verif_Saisie_Testeuse(Tete_Test,Nom,Prenom);
-                  Tete_Test:=Verif_Testeuse_Etude(T(I), Tete_Test);
+                  while Tete_Test/=null and then ok=false loop
+                    ok:=verif_saisie_testeuse(Tete_Test,nom, prenom);
+                     if Ok then
+                        Tete_Test:=Verif_Testeuse_Etude(T(I), Tete_Test);
+                     else
+                        Tete_Test:=Tete_Test.Test_Suiv;
+                     end if;
+                  end loop;
+                  
                   if Tete_Test/=null then --si la testeuse peut etre inclus dans l'etude, l'ajouter et lui donner un pteur d'etude
                      Incl.Nom:=Nom;
-                     Incl.Prenom:=Prenom;
+                     Incl.Prenom:=prenom;
                      Nv_Incluse(Incl,Tete_Incl);
                      Tete_Test.Test.Etude:=T(I);
-                     Fait:=True;
+
                      T(I).Etu.P_Testeuse:=Tete_Incl;--remplace le pointeur des incluses du charge
                      T(I).Etu.Nb_Testeuse:=T(I).Etu.Nb_Testeuse+1;--peut etre fait en procedure
                      Put("fait");
@@ -221,13 +246,14 @@ package body Gestion_Charge_Etude is
                      Put_Line("cette testeuse ne peut pas participer a cette etude");
                   end if;
                else
-                  Put_Line("l'etude n'a plus le statut creee");
+                  Put_Line("cette etude n'a plus le statut cree");
                end if;
-            else
-               Put_Line("l'etude ne fait pas partie de vos etudes");
             end if;
          end if;
       end loop;
+      if Fait=False then
+         Put_Line("la modification n'est pas possible, verifiez l'id de votre etude");
+      end if;
    end Ajout_Testeuse;
 
    procedure Modif_Statut (
@@ -236,8 +262,7 @@ package body Gestion_Charge_Etude is
       Id_Etu : Integer;
    begin
       Put("saisir l'id de l'etude");
-      Get(Id_Etu);
-      Skip_Line;
+      Secure_Saisie(Id_Etu,Id_Etu);
       for I in T'range loop
          if Id_Etu=T(I).Etu.Id then
             if T(I).Etu.Statut/=T_Statut'Last then
@@ -247,10 +272,27 @@ package body Gestion_Charge_Etude is
                Put(T_Statut'Image(T(I).Etu.Statut));
                New_Line;
                New_Line;
+               if T(I).Etu.Statut=Cloturee then
+                  Nv_Etude_Cloturee(T(I));
+               end if;
             end if;
          end if;
       end loop;
+            
    end Modif_Statut;
+   
+   procedure Enregistre_Charge (C:in out Pteur_Charge; C_Aux:in Pteur_Charge) is
+   ok:boolean;
+   begin
+      if c/=null then
+      Ok:=Verif_Saisie_Charge(C,C_Aux.charge.Id.Nom, C_Aux.charge.Id.Prenom);
+      if ok then 
+         C.Charge:=C_Aux.Charge;
+      else
+         Enregistre_Charge(C.Charge_Suiv,C_Aux);
+         end if;
+         end if;
+      end enregistre_charge;
 end Gestion_Charge_Etude;
 
 

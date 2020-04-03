@@ -47,7 +47,7 @@ package Gestion_Etude is
       nom_charge, prenom_charge : t_Mot := (others=>' ');
       Statut : T_Statut := Cree; 
       P_Testeuse : Pteur_Incluse;
-      Note_Moy : Integer := -1;
+      Note_Moy : Float := 0.0;
       Nb_Significatif : Integer :=0;
       Risque : Boolean:=false;
    end record;
@@ -68,7 +68,7 @@ package Gestion_Etude is
       Produit : T_Produit;
       Nb_Testeuse : Integer :=0;
       nom_charge, prenom_charge : t_mot := (others=>' ');
-      Note_Moy : Integer := -1;
+      Note_Moy : float := 0.0;
       Nb_Significatif : Integer :=0;
       Risque : Boolean;
   end record;

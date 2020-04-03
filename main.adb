@@ -2,12 +2,12 @@ with Nt_Console, Ada.Text_Io,Ada.Integer_Text_Io,Gestion_Etude,Gestion_Secretair
 use Nt_Console, Ada.Text_Io,Ada.Integer_Text_Io,Gestion_Etude,Gestion_Secretaire,Gestion_Charge_Etude,Gestion_Testeuse,Gestion_Directeur,Connexion;
 procedure Main is
    Tete_Etude : Pteur_Etude;
-   C          : Pteur_Charge;
+   C, c_aux          : Pteur_Charge;
    D          : Pteur_Directeur;
    I          : Pteur_Incluse;
    S          : Pteur_Secretaire;
-   T          : Pteur_Testeuse;
-   Info_Connexion          : T_Personne;
+   T, t_aux          : Pteur_Testeuse;
+   Info_Connexion : T_Personne;
    Choix,
    Cat,
    Id         : Integer;
@@ -27,6 +27,8 @@ begin
 
 
    loop
+      Info_Connexion.login:=(others => ' ');
+      Info_Connexion.mdp:=(others => ' ');
       -----------------------------------------------------------
       --                       CONNEXION                       --
       -----------------------------------------------------------
@@ -191,9 +193,9 @@ begin
 
 
             when 3 =>
-               
+               c_aux:=c;
                Clear_Screen (Black);
-               C:=trouve_charge(C,Info_Connexion);               
+               C_aux:=trouve_charge(C,Info_Connexion);               
                loop
                   Put_Line("-----------------------------------------------------------");
                   Put_Line("--                  MENU CHARGE D'ETUDE                  --");
@@ -209,29 +211,30 @@ begin
                   case Choix is
 
                      when 1 =>
-                        Ajout_Testeuse (C,T);
+                        Ajout_Testeuse(C_aux,T);
 
                      when 2 =>
-                        Affiche_Liste_Etude (C);
+                        Affiche_Liste_Etude (C_aux);
                         Put("Visualiser les details d'une etude :");
                         Secure_Saisie(Id,999);
-                        Affiche_Detail_Etude (C, Id);
+                        Affiche_Detail_Etude (C_aux, Id);
 
                      when 3 =>
-                        Modif_Statut(C);
+                        Modif_Statut(C_aux);
 
                      when others =>
-                        Put("sortie");
+                        Put("sortie");new_line;
                         exit;
 
                   end case;
                end loop; --Fin de la boucle d'affichage du menu Charge
+                  enregistre_charge(c,c_aux);
 
             
             when others =>
-
+               t_aux:=t;
                Clear_Screen (Black);
-               T:=trouve_testeuse(T,Info_Connexion);
+               T_aux:=trouve_testeuse(T_aux,Info_Connexion);
                loop
                   Put_Line("-----------------------------------------------------------");
                   Put_Line("--                     MENU TESTEUSE                     --");
@@ -240,8 +243,8 @@ begin
                   Put_Line("2. Quitter");
 
                   Put("participe a l'etude : ");
-                  if T.Test.Etude/=null then
-                     Put(T.Test.Etude.Etu.Id);
+                  if T_aux.Test.Etude/=null then
+                     Put(T_aux.Test.Etude.Etu.Id);
                   else
                      Put("aucune");
                   end if;
@@ -253,15 +256,14 @@ begin
                   case Choix is
 
                      when 1 =>
-                        Put_Line("modifier l'etude");
-                        Modification_Etude_Retour(T);
+                        Modification_Etude_Retour(T_aux);
 
                      when others =>
                         exit;
 
                   end case;
                end loop; --Fin de la boucle d'affichage du menu testeuse
-
+            enregistre_testeuse(T,t_aux);
 
 
          end case; -- Fin du case pour l'affichage des differents menus
@@ -273,4 +275,3 @@ begin
 end Main;
 
    
-

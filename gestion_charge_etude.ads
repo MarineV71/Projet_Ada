@@ -36,6 +36,6 @@ package Gestion_Charge_Etude is
    procedure Affiche_Testeuse_Incluse(Tete_Inclu: Pteur_Incluse);
    procedure Ajout_Testeuse (Tete_Charge: Pteur_Charge; tete_test: in out pteur_testeuse);
    procedure Modif_Statut(P_Charge:in out Pteur_Charge);
-   
+   procedure enregistre_charge(c:in out pteur_charge; c_aux : in pteur_charge);
 
 end Gestion_Charge_Etude;
