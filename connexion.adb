@@ -35,12 +35,12 @@ package body Connexion is
       --Initialise(0,25);
       --N:= Random;
       --P.N:=N;
-      Put("Veuillez saisir un mot de passe de 10 caractères");
+      Put("Veuillez saisir un mot de passe de 10 caracteres");
       New_Line;
       loop
          Get(C);
          case C is
-            --Utilisation des codes ASCII des caractères (valeurs numériques)
+            --Utilisation des codes ASCII des caractÃ¨res (valeurs numeriques)
             when 'A'..'Z'=>
                C:=To_Lower(C);
                if Character'Pos(C)+ N > 122 then
