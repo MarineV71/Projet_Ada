@@ -1,6 +1,8 @@
-with Ada.Text_Io,Ada.Integer_Text_Io, Ada.Characters.Handling,Aleatoire;
-use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling,Aleatoire;
+with Ada.Text_Io,Ada.Integer_Text_Io,Ada.Float_Text_Io, Ada.Characters.Handling,Aleatoire;
+use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Float_Text_Io,Ada.Characters.Handling,Aleatoire;
 package body Gestion_Directeur is
+   
+   
    procedure Aj_User (
          Direc :    out Pteur_Directeur;
          Chg   :    out Pteur_Charge;
@@ -511,10 +513,12 @@ package body Gestion_Directeur is
 
 
 
-
-   --------------------------------------------------
-   -- procedure d'ajout d'employes & etudes
-   --------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ----------------------- PROCEDURE AJOUT EMPLOYE ET ETUDES -----------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Ajout_Secr (
          P_Secr : in out Pteur_Secretaire;
          S      : in     T_Secretaire) is
@@ -526,7 +530,9 @@ package body Gestion_Directeur is
       end if;
    end Ajout_Secr;
 
-   -------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Ajout_Charge (
          P_Charge : in out Pteur_Charge;
          Ce       : in     T_Charge_Etude) is
@@ -538,7 +544,9 @@ package body Gestion_Directeur is
       end if;
    end Ajout_Charge;
 
-   -------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Ajout_Directeur (
          P_Dir     : in out Pteur_Directeur;
          Directeur : in     T_Directeur) is
@@ -550,13 +558,14 @@ package body Gestion_Directeur is
       end if;
    end Ajout_Directeur;
 
-   --------------------------------------------------------
-   --------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
 
    procedure Creation_Etude (
-         Tete_Etude : in out Pteur_Etude;
-         Etude      : in out T_Etude;
-         P_Charge   : in out Pteur_Charge) is
+         Tete_Etude   : in out Pteur_Etude;
+         Etude        : in out T_Etude;
+         P_Charge     : in out Pteur_Charge;
+         Nb_Etude_Cro : in out Integer) is
       K,
       Kn,
       Kp,
@@ -566,45 +575,96 @@ package body Gestion_Directeur is
       N,
       P     : T_Mot;
       Ok    : Boolean;
+      
    begin
-      Put("creation d'une nouvelle etude :");
+      
+      Put("Creation d'une nouvelle etude :");
       New_Line;
-      if Tete_Etude=null then
-         Etude.Id:=1;
-      else
-         Etude.Id:=Tete_Etude.Etu.Id+1;
-      end if;
-      Put("saisir le nom du produit :");
+      --L'ID est unique et vaut le nb d'etudes deja realisees +1
+      Etude.Id:=Nb_Etude_Cro+1;
+
+      -- Saisie du produit
+      Put("Saisir le nom du produit :");
       Get_Line(Etude.Produit.Nom_P,K);
-      Put("saisir la categorie du produit :");
-      -- loop
-      Get_Line(S,K);
-      Etude.Produit.Cat:=T_Categorie'Value(S(1..K));
-      -- if Etude.Produit.Cat then
-      --  exit;
-      -- else
-      --  Put("erreur de saisie");
-      -- end if;
-      --end loop;
-      Put("saisir la tranche d'age");
-      Get(Etude.Produit.Age_Min, Etude.Produit.Age_Max);
-      Skip_Line;
+      Put("Saisir la categorie du produit :");
+      New_Line;
+      Put("1.Creme de jour");
+      New_Line;
+      Put("2.Soin de nuit");
+      New_Line;
+      Put("3.Lait corporel");
+      New_Line;
+      Put("4.Lotion visage");
+      New_Line;
+      Put("5.Gel douche");
+      New_Line;
+      Put("6.Solaire");
+      New_Line;
+      Put("=> ");
+      Secure_Saisie(Choix,6);
+      New_Line;
+      case Choix is
+         when 1 =>
+            Etude.Produit.Cat:=T_Categorie'Val(0);
+         when 2 =>
+            Etude.Produit.Cat:=T_Categorie'Val(1);
+         when 3 =>
+            Etude.Produit.Cat:=T_Categorie'Val(2);
+         when 4 =>
+            Etude.Produit.Cat:=T_Categorie'Val(3);
+         when 5 =>
+            Etude.Produit.Cat:=T_Categorie'Val(4);
+         when others =>
+            Etude.Produit.Cat:=T_Categorie'Val(5);
+      end case;
+
+      Put("Il s'agit d'un produit pour ... ");
+      Put("1.Tout Age => 15 a 75 ans");
+      New_Line;
+      Put("2.Peau jeune => 15 a 25 ans");
+      New_Line;
+      Put("3.Peau adulte => 26 a 55 ans");
+      New_Line;
+      Put("4.Peau mature => 56 a 75 ans");
+      New_Line;
+      Put("Votre choix");
+      New_Line;
+      Secure_Saisie(Choix,4);
+      New_Line;
+      case Choix is
+         when 1 =>
+            Etude.Produit.Age_Min := 15;
+            Etude.Produit.Age_Max := 75;
+         when 2 =>
+            Etude.Produit.Age_Min :=15 ;
+            Etude.Produit.Age_Max := 25;
+         when 3 =>
+            Etude.Produit.Age_Min := 26;
+            Etude.Produit.Age_Max := 55;
+         when others =>
+            Etude.Produit.Age_Min := 56;
+            Etude.Produit.Age_Max := 75;
+      end case;
+
+
       Put("saisir le nom de l'entreprise");
       Get_Line(Etude.Produit.Entreprise,K);
       Put_Line("Saisir (1) pour attribution manuelle du charge de l'etude ou (2) pour attribution automatique");
       Put("saisir votre choix :");
-      Get(Choix);
-      Skip_Line;
+      Secure_Saisie(Choix,2);
+      New_Line;
+      -- Procedures d'attribution et creation nouvelle etudedans le package body de 
       case Choix is
-         when 1 =>
+
+         when 1 => --Attribution manuelle
             loop
                Put("saisir le nom de charge de l'etude :");
                Get_Line(N,Kn); --saisie securisee si le charge n'existe pas ou si son nombre d'etude est plein
                Put("saisir le prenom du charge d'etude :");
                Get_Line(P,Kn);
-               Ok:= Verif_Saisie_Charge(P_Charge,N,P); --JE NE SAIS PAS S'IL FAUT AUSSI METTRE KN ET KP
+               Ok:= Verif_Saisie_Charge(P_Charge,N,P); 
                if Ok then
-                  Cpt:=Cpt_Etude_Charge(P_Charge,N,P); --IDEM
+                  Cpt:=Cpt_Etude_Charge(P_Charge,N,P);
                   if Cpt<3 then
                      Etude.Nom_Charge:=N(1..Kn);
                      Etude.Prenom_Charge:=P(1..Kp);
@@ -616,12 +676,15 @@ package body Gestion_Directeur is
                   end if;
                end if;
             end loop;
-         when 2 =>
+
+         when others => --Attribution automatique
             Repartition_Etude_Charge (Etude, P_Charge, Tete_Etude);
-         when others=>
-            Put("erreur de saisie");
+
       end case;
    end Creation_Etude;
+
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
 
    procedure Enr_Nvl_Emp (
          P_Secr   : in out Pteur_Secretaire;
@@ -646,38 +709,43 @@ package body Gestion_Directeur is
       Initialise(0,25);
       N := Random;
 
-      loop
-         Put("Vous enregistrez un(e) secretaire (1) ou un(e) charge d'etude (2) ou un directeur (3)");
-         New_Line;
-         Put("Faite votre choix : 1 ou 2 ou 3");
-         Get(Choix);
-         Skip_Line;
-         exit when Choix in 1..3;
-         Put("Choix invalide, veuillez recommencez !");
-      end loop;
+
+      Put("Vous enregistrez un(e) secretaire (1) ou un(e) charge d'etude (2) ou un directeur (3)");
+      New_Line;
+      Put("Faite votre choix : 1 ou 2 ou 3");
+      Secure_Saisie(Choix,3);
+      New_Line;
 
       case Choix is
+
+         --Ajout d'un(e) secretaire
          when 1 =>
             Saisie_Personne(Emp);
             while P_Aux1/=null loop
-               if P_Aux1.Secr.Id.Nom=Emp.Nom and then P_Aux1.Secr.Id.Prenom=Emp.Prenom then
+               if To_Lower(P_Aux1.Secr.Id.Nom)=To_Lower(Emp.Nom) 
+                  and then To_Lower(P_Aux1.Secr.Id.Prenom)=To_Lower(Emp.Prenom) then
                   Existe:=True;
                else
                   P_Aux1:=P_Aux1.Secre_Suiv;
                end if;
             end loop;
+
             if Existe=False then
                Cryp_Mdp(Emp,N);
+               Emp.Nom := To_Upper(Emp.Nom);
                Secr.Id:=Emp;
                Ajout_Secr(P_Secr, Secr);
             else
                Put("Une personne avec cette identite existe deja !");
                New_Line;
             end if;
+
+         --Ajout d'un(e) charge(e) d'etude
          when 2 =>
             Saisie_Personne(Emp);
             while P_Aux2/=null loop
-               if P_Aux2.Charge.Id.Nom=Emp.Nom and then P_Aux2.Charge.Id.Prenom=Emp.Prenom then
+               if To_Lower(P_Aux2.Charge.Id.Nom)=To_Lower(Emp.Nom)
+                  and then To_Lower(P_Aux2.Charge.Id.Prenom)=To_Lower(Emp.Prenom) then
                   Existe:=True;
                else
                   P_Aux2:=P_Aux2.Charge_Suiv;
@@ -685,16 +753,20 @@ package body Gestion_Directeur is
             end loop;
             if Existe=False then
                Cryp_Mdp(Emp,N);
+               Emp.Nom := To_Upper(Emp.Nom);
                Charge_Et.Id:=Emp;
                Ajout_Charge(P_Charge, Charge_Et);
             else
                Put("Une personne avec cette identite existe deja !");
                New_Line;
             end if;
+
+         --Ajout d'un(e) directeur/trice
          when others =>
             Saisie_Personne(Emp);
             while P_Aux3/=null loop
-               if P_Aux3.Dir.Id.Nom=Emp.Nom and then P_Aux3.Dir.Id.Prenom=Emp.Prenom then
+               if To_Lower(P_Aux3.Dir.Id.Nom)=To_Lower(Emp.Nom)
+                   and then To_Lower(P_Aux3.Dir.Id.Prenom)=To_Lower(Emp.Prenom) then
                   Existe:=True;
                else
                   P_Aux3:=P_Aux3.Dir_Suiv;
@@ -702,6 +774,7 @@ package body Gestion_Directeur is
             end loop;
             if Existe=False then
                Cryp_Mdp(Emp,N);
+               Emp.Nom := To_Upper(Emp.Nom);
                Directeur.Id:=Emp;
                Ajout_Directeur(P_Dir, Directeur);
             else
@@ -712,10 +785,13 @@ package body Gestion_Directeur is
       end case;
 
    end Enr_Nvl_Emp;
-
-   --------------------------------------------------
-   -- procedure de suppression des employes
-   --------------------------------------------------
+   
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ----------------- Procedures de suppression des employes ------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Supp_Secr (
          Tete   : in out Pteur_Secretaire;
          S      : in     T_Personne;
@@ -724,7 +800,8 @@ package body Gestion_Directeur is
    begin
       if Tete = null then
          Erreur := True ;
-      elsif To_Lower(Tete.Secr.Id.Nom)=To_Lower(S.Nom) and then To_Lower(Tete.Secr.Id.Prenom) = To_Lower(S.Prenom) then
+      elsif To_Lower(Tete.Secr.Id.Nom)=To_Lower(S.Nom) 
+         and then To_Lower(Tete.Secr.Id.Prenom) = To_Lower(S.Prenom) then
          Erreur:=False;
          Tete:=Tete.Secre_Suiv;
       else
@@ -732,28 +809,128 @@ package body Gestion_Directeur is
       end if;
 
    end Supp_Secr;
-
-   ---------------------------------------------------
+   
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Supp_Charge (
-         Tete   : in out Pteur_Charge;
-         Ce     : in     T_Personne;
-         Erreur :    out Boolean) is--mettre recup
+         Tete      : in out Pteur_Charge;
+         P_Etude   : in out Pteur_Etude;
+         Ce        : in     T_Personne;
+         Erreur    :    out Boolean;
+         F         : in out P_Fichier_Archive.File_Type;
+         Recup_Tab :    out Tab_Etude) is
+      --      Recup_Tab : Tab_Etude;
+      Ptc,
+      Min      : Pteur_Charge := Tete;
+      P_Aux_Et : Pteur_Etude  := P_Etude;
+
 
    begin
+
       if Tete = null then
          Erreur := True ;
-      elsif To_Lower(Tete.Charge.Id.Nom) = To_Lower(Ce.Nom) and then To_Lower(Tete.Charge.Id.Prenom) = To_Lower(Ce.Prenom) then
+
+      elsif To_Lower(Tete.Charge.Id.Nom) = To_Lower(Ce.Nom) 
+         and then To_Lower(Tete.Charge.Id.Prenom) = To_Lower(Ce.Prenom) then
          Erreur:=False;
-         --Verifier si etude en cours et reattribution
-         --appel de la procedure d'attribution des etudes aux charges etudes
-         Tete:=Tete.Charge_Suiv;
+         if Tete.Charge.Nb_Etude_En_Charge = 0 then --Etude en cours
+            Tete:=Tete.Charge_Suiv;
+         else
+            --Le charge a des etudes en charge =>
+
+            --On recupere le tableau qui les contient
+            for I in Tete.Charge.Etude_En_Charge'range loop
+               Recup_Tab(I):=Tete.Charge.Etude_En_Charge(I);
+            end loop;
+            --On supprime le charge de la liste
+            Tete:=Tete.Charge_Suiv;
+         end if;
+
       else
-         Supp_Charge(Tete.Charge_Suiv, Ce, Erreur);
+         Supp_Charge(Tete.Charge_Suiv,P_Etude, Ce, Erreur,F,Recup_Tab);
       end if;
 
    end Supp_Charge;
 
-   --------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+
+   procedure Reattribution (
+         Id_Et    : in     Integer;
+         P_Etude  : in out Pteur_Etude;
+         P_Charge : in out Pteur_Charge;
+         F        : in out P_Fichier_Archive.File_Type) is
+
+      Ptc,
+      Min      : Pteur_Charge := P_Charge;
+      P_Aux_Et : Pteur_Etude  := P_Etude;
+
+   begin
+
+      --On verifie si d'autres charges sont disponible pour reattribution
+      while Ptc/=null and then Ptc.Charge_Suiv/=null loop
+         if Min.Charge.Nb_Etude_En_Charge>Ptc.Charge_Suiv.Charge.Nb_Etude_En_Charge then
+            Min:=Ptc.Charge_Suiv;
+         elsif Min.Charge.Nb_Etude_En_Charge=Ptc.Charge_Suiv.Charge.Nb_Etude_En_Charge then
+            if Min.Charge.Nb_Etude_T>Ptc.Charge_Suiv.Charge.Nb_Etude_T then
+               Min:=Ptc.Charge_Suiv;
+            end if;
+         end if;
+         Ptc:=Ptc.Charge_Suiv;
+      end loop;
+      Put("!!!!");
+      Put(Min.Charge.Nb_Etude_En_Charge);
+
+      --Si pas de charges dispo ...
+      if Min.Charge.Nb_Etude_En_Charge=3 then
+         Put("L'etude ");
+         Put(Id_Et);
+         Put(" de ce charge va etre archivee");
+         New_Line;
+         New_Line;
+         while P_Aux_Et /= null loop
+            if  Id_Et = P_Aux_Et.Etu.Id then
+               P_Aux_Et.Etu.Statut := T_Statut'Val(2);
+               Archive_Etude (Id_Et,P_Etude,F);
+               exit;
+            else
+               P_Aux_Et:= P_Aux_Et.Etu_Suiv;
+            end if;
+         end loop;
+
+         New_Line;
+
+         --Si un charge est dispo...
+      else
+
+         while P_Aux_Et /= null loop
+            if Id_Et = P_Aux_Et.Etu.Id then
+               P_Aux_Et.Etu.Nom_Charge :=Min.Charge.Id.Nom;
+               P_Aux_Et.Etu.Prenom_Charge := Min.Charge.Id.Prenom;
+               Ajout_Etude_Charge (Min, P_Aux_Et, Min.Charge.Id.Nom, Min.Charge.Id.Prenom);
+               Min.Charge.Nb_Etude_En_Charge := Min.Charge.Nb_Etude_En_Charge +1;
+               New_Line;
+               Put("L'etude ");
+               Put(Id_Et);
+               Put("a ete reattribuee");
+               New_Line;
+               exit;
+
+               --DANS LE TYPE CHARGE -> Nb_Etude_En_Charge +1 ou pas
+
+            else
+               P_Aux_Et:= P_Aux_Et.Etu_Suiv;
+            end if;
+         end loop;
+
+      end if;
+
+   end Reattribution;
+
+
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
    procedure Supp_Testeuse (
          Tete   : in out Pteur_Testeuse;
          Tstse  : in     T_Personne;
@@ -764,7 +941,8 @@ package body Gestion_Directeur is
       if Tete = null then
          Erreur := True ;
 
-      elsif To_Lower(Tete.Test.Id.Nom)=To_Lower(Tstse.Nom) and then To_Lower(Tete.Test.Id.Prenom) = To_Lower(Tstse.Prenom) then
+      elsif To_Lower(Tete.Test.Id.Nom)=To_Lower(Tstse.Nom) 
+         and then To_Lower(Tete.Test.Id.Prenom) = To_Lower(Tstse.Prenom) then
          --verif de la presence de la testeuse dans une etude
          if Tete.Test.Etude /= null then
             Put("Cette testeuse est actuellement engagee dans une etude");
@@ -782,23 +960,26 @@ package body Gestion_Directeur is
    end Supp_Testeuse;
 
 
-   -----------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
 
    procedure Dprt_Emp (
          P_Secr     : in out Pteur_Secretaire;
          P_Charge   : in out Pteur_Charge;
          P_Testeuse : in out Pteur_Testeuse;
-         Fait       :    out Boolean) is
-      Emp    : T_Personne;
-      Choix  : Integer;
-      Erreur : Boolean;
+         P_Etude    : in out Pteur_Etude;
+         Fait       :    out Boolean;
+         F          : in out P_Fichier_Archive.File_Type) is
+      Emp       : T_Personne;
+      Choix     : Integer;
+      Erreur    : Boolean;
+      Recup_Tab : Tab_Etude;
+      Existe    : Boolean    := False;
 
    begin
 
       Put("Enregistrement du depart d'un employe");
       New_Line;
-      --      Saisie_Personne(Emp);
-      --      loop
       Put("Vous enregistrez le depart d'un(e) secretaire (1), d'un(e) charge d'etude (2) ou d'une testeuse (3)");
       New_Line;
       Put("Faite votre choix : 1 ou 2 ou 3");
@@ -810,7 +991,27 @@ package body Gestion_Directeur is
          when 1 =>
             Supp_Secr(P_Secr, Emp,Erreur);
          when 2 =>
-            Supp_Charge(P_Charge, Emp, Erreur);
+            Supp_Charge(P_Charge,P_Etude, Emp, Erreur,F,Recup_Tab);
+            New_Line;
+            Put("Gestion des etudes de ce charge ...");
+            New_Line;
+            if Recup_Tab(1) /= null then
+               Existe:= True;
+               Reattribution (Recup_Tab(1).Etu.Id,P_Etude,P_Charge,F);
+            end if;
+            if Recup_Tab(2) /= null then
+               Existe:= True;
+               Reattribution (Recup_Tab(2).Etu.Id,P_Etude,P_Charge,F);
+            end if;
+            if Recup_Tab(3) /= null then
+               Existe:= True;
+               Reattribution (Recup_Tab(3).Etu.Id,P_Etude,P_Charge,F);
+            end if;
+            if Existe = False then
+               Put("Pas d'etude pour ce charge");
+            end if;
+            New_Line;
+
          when others =>
             Supp_Testeuse(P_Testeuse, Emp, Erreur);
       end case;
@@ -819,12 +1020,13 @@ package body Gestion_Directeur is
       else
          Fait:=True;
       end if;
-      --      end loop;
    end Dprt_Emp;
 
-   --------------------------------------------------
-   -- procedure d'affichage des employes
-   --------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   -------------------- PROCEDURE AFFICHAGE EMPLOYES ET ETUDES ---------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
 
    procedure Vis_Liste_Dir (
          Tete_D : in     Pteur_Directeur) is
@@ -840,7 +1042,9 @@ package body Gestion_Directeur is
 
    end Vis_Liste_Dir;
 
-   ----------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Vis_Liste_Secr (
          Tete_S : in     Pteur_Secretaire) is
 
@@ -855,7 +1059,9 @@ package body Gestion_Directeur is
 
    end Vis_Liste_Secr;
 
-   -----------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Vis_Liste_Charge (
          Tete_C : in     Pteur_Charge) is
 
@@ -871,7 +1077,9 @@ package body Gestion_Directeur is
    end Vis_Liste_Charge;
 
 
-   ------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Visualiser_Liste_Emp (
          Tete_S : in     Pteur_Secretaire;
          Tete_C : in     Pteur_Charge;
@@ -895,7 +1103,9 @@ package body Gestion_Directeur is
 
    end Visualiser_Liste_Emp;
 
-   ---------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Visualiser_Secre_Spe (
          Tete_S : in     Pteur_Secretaire;
          Nom,
@@ -904,14 +1114,17 @@ package body Gestion_Directeur is
    begin
 
       if Tete_S/=null then
-         if To_Lower(Tete_S.Secr.Id.Nom)=To_Lower(Nom) and then To_Lower(Tete_S.Secr.Id.Prenom)=To_Lower(Prenom) then
+         if To_Lower(Tete_S.Secr.Id.Nom)=To_Lower(Nom) 
+            and then To_Lower(Tete_S.Secr.Id.Prenom)=To_Lower(Prenom) then
             Put("Informations sur la secretaire :");
+            New_Line;
             Put(Nom);
             Put(" ");
             Put(Prenom);
             New_Line;
             Put("Login :");
             Put(Tete_S.Secr.Id.Login);
+            New_Line;
             Put("Mot de passe crypte et parametre N : ");
             Put(Tete_S.Secr.Id.Login);
             Put("  N=");
@@ -926,55 +1139,187 @@ package body Gestion_Directeur is
    end Visualiser_Secre_Spe;
 
    ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Visualiser_Charge_Spe (
-         Tete_C : in     Pteur_Charge;
+         Tete_C  : in     Pteur_Charge;
+         P_Etude :        Pteur_Etude;
          Nom,
-         Prenom : in     T_Mot) is
-      Choix : Character;
+         Prenom  : in     T_Mot;
+         F       : in out P_Fichier_Archive.File_Type) is
+      Choix       : Integer;
+      P_Aux       : Pteur_Etude      := P_Etude;
+      Existe,
+      Existe1,
+      Existe2     : Boolean          := False;
+      Et_Archivee : T_Etude_Archivee;
+
+      use P_Fichier_Archive;
+
 
    begin
-
-      if Tete_C/=null then
-         if To_Lower(Tete_C.Charge.Id.Nom)=To_Lower(Nom) and then To_Lower(Tete_C.Charge.Id.Prenom)=To_Lower(Prenom) then
+      if Tete_C = null then
+         New_Line;
+         Put("Pas de charge avec cette identite dans la liste des employes");
+         New_Line;
+      elsif Tete_C/=null then
+         if To_Lower(Tete_C.Charge.Id.Nom)=To_Lower(Nom) 
+            and then To_Lower(Tete_C.Charge.Id.Prenom)=To_Lower(Prenom) then
             Put("Informations sur le charge d'etude :");
+            New_Line;
             Put(Nom);
             Put(" ");
             Put(Prenom);
             New_Line;
             Put("Login :");
             Put(Tete_C.Charge.Id.Login);
+            New_Line;
             Put("Mot de passe crypte et parametre N : ");
-            Put(Tete_C.Charge.Id.Login);
+            Put(Tete_C.Charge.Id.Mdp);
             Put("  N=");
             Put(Tete_C.Charge.Id.N);
             New_Line;
             -----------------------------------------------------------
             -----Afficher le nombre d'etude en cours du charge + ID
-            -----Voir comment est geré les etudes en cours d'un charge
             -----------------------------------------------------------
+            Put("Nb d'etude en charge =>");
+            Put(Tete_C.Charge.Nb_Etude_En_Charge);
+            New_Line;
+            if Tete_C.Charge.Nb_Etude_En_Charge >0 then
+               Put("Id de ses etudes =>");
+               if Tete_C.Charge.Etude_En_Charge(1) /=null then
+                  Put(Tete_C.Charge.Etude_En_Charge(1).Etu.Id);
+               end if;
+               Put(", ");
+               if Tete_C.Charge.Etude_En_Charge(2) /=null then
+                  Put(Tete_C.Charge.Etude_En_Charge(2).Etu.Id);
+               end if;
+               Put(", ");
+               if Tete_C.Charge.Etude_En_Charge(3) /=null then
+                  Put(Tete_C.Charge.Etude_En_Charge(3).Etu.Id);
+               end if;
+               New_Line;
+            end if;
+            
             Put("Nb d'etudes achevees :");
             Put(Tete_C.Charge.Nb_Etude_T);
-            loop
-               Put("Souhaitez vous voir les produits testes ? Oui => O Non => N");
+            New_Line;
+            New_Line;
+            Put("Souhaitez vous voir les produits testes par ce charge ? Oui => 1 Non => 2");
+            New_Line;
+            Secure_Saisie(Choix,2);
+            New_Line;
+
+            if Choix = 1 then
+               while P_Aux /= null loop
+                  if To_Lower(P_Aux.Etu.Nom_Charge)=To_Lower(Nom) 
+                     and then To_Lower(P_Aux.Etu.Prenom_Charge)=To_Lower(Prenom) then
+                     Existe1 := True;
+                     Put("Identifiant de cette etude => ");
+                     Put(P_Aux.Etu.Id);
+                     New_Line;
+                     Put("Nom du produit =>");
+                     Put(P_Aux.Etu.Produit.Nom_P);
+                     New_Line;
+                     Put("Categorie =>");
+                     case P_Aux.Etu.Produit.Cat is
+                        when T_Categorie'Val(0)=>
+                           Put("Creme de jour");
+                           New_Line;
+                        when T_Categorie'Val(1) =>
+                           Put("Soin de nuit");
+                           New_Line;
+                        when T_Categorie'Val(2) =>
+                           Put("Lait corporel");
+                           New_Line;
+                        when T_Categorie'Val(3) =>
+                           Put("Lotion pour le visage");
+                           New_Line;
+                        when T_Categorie'Val(4) =>
+                           Put("Gel Douche");
+                           New_Line;
+                        when others =>
+                           Put("Solaire");
+                           New_Line;
+                     end case;
+
+                     New_Line;
+                     Put("Entreprise =>");
+                     Put(P_Aux.Etu.Produit.Entreprise);
+                     New_Line;
+                     Put("----------------------------------------------------");
+                     New_Line;
+                  end if;
+                  P_Aux := P_Aux.Etu_Suiv;
+               end loop;
+               if Existe1 = False then
+                  Put("Pas d'etude pour ce charge");
+                  New_Line;
+
+                  Put("Produits d'etudes archivees =>");
+                  New_Line;
+                  begin
+                     Open(F,In_File,"Fichier_Archive");
+                  exception
+                     when others =>
+                        Create (F, Name=>"Fichier_Archive");
+                  end;
+                  Close(F);
+                  --manipulation du fichier
+
+                  Open(F,In_File,"Fichier_Archive");
+                  while not End_Of_File(F) loop
+                     Read(F,Et_Archivee);
+                     if To_Lower(Et_Archivee.Nom_Charge)=To_Lower(Nom) 
+                        and then To_Lower(Et_Archivee.Prenom_Charge)=To_Lower(Prenom)  then
+                        Existe2 := True;
+                        Put("Nom du produit :");
+                        Put(Et_Archivee.Produit.Nom_P);
+                        New_Line;
+                        Put("Categorie : ");
+                        case Et_Archivee.Produit.Cat is
+                           when T_Categorie'Val(0)=>
+                              Put("Creme de jour");
+                              New_Line;
+                           when T_Categorie'Val(1) =>
+                              Put("Soin de nuit");
+                              New_Line;
+                           when T_Categorie'Val(2) =>
+                              Put("Lait corporel");
+                              New_Line;
+                           when T_Categorie'Val(3) =>
+                              Put("Lotion pour le visage");
+                              New_Line;
+                           when T_Categorie'Val(4) =>
+                              Put("Gel Douche");
+                              New_Line;
+                           when others =>
+                              Put("Solaire");
+                              New_Line;
+                        end case;
+                        Put("Entreprise =>");
+                        Put(Et_Archivee.Produit.Entreprise);
+                        New_Line;
+                        Put("----------------------------------------------------");
+                        New_Line;
+                     end if;
+                  end loop;
+                  New_Line;
+                  Close (F);
+                  --Affichage si pas d'etude archivee pour ce charge
+                  if Existe2 = False then
+                     Put("Pas de produit issus d'etudes archivees pour ce charge d'etude");
+                     New_Line;
+                  end if;
+
+               end if;
+
                New_Line;
-               Get(Choix);
-               Skip_Line;
-               exit when Choix='O' or Choix='N';
-               Put("Choix invalide, retentez !");
-            end loop;
-            if Choix ='O' then
-               ----------------------------------------------------------------
-               ----Afficher les produits apres avoir parcouru la liste d'etude
-               ---- Depend aussi de la facon dont sont enregistres les etudes
-               ---- dans le type charge
-               ----------------------------------------------------------------
-               null;
             end if;
 
-            New_Line;
+         else
+            Visualiser_Charge_Spe (Tete_C.Charge_Suiv,P_Etude,Nom,Prenom,F);
          end if;
-
-         Visualiser_Charge_Spe (Tete_C.Charge_Suiv,Nom,Prenom);
       end if;
 
    end Visualiser_Charge_Spe;
@@ -1001,14 +1346,22 @@ package body Gestion_Directeur is
       end if;
 
    end Visualiser_Liste_Etude;
-
-   --------------------------------------------------------------
+   
+   ---------------------------------------------------------------------------------
+   ---------------------------------------------------------------------------------
+   
    procedure Visualiser_Etude_Spe (
          Tete         : in     Pteur_Etude;
          Id_Recherche : in     Integer) is
+
    begin
-      if Tete/=null then
+
+      if Tete = null then
+         Put("Aucune etude avec cette identifiant");
+
+      elsif Tete/=null then
          if Tete.Etu.Id=Id_Recherche then
+            New_Line;
             Put("Le Produit teste lors de cette etude est =>");
             Put(Tete.Etu.Produit.Nom_P);
             New_Line;
@@ -1022,27 +1375,38 @@ package body Gestion_Directeur is
             Put("L'etude est ");
             Put(T_Statut'Image(Tete.Etu.Statut));
             New_Line;
-            if Tete.Etu.Note_Moy/=-1 then
-               Put("La note de ce produit est =>");
-               Put(Tete.Etu.Note_Moy);
+
+            --Affichage seulement si etude cloturee ...
+            if Tete.Etu.Statut = Cloturee then
+               if Tete.Etu.Note_Moy/=-1 then
+                  Put("La note de ce produit est =>");
+                  Put(Tete.Etu.Note_Moy);
+                  New_Line;
+               end if;
+               Put("Le nombre de patientes significative est =>");
+               Put(Tete.Etu.Nb_Significatif);
                New_Line;
-            end if;
-            Put("Le nombre de patientes significative est =>");
-            Put(Tete.Etu.Nb_Significatif);
-            New_Line;
-            if Tete.Etu.Risque then
-               Put("Ce produit presente un risque");
-            else
-               Put("Ce produit ne presente pas de risque");
+               if Tete.Etu.Risque then
+                  Put("Ce produit presente un risque");
+               else
+                  Put("Ce produit ne presente pas de risque");
+               end if;
             end if;
             New_Line;
+         else
+            Visualiser_Etude_Spe(Tete.Etu_Suiv,Id_Recherche);
          end if;
-         Visualiser_Etude_Spe(Tete.Etu_Suiv,Id_Recherche);
+
       end if;
+
    end Visualiser_Etude_Spe;
 
-
    -------------------------------------------------------------------------------------
+   -------------------------------------------------------------------------------------
+   ------------------- PROCEDURE DE CONNEXION DES UTILISATEURS -------------------------
+   -------------------------------------------------------------------------------------
+   -------------------------------------------------------------------------------------
+   
    procedure Connexion_Log (
          Cat            : in     Integer;
          P_Dir          : in     Pteur_Directeur;
@@ -1150,7 +1514,6 @@ package body Gestion_Directeur is
       end if;
 
    end Connexion_Log;
-
 
 
 
