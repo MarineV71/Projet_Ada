@@ -10,12 +10,22 @@ procedure Main is
    Info_Connexion : T_Personne;
    Choix,
    Cat,
-   Id         : Integer;
+   Id,K,Id_Et         : Integer;
    Connect,
    Fait,
-   Erreur     : Boolean;
+   Erreur,Existe     : Boolean;
    Nom,
-   Prenom     : T_Mot            := (others => ' ');
+   Prenom,Ent     : T_Mot            := (others => ' ');
+   Etude          : T_Etude;
+   --Variable pour les fichiers
+   use P_Fichier_Archive;
+   F            : P_Fichier_Archive.File_Type;
+   Nb_Etude_Cro : Integer                     := 7; 
+   --Nombre d'etudes deja creees -> Faire une fonction
+   --Pour le trouver -> avec parcours des archives pour
+   --Trouver le plus grand ID
+
+
 
 begin
    Aj_User (D, C, S, T, Tete_Etude, I);
