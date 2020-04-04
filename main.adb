@@ -1,39 +1,47 @@
 with Nt_Console, Ada.Text_Io,Ada.Integer_Text_Io,Gestion_Etude,Gestion_Secretaire,Gestion_Charge_Etude,Gestion_Testeuse,Gestion_Directeur,Connexion;
 use Nt_Console, Ada.Text_Io,Ada.Integer_Text_Io,Gestion_Etude,Gestion_Secretaire,Gestion_Charge_Etude,Gestion_Testeuse,Gestion_Directeur,Connexion;
 procedure Main is
-   Tete_Etude : Pteur_Etude;
-   C, c_aux          : Pteur_Charge;
-   D          : Pteur_Directeur;
-   I          : Pteur_Incluse;
-   S          : Pteur_Secretaire;
-   T, t_aux          : Pteur_Testeuse;
+   
+
+   Tete_Etude     : Pteur_Etude;
+   C,
+   C_Aux          : Pteur_Charge;
+   D              : Pteur_Directeur;
+   I              : Pteur_Incluse;
+   S              : Pteur_Secretaire;
+   T,
+   T_Aux          : Pteur_Testeuse;
    Info_Connexion : T_Personne;
    Choix,
    Cat,
-   Id,K,Id_Et         : Integer;
+   Id,
+   K,
+   Id_Et          : Integer;
    Connect,
    Fait,
-   Erreur,Existe     : Boolean;
+   Erreur,
+   Existe         : Boolean;
    Nom,
-   Prenom,Ent     : T_Mot            := (others => ' ');
+   Prenom,
+   Ent            : T_Mot            := (others => ' ');
    Etude          : T_Etude;
+   
    --Variable pour les fichiers
    use P_Fichier_Archive;
    F            : P_Fichier_Archive.File_Type;
-   Nb_Etude_Cro : Integer                     := 7; 
+   Nb_Etude_Cro : Integer                     := 7;
    --Nombre d'etudes deja creees -> Faire une fonction
    --Pour le trouver -> avec parcours des archives pour
    --Trouver le plus grand ID
-
 
 
 begin
    Aj_User (D, C, S, T, Tete_Etude, I);
    Visualiser_Liste_Emp (S,C,D);
 
-loop
-      Info_Connexion.login:=(others => ' ');
-      Info_Connexion.mdp:=(others => ' ');
+   loop
+      Info_Connexion.Login:=(others => ' ');
+      Info_Connexion.Mdp:=(others => ' ');
       -----------------------------------------------------------
       --                       CONNEXION                       --
       -----------------------------------------------------------
@@ -81,10 +89,10 @@ loop
 
                      when 1 =>
                         Enr_Nvl_Emp (S,C,D,Erreur);
-                        New_line;
+                        New_Line;
 
                      when 2 =>
-                        Dprt_Emp (S,C,T,Fait);
+                        Dprt_Emp (S,C,T,Tete_Etude,Fait,F);
                         if Fait then
                            Put("Depart enregistre !");
                         else
@@ -96,7 +104,7 @@ loop
                         Visualiser_Liste_Emp(S,C,D);
 
                      when 4 => --fiche employe
-                        New_line;
+                        New_Line;
                         Put("Vous souhaitez afficher les informations sur");
                         New_Line;
                         Put("(1) un(e) secretaire ou (2) un(e) charge d'etude");
@@ -104,7 +112,7 @@ loop
                         Put("Votre choix => ");
                         Secure_Saisie(Choix,2);
                         Put("Vous recherchez un employe en particulier :");
-                        New_line;
+                        New_Line;
                         Put("Saisissez son nom => ");
                         Get_Line(Nom,K);
                         Put("Saisissez son prenom => ");
@@ -121,7 +129,7 @@ loop
 
                      when 5 => -- creation etude
                         Creation_Etude (Tete_Etude,Etude,C,Nb_Etude_Cro);
-                        New_line;
+                        New_Line;
 
                      when 6 => --Liste etude
                         Put("Liste des etude de la CRO => ");
@@ -210,17 +218,17 @@ loop
                         New_Line;
 
                      when 4 => --Archiver une etude
-                        New_line;
+                        New_Line;
                         Put("Archivage d'une etude => ");
                         Put("Quel est l'identifiant de l'etude a archiver ?");
                         Secure_Saisie(Id_Et,999);
                         Archive_Etude (Id_Et,Tete_Etude,F);
-                        New_line;
+                        New_Line;
 
                      when 5 => --Vis etude cloturee
-                        New_line;
+                        New_Line;
                         Vis_Etude_Clot(Tete_Etude);
-                        new_line;
+                        New_Line;
 
                      when 6 => --Etude Archivee pour une entreprise
                         New_Line;
@@ -236,9 +244,9 @@ loop
                         Ent := (others =>' ');
 
                      when 7 => --Aff les meilleurs produits
-                        New_line;
+                        New_Line;
                         Put("Cette fonction n'est pas disponible ...");
-                        New_line;
+                        New_Line;
 
 
                      when others => -- Deconnexion
@@ -251,9 +259,9 @@ loop
 
 
             when 3 =>
-               c_aux:=c;
+               C_Aux:=C;
                Clear_Screen (Black);
-               C_aux:=trouve_charge(C,Info_Connexion);               
+               C_Aux:=Trouve_Charge(C,Info_Connexion);
                loop
                   Put_Line("-----------------------------------------------------------");
                   Put_Line("--                  MENU CHARGE D'ETUDE                  --");
@@ -269,30 +277,31 @@ loop
                   case Choix is
 
                      when 1 =>
-                        Ajout_Testeuse(C_aux,T);
+                        Ajout_Testeuse(C_Aux,T);
 
                      when 2 =>
-                        Affiche_Liste_Etude (C_aux);
+                        Affiche_Liste_Etude (C_Aux);
                         Put("Visualiser les details d'une etude :");
                         Secure_Saisie(Id,999);
-                        Affiche_Detail_Etude (C_aux, Id);
+                        Affiche_Detail_Etude (C_Aux, Id);
 
                      when 3 =>
-                        Modif_Statut(C_aux);
+                        Modif_Statut(C_Aux);
 
                      when others =>
-                        Put("sortie");new_line;
+                        Put("sortie");
+                        New_Line;
                         exit;
 
                   end case;
                end loop; --Fin de la boucle d'affichage du menu Charge
-                  enregistre_charge(c,c_aux);
+               Enregistre_Charge(C,C_Aux);
 
-            
+
             when others =>
-               t_aux:=t;
+               T_Aux:=T;
                Clear_Screen (Black);
-               T_aux:=trouve_testeuse(T_aux,Info_Connexion);
+               T_Aux:=Trouve_Testeuse(T_Aux,Info_Connexion);
                loop
                   Put_Line("-----------------------------------------------------------");
                   Put_Line("--                     MENU TESTEUSE                     --");
@@ -301,8 +310,8 @@ loop
                   Put_Line("2. Quitter");
 
                   Put("participe a l'etude : ");
-                  if T_aux.Test.Etude/=null then
-                     Put(T_aux.Test.Etude.Etu.Id);
+                  if T_Aux.Test.Etude/=null then
+                     Put(T_Aux.Test.Etude.Etu.Id);
                   else
                      Put("aucune");
                   end if;
@@ -314,20 +323,20 @@ loop
                   case Choix is
 
                      when 1 =>
-                        Modification_Etude_Retour(T_aux);
+                        Modification_Etude_Retour(T_Aux);
 
                      when others =>
                         exit;
 
                   end case;
                end loop; --Fin de la boucle d'affichage du menu testeuse
-            enregistre_testeuse(T,t_aux);
+               Enregistre_Testeuse(T,T_Aux);
 
 
          end case; -- Fin du case pour l'affichage des differents menus
 
       end if; -- Fin de la conditionnelle qui verifie la connexion
-         
+
    end loop; --Fin de la boucle qui affiche ecran de connexion
 
 end Main;
