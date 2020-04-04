@@ -20,13 +20,8 @@ procedure Main is
 begin
    Aj_User (D, C, S, T, Tete_Etude, I);
    Visualiser_Liste_Emp (S,C,D);
-   --   Enr_Nvl_Emp (S,C,D,Erreur);
-   --   Visualiser_Liste_Emp (S,C,D);
-   --Dprt_Emp (S,C,T,Fait);
-   --Visualiser_Liste_Emp (S,C,D);
 
-
-   loop
+loop
       Info_Connexion.login:=(others => ' ');
       Info_Connexion.mdp:=(others => ' ');
       -----------------------------------------------------------
@@ -70,14 +65,13 @@ begin
                   Put_Line("8. Se deconnecter");
                   Put("Faite votre choix =>");
                   Secure_Saisie(Choix,8);
-                  exit when Choix=8;
+                  -- exit when Choix=8;
 
                   case Choix is
 
                      when 1 =>
-                        Enr_Nvl_Emp (S,C,D,Erreur); --> refaire la verif de l'existence avec to_lower
-                        --Enregistrement des nom en MAJ ?
-                        Visualiser_Liste_Emp (S,C,D);
+                        Enr_Nvl_Emp (S,C,D,Erreur);
+                        New_line;
 
                      when 2 =>
                         Dprt_Emp (S,C,T,Fait);
@@ -87,32 +81,42 @@ begin
                            Put("Le depart n'a pas ete enregistree !");
                         end if;
                         New_Line;
-                        Visualiser_Liste_Emp (S,C,D); -- Pour la verif --> a enlever
 
                      when 3 => --liste globale employe
                         Visualiser_Liste_Emp(S,C,D);
 
                      when 4 => --fiche employe
+                        New_line;
                         Put("Vous souhaitez afficher les informations sur");
                         New_Line;
                         Put("(1) un(e) secretaire ou (2) un(e) charge d'etude");
                         New_Line;
                         Put("Votre choix => ");
                         Secure_Saisie(Choix,2);
+                        Put("Vous recherchez un employe en particulier :");
+                        New_line;
+                        Put("Saisissez son nom => ");
+                        Get_Line(Nom,K);
+                        Put("Saisissez son prenom => ");
+                        Get_Line(Prenom,K);
                         if Choix = 1 then
                            Visualiser_Secre_Spe (S,Nom,Prenom);
                         else
-                           Visualiser_Charge_Spe (C,Nom,Prenom);
+                           Visualiser_Charge_Spe (C,Tete_Etude,Nom,Prenom,F);
                         end if;
                         --remise a "zero" pour utilisation ulterieure
                         Nom := (others => ' ');
                         Prenom := (others => ' ');
 
+
                      when 5 => -- creation etude
-                        --                        Creation_Etude (Tete_Etude,,)
-                        null;
+                        Creation_Etude (Tete_Etude,Etude,C,Nb_Etude_Cro);
+                        New_line;
 
                      when 6 => --Liste etude
+                        Put("Liste des etude de la CRO => ");
+                        New_Line;
+                        New_Line;
                         Visualiser_Liste_Etude (Tete_Etude);
                         New_Line;
 
@@ -123,6 +127,7 @@ begin
                         Visualiser_Etude_Spe (Tete_Etude,Choix);
 
                      when others => -- Deconnexion
+                        Connect := False;
                         exit;
                   end case;
 
@@ -145,13 +150,19 @@ begin
                   Put_Line("7. Afficher les meilleurs produits d'une categorie");
                   Put_Line("8. Se deconnecter");
                   Put("Faite votre choix =>");
-                  Secure_Saisie(Choix,9);
-                  exit when Choix=9;
+                  Secure_Saisie(Choix,8);
+                  -- exit when Choix=8;
 
                   case Choix is
 
                      when 1 =>
-                        null;
+                        Inscrip_Testeuse(T,Fait);
+                        if Fait then
+                           Put("Inscription effectuee avec succes");
+                        else
+                           Put("L'inscription n'a pas pu etre effectuee");
+                        end if;
+                        New_Line;
 
                      when 2 =>
                         Put_Line("Vous souhaitez ...");
@@ -162,29 +173,66 @@ begin
                         if Choix = 1 then
                            Vis_Liste_Testeuse (T);
                         else
+                           Put("Vous recherchez une testeuse en particulier :");
+                           Put("Saisissez son nom => ");
+                           Get_Line(Nom,K);
+                           Put("Saisissez son prenom => ");
+                           Get_Line(Prenom,K);
                            Vis_Testeuse_Spe (T,Nom,Prenom);
-
                         end if;
-
+                        --Remise a 'zero' pour utilisation ulterieure
+                        Nom := (others => ' ');
+                        Prenom := (others => ' ');
 
                      when 3 => --desinscrire une testeuse
-                        null;
+                        Put("Vous voulez desinscrire une testeuse en particulier :");
+                        New_Line;
+                        Put("Saisissez son nom => ");
+                        Get_Line(Nom,K);
+                        Put("Saisissez son prenom => ");
+                        Get_Line(Prenom,K);
+                        Desinscrip_Testeuse (T,Nom,Prenom,Fait);
+                        if Fait then
+                           Put("Desinscription effectuee avec succes");
+                        else
+                           Put("La desinscription n'a pas pu etre effectuee");
+                        end if;
+                        New_Line;
 
                      when 4 => --Archiver une etude
-                        null;
+                        New_line;
+                        Put("Archivage d'une etude => ");
+                        Put("Quel est l'identifiant de l'etude a archiver ?");
+                        Secure_Saisie(Id_Et,999);
+                        Archive_Etude (Id_Et,Tete_Etude,F);
+                        New_line;
 
                      when 5 => --Vis etude cloturee
-                        null;
+                        New_line;
+                        Vis_Etude_Clot(Tete_Etude);
+                        new_line;
 
                      when 6 => --Etude Archivee pour une entreprise
-                        --Reprendre la procedure avec To_Lower
-                        null;
+                        New_Line;
+                        Put("Veuillez saisir le nom de l'entreprise");
+                        New_Line;
+                        Get_Line(Ent,K);
+                        New_Line;
+                        Vis_Archive_Entreprise(F,Ent,Existe);
+                        if Existe=False then
+                           Put("Cette entreprise n'existe pas ou n'a pas d'etude archivee");
+                        end if;
+                        New_Line;
+                        Ent := (others =>' ');
 
                      when 7 => --Aff les meilleurs produits
-                        null;
+                        New_line;
+                        Put("Cette fonction n'est pas disponible ...");
+                        New_line;
 
 
                      when others => -- Deconnexion
+                        Connect := False;
                         exit;
 
                   end case;
