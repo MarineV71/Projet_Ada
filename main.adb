@@ -322,7 +322,7 @@ begin
 
                   end case;
                end loop; --Fin de la boucle d'affichage du menu Charge
-               Enregistre_Charge(C,C_Aux);
+               c_aux:=C;
 
 
             when others =>
@@ -360,7 +360,7 @@ begin
 
                   end case;
                end loop; --Fin de la boucle d'affichage du menu testeuse
-               Enregistre_Testeuse(T,T_Aux);
+               t_aux:=T;
 
 
          end case; -- Fin du case pour l'affichage des differents menus

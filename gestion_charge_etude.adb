@@ -213,6 +213,7 @@ package body Gestion_Charge_Etude is
       T         : Tab_Etude          := Tete_Charge.Charge.Etude_En_Charge;
       Tete_Incl : Pteur_Incluse;
       Incl      : T_Personne_Incluse;
+      Tt: pteur_testeuse:=tete_test;
       Nom,
       Prenom    : T_Mot;
       Id_Etu,
@@ -234,20 +235,20 @@ package body Gestion_Charge_Etude is
                   Put("saisir le prenom de la testeuse :");
                   Get_Line(Prenom,K);
                   Tete_Incl:=T(I).Etu.P_Testeuse;
-                  while Tete_Test/=null and then Ok=False loop
-                     Ok:=Verif_Saisie_Testeuse(Tete_Test,Nom, Prenom);
+                  while Tt/=null and then Ok=False loop
+                     Ok:=Verif_Saisie_Testeuse(Tt,Nom, Prenom);
                      if Ok then
-                        Tete_Test:=Verif_Testeuse_Etude(T(I), Tete_Test);
+                        Tt:=Verif_Testeuse_Etude(T(I), Tt);
                      else
-                        Tete_Test:=Tete_Test.Test_Suiv;
+                        Tt:=Tt.Test_Suiv;
                      end if;
                   end loop;
 
-                  if Tete_Test/=null then --si la testeuse peut etre inclus dans l'etude, l'ajouter et lui donner un pteur d'etude
+                  if Tt/=null then --si la testeuse peut etre inclus dans l'etude, l'ajouter et lui donner un pteur d'etude
                      Incl.Nom:=Nom;
                      Incl.Prenom:=Prenom;
                      Nv_Incluse(Incl,Tete_Incl);
-                     Tete_Test.Test.Etude:=T(I);
+                     Tt.Test.Etude:=T(I);
 
                      T(I).Etu.P_Testeuse:=Tete_Incl;--remplace le pointeur des incluses du charge
                      T(I).Etu.Nb_Testeuse:=T(I).Etu.Nb_Testeuse+1;--peut etre fait en procedure
@@ -286,27 +287,15 @@ package body Gestion_Charge_Etude is
                New_Line;
                if T(I).Etu.Statut=Cloturee then
                   Nv_Etude_Cloturee(T(I));
+                  T(I):=null;
+                  P_Charge.Charge.Nb_Etude_En_Charge:=P_Charge.Charge.Nb_Etude_En_Charge-1;
+                  p_charge.charge.Nb_Etude_T :=P_Charge.Charge.Nb_Etude_T+1;
                end if;
             end if;
          end if;
       end loop;
 
    end Modif_Statut;
-
-   procedure Enregistre_Charge (
-         C     : in out Pteur_Charge;
-         C_Aux : in     Pteur_Charge) is
-      Ok : Boolean;
-   begin
-      if C/=null then
-         Ok:=Verif_Saisie_Charge(C,C_Aux.Charge.Id.Nom, C_Aux.Charge.Id.Prenom);
-         if Ok then
-            C.Charge:=C_Aux.Charge;
-         else
-            Enregistre_Charge(C.Charge_Suiv,C_Aux);
-         end if;
-      end if;
-   end Enregistre_Charge;
 end Gestion_Charge_Etude;
 
 

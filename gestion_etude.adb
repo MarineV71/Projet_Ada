@@ -1,5 +1,5 @@
-with Ada.Text_Io,  Ada.Characters.Handling;
-use Ada.Text_Io, Ada.Characters.Handling;
+with Ada.Text_Io, ada.Float_Text_IO, Ada.Characters.Handling;
+use Ada.Text_Io,ada.Float_Text_IO, Ada.Characters.Handling;
 package body Gestion_Etude is
 
    procedure Saisie_Personne (
@@ -124,7 +124,7 @@ package body Gestion_Etude is
          end loop;
       Close (F);
 
-      E_Aux:=E;put(m);
+      E_Aux:=E;
        while E_aux/=null loop --cherche les égalités avec la meilleure note trouvé grace a la premiere boucle
          if E_aux.Etu.Produit.Cat=T_Categorie'Val(N-1) and then E_aux.Etu.Risque=False then
             if m/=0.0 and then M=E_aux.Etu.note_Moy then

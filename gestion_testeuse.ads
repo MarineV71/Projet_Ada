@@ -43,7 +43,4 @@ package Gestion_Testeuse is
    procedure Ajout_Debut_Etu_Test (
          T  : in out Pteur_Testeuse;
          Et : in     Pteur_Etude);
-   procedure Enregistre_Testeuse (
-         T     : in out Pteur_Testeuse;
-         T_Aux :        Pteur_Testeuse);
 end Gestion_Testeuse;

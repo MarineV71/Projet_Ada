@@ -147,17 +147,5 @@ package body Gestion_Testeuse is
       end if;
    end Ajout_Debut_Etu_Test;
 
-   procedure Enregistre_Testeuse(T:in out Pteur_Testeuse;T_Aux:Pteur_Testeuse)is --permet de conserver les modifications
-      Ok:Boolean;
-   begin
-      if T/=null then
-         ok:=Verif_Saisie_Testeuse(T,T_Aux.Test.Id.Nom,T_Aux.Test.Id.Prenom);
-         if Ok then 
-            T.Test:=T_Aux.Test;
-         else
-            Enregistre_Testeuse(T.Test_Suiv,T_Aux);
-         end if;
-      end if;
-   end Enregistre_Testeuse;
       
 end Gestion_Testeuse;
