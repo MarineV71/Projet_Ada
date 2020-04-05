@@ -1407,7 +1407,7 @@ package body Gestion_Directeur is
             if Tete.Etu.Statut = Cloturee then
                if Tete.Etu.Note_Moy /= -1.0 then
                   Put("La note de ce produit est =>");
-                  Put(Tete.Etu.Note_Moy);
+                  Put(Tete.Etu.Note_Moy,Exp =>0,Aft =>2);
                   New_Line;
                end if;
                Put("Le nombre de patientes significative est =>");
