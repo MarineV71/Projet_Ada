@@ -424,7 +424,7 @@ package body Gestion_Secretaire is
             Put(" testeuse(s) significative(s)");
             New_Line;
             Put("La note moyenne recue pour ce produit est ");
-            Put(Et_Archivee.Note_Moy);
+            Put(Et_Archivee.Note_Moy,Exp =>0, Aft => 2);
             New_Line;
             if Et_Archivee.Risque then
                Put("Les testeuses rapportent des risques pour ce produit");
