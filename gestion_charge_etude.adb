@@ -1,5 +1,5 @@
-with Ada.Text_Io,ada.Float_Text_IO,Ada.Integer_Text_Io;
-use Ada.Text_Io,ada.Float_Text_IO, Ada.Integer_Text_Io;
+with Ada.Text_Io,ada.Float_Text_IO,Ada.Characters.Handling,Ada.Integer_Text_Io;
+use Ada.Text_Io,ada.Float_Text_IO, Ada.Characters.Handling,Ada.Integer_Text_Io;
 package body Gestion_Charge_Etude is
    function Trouve_Charge (
          Tete_C   : Pteur_Charge;
@@ -26,7 +26,7 @@ package body Gestion_Charge_Etude is
    begin
       if Tete_Charge= null then
          return(False);
-      elsif N=Tete_Charge.Charge.Id.Nom and then P=Tete_Charge.Charge.Id.Prenom then
+      elsif To_UPPER(N)=Tete_Charge.Charge.Id.Nom and then To_Lower(P)=to_lower(Tete_Charge.Charge.Id.Prenom) then
          return(True);
       else
          return(Verif_Saisie_Charge(Tete_Charge.Charge_Suiv, N, P));
@@ -41,7 +41,7 @@ package body Gestion_Charge_Etude is
    begin
       if Tete_Charge= null then
          return(0);
-      elsif N=Tete_Charge.Charge.Id.Nom and then P=Tete_Charge.Charge.Id.Prenom then
+      elsif To_Lower(N)=To_Lower(Tete_Charge.Charge.Id.Nom) and then To_Lower(P)=to_lower(Tete_Charge.Charge.Id.Prenom) then
          return(Tete_Charge.Charge.Nb_Etude_En_Charge);
       else
          return(Cpt_Etude_Charge(Tete_Charge.Charge_Suiv, N, P));
@@ -57,7 +57,7 @@ package body Gestion_Charge_Etude is
       Fait : Boolean := False;
    begin
       if Tete_Charge/= null then
-         if N=Tete_Charge.Charge.Id.Nom and then P=Tete_Charge.Charge.Id.Prenom then
+         if To_Lower(N)=To_Lower(Tete_Charge.Charge.Id.Nom) and then To_Lower(P)=to_lower(Tete_Charge.Charge.Id.Prenom) then
             for I in Tete_Charge.Charge.Etude_En_Charge'range loop
                if Fait=False then
                   if Tete_Charge.Charge.Etude_En_Charge(I)=null then

@@ -658,18 +658,25 @@ package body Gestion_Directeur is
 
          when 1 => --Attribution manuelle
             loop
+               N:=(others=>' ');
+               P:=(others=>' ');
                Put("saisir le nom de charge de l'etude :");
                Get_Line(N,Kn); --saisie securisee si le charge n'existe pas ou si son nombre d'etude est plein
+               n:=to_upper(n);put(n);
                Put("saisir le prenom du charge d'etude :");
                Get_Line(P,Kn);
-               Ok:= Verif_Saisie_Charge(P_Charge,N,P); 
+               P(1):=To_Upper(P(1));
+               P(2..Kn):=To_Lower(P(2..Kn));
+               put(p);
+               Ok:= Verif_Saisie_Charge(P_Charge,N,P);
                if Ok then
                   Cpt:=Cpt_Etude_Charge(P_Charge,N,P);
                   if Cpt<3 then
-                     Etude.Nom_Charge:=N(1..Kn);
-                     Etude.Prenom_Charge:=P(1..Kp);
+                     Etude.Nom_Charge:=N;
+                     Etude.Prenom_Charge:=P;
                      Nv_Etude(Etude,Tete_Etude);
                      Ajout_Etude_Charge (P_Charge, Tete_Etude, N,P);
+                     exit;
                   else
                      Put("ce charge d'etude a deja 3 etudes a la charge");
                      New_Line;
