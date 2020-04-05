@@ -936,7 +936,7 @@ package body Gestion_Directeur is
                P_Aux_Et.Etu.Nom_Charge :=Min.Charge.Id.Nom;
                P_Aux_Et.Etu.Prenom_Charge := Min.Charge.Id.Prenom;
                Ajout_Etude_Charge (Min, P_Aux_Et, Min.Charge.Id.Nom, Min.Charge.Id.Prenom);
-               Min.Charge.Nb_Etude_En_Charge := Min.Charge.Nb_Etude_En_Charge +1;
+               --Min.Charge.Nb_Etude_En_Charge := Min.Charge.Nb_Etude_En_Charge +1;
                New_Line;
                Put("L'etude ");
                Put(Id_Et);
