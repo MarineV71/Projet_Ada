@@ -38,7 +38,7 @@ package body Gestion_Directeur is
       C.Id.Login:="paul.personne                  ";
       C.Id.Mdp:="5678!.?def";
       C.Id.N:=14;
---      C.Nb_Etude_En_Charge:=3;
+      --      C.Nb_Etude_En_Charge:=3;
       --c.etude_en_charge
       C.Nb_Etude_T:=0;
       Chg:=new T_Liste_Charge'(C,null);
@@ -48,7 +48,7 @@ package body Gestion_Directeur is
       C.Id.Login:="lucie.fer                      ";
       C.Id.Mdp:="tSZZeHOF46";
       C.Id.N:=12;
---      C.Nb_Etude_En_Charge:=2;
+      --      C.Nb_Etude_En_Charge:=2;
       --c.etude_en_charge
       C.Nb_Etude_T:=0;
       Chg:=new T_Liste_Charge'(C,Chg);
@@ -58,7 +58,7 @@ package body Gestion_Directeur is
       C.Id.Login:="hermine.grant                  ";
       C.Id.Mdp:="!5ef8h0jk3";
       C.Id.N:=4;
---      C.Nb_Etude_En_Charge:=2;
+      --      C.Nb_Etude_En_Charge:=2;
       --c.etude_en_charge
       C.Nb_Etude_T:=0;
       Chg:=new T_Liste_Charge'(C,Chg);
@@ -584,11 +584,11 @@ package body Gestion_Directeur is
       --L'ID est unique et vaut le nb d'etudes deja realisees +1
       Etude.Id:=Nb_Etude_Cro+1;
       Nb_Etude_Cro:= Nb_Etude_Cro+1;
-
+      Etude.Produit.Nom_P := (others =>' ');
       -- Saisie du produit
       Put("Saisir le nom du produit :");
       Get_Line(Etude.Produit.Nom_P,K);
-      New_line;
+      New_Line;
       Put("Saisir la categorie du produit :");
       New_Line;
       Put("1.Creme de jour");
@@ -649,7 +649,7 @@ package body Gestion_Directeur is
             Etude.Produit.Age_Max := 75;
       end case;
 
-
+      Etude.Produit.Entreprise := (others =>' ');
       Put("Saisir le nom de l'entreprise => ");
       Get_Line(Etude.Produit.Entreprise,K);
       Put_Line("Saisir (1) pour attribution manuelle du charge de l'etude ou (2) pour attribution automatique");
@@ -674,7 +674,7 @@ package body Gestion_Directeur is
                      Etude.Prenom_Charge:=P;
                      Nv_Etude(Etude,Tete_Etude);
                      Ajout_Etude_Charge (P_Charge, Tete_Etude, N,P);
-                     
+
                      New_Line;
                      Put_Line("Etude cree et attribuee a ce charge !");
                      exit;
@@ -687,7 +687,9 @@ package body Gestion_Directeur is
                   Put_Line("Pas de charge avec cette identite");
                end if;
 
-               Kn :=0;
+               Etude.Nom_Charge := (others=>' ');
+               Etude.Prenom_Charge := (others=>' ');
+               Kn:=0;
                Kp:=0;
                Ok:= False;
                N:= (others=>' ');
