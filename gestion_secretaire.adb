@@ -71,7 +71,9 @@ package body Gestion_Secretaire is
          Testeuse.Nom := To_Upper(Testeuse.Nom);
          T.Id := Testeuse;
          Put("Saisir l'age de cette testeuse =>");
-         Get(T.Age);
+         --Get(T.Age);
+         Secure_Saisie(T.Age, 999);
+         New_line;
 
          --On verifie l'age de la nouvelle testeuse
          if T.Age<15 then
