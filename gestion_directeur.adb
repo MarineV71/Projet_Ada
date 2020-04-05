@@ -759,6 +759,7 @@ package body Gestion_Directeur is
 
             if Existe=False then
                Cryp_Mdp(Emp,N);
+               Emp.N := N;
                Emp.Nom := To_Upper(Emp.Nom);
                Secr.Id:=Emp;
                Ajout_Secr(P_Secr, Secr);
@@ -780,6 +781,7 @@ package body Gestion_Directeur is
             end loop;
             if Existe=False then
                Cryp_Mdp(Emp,N);
+               Emp.N := N;
                Emp.Nom := To_Upper(Emp.Nom);
                Charge_Et.Id:=Emp;
                Ajout_Charge(P_Charge, Charge_Et);
@@ -801,6 +803,7 @@ package body Gestion_Directeur is
             end loop;
             if Existe=False then
                Cryp_Mdp(Emp,N);
+               Emp.N := N;
                Emp.Nom := To_Upper(Emp.Nom);
                Directeur.Id:=Emp;
                Ajout_Directeur(P_Dir, Directeur);
