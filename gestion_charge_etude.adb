@@ -1,6 +1,7 @@
-with Ada.Text_Io,ada.Float_Text_IO,Ada.Characters.Handling,Ada.Integer_Text_Io;
-use Ada.Text_Io,ada.Float_Text_IO, Ada.Characters.Handling,Ada.Integer_Text_Io;
+with Ada.Text_Io,Ada.Float_Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling;
+use Ada.Text_Io,Ada.Float_Text_Io, Ada.Integer_Text_Io,Ada.Characters.Handling;
 package body Gestion_Charge_Etude is
+
    function Trouve_Charge (
          Tete_C   : Pteur_Charge;
          Personne : T_Personne)
@@ -26,7 +27,8 @@ package body Gestion_Charge_Etude is
    begin
       if Tete_Charge= null then
          return(False);
-      elsif To_UPPER(N)=Tete_Charge.Charge.Id.Nom and then To_Lower(P)=to_lower(Tete_Charge.Charge.Id.Prenom) then
+      elsif To_Lower(N)=To_Lower(Tete_Charge.Charge.Id.Nom)
+            and then To_Lower(P)=To_Lower(Tete_Charge.Charge.Id.Prenom) then
          return(True);
       else
          return(Verif_Saisie_Charge(Tete_Charge.Charge_Suiv, N, P));
@@ -41,7 +43,8 @@ package body Gestion_Charge_Etude is
    begin
       if Tete_Charge= null then
          return(0);
-      elsif To_Lower(N)=To_Lower(Tete_Charge.Charge.Id.Nom) and then To_Lower(P)=to_lower(Tete_Charge.Charge.Id.Prenom) then
+      elsif To_Lower(N)=To_Lower(Tete_Charge.Charge.Id.Nom)
+            and then To_Lower(P)=To_Lower(Tete_Charge.Charge.Id.Prenom) then
          return(Tete_Charge.Charge.Nb_Etude_En_Charge);
       else
          return(Cpt_Etude_Charge(Tete_Charge.Charge_Suiv, N, P));
@@ -57,11 +60,13 @@ package body Gestion_Charge_Etude is
       Fait : Boolean := False;
    begin
       if Tete_Charge/= null then
-         if To_Lower(N)=To_Lower(Tete_Charge.Charge.Id.Nom) and then To_Lower(P)=to_lower(Tete_Charge.Charge.Id.Prenom) then
+         if To_Lower(N)=To_Lower(Tete_Charge.Charge.Id.Nom)
+               and then To_Lower(P)=To_Lower(Tete_Charge.Charge.Id.Prenom) then
             for I in Tete_Charge.Charge.Etude_En_Charge'range loop
                if Fait=False then
                   if Tete_Charge.Charge.Etude_En_Charge(I)=null then
                      Tete_Charge.Charge.Etude_En_Charge(I):=P_Etude;
+                     Tete_Charge.Charge.Nb_Etude_En_Charge:= Tete_Charge.Charge.Nb_Etude_En_Charge +1;
                      Fait:=True;
                   end if;
                end if;
@@ -119,11 +124,11 @@ package body Gestion_Charge_Etude is
          Tete_Charge : Pteur_Charge;
          Id_Etu      : Integer) is
       T   : Tab_Etude     := Tete_Charge.Charge.Etude_En_Charge;
-      Inc : Pteur_Incluse; 
+      Inc : Pteur_Incluse;
    begin
-     
+
       for I in T'range loop
-         if Id_Etu=T(I).Etu.Id and then t(i).etu.statut/=cloturee then
+         if Id_Etu=T(I).Etu.Id and then T(I).Etu.Statut/=Cloturee then
             Put("Affichage de l etude numero");
             Put(T(I).Etu.Id);
             New_Line;
@@ -150,7 +155,7 @@ package body Gestion_Charge_Etude is
             New_Line;
             Inc:=T(I).Etu.P_Testeuse;
             Affiche_Testeuse_Incluse(Inc);
-         elsif Id_Etu=T(I).Etu.Id and then t(i).etu.statut=cloturee then
+         elsif Id_Etu=T(I).Etu.Id and then T(I).Etu.Statut=Cloturee then
             Put("Statut de l'etude : ");
             Put(T_Statut'Image(T(I).Etu.Statut));
             New_Line;
@@ -158,10 +163,10 @@ package body Gestion_Charge_Etude is
             Put(T(I).Etu.Produit.Nom_P);
             New_Line;
             Put("Note moyenne : ");
-            Put(T(I).Etu.Note_moy,Exp =>0, Aft => 2);
+            Put(T(I).Etu.Note_Moy,Exp =>0, Aft => 2);
             New_Line;
             Put("nombre de testeuses significatives : ");
-            Put(t(i).etu.nb_significatif);
+            Put(T(I).Etu.Nb_Significatif);
             New_Line;
             if T(I).Etu.Risque then
                Put("Produit non sur");
@@ -203,10 +208,12 @@ package body Gestion_Charge_Etude is
       T         : Tab_Etude          := Tete_Charge.Charge.Etude_En_Charge;
       Tete_Incl : Pteur_Incluse;
       Incl      : T_Personne_Incluse;
-      nom, prenom :t_mot;
+      Nom,
+      Prenom    : T_Mot;
       Id_Etu,
       K         : Integer;
-      Fait,ok      : Boolean            := False;
+      Fait,
+      Ok        : Boolean            := False;
    begin
       Put("saisir l'id de l'etude");
       Secure_Saisie(Id_Etu,Id_Etu);
@@ -216,24 +223,24 @@ package body Gestion_Charge_Etude is
                Fait:=True;--l'etude existe
                if T(I).Etu.Statut=Cree then
                   Nom:=(others=>' ');
-                  prenom:=(others=>' ');
+                  Prenom:=(others=>' ');
                   Put("saisir le nom de la testeuse :");
                   Get_Line(Nom,K);
                   Put("saisir le prenom de la testeuse :");
-                  Get_Line(prenom,K); 
+                  Get_Line(Prenom,K);
                   Tete_Incl:=T(I).Etu.P_Testeuse;
-                  while Tete_Test/=null and then ok=false loop
-                    ok:=verif_saisie_testeuse(Tete_Test,nom, prenom);
+                  while Tete_Test/=null and then Ok=False loop
+                     Ok:=Verif_Saisie_Testeuse(Tete_Test,Nom, Prenom);
                      if Ok then
                         Tete_Test:=Verif_Testeuse_Etude(T(I), Tete_Test);
                      else
                         Tete_Test:=Tete_Test.Test_Suiv;
                      end if;
                   end loop;
-                  
+
                   if Tete_Test/=null then --si la testeuse peut etre inclus dans l'etude, l'ajouter et lui donner un pteur d'etude
                      Incl.Nom:=Nom;
-                     Incl.Prenom:=prenom;
+                     Incl.Prenom:=Prenom;
                      Nv_Incluse(Incl,Tete_Incl);
                      Tete_Test.Test.Etude:=T(I);
 
@@ -278,21 +285,23 @@ package body Gestion_Charge_Etude is
             end if;
          end if;
       end loop;
-            
+
    end Modif_Statut;
-   
-   procedure Enregistre_Charge (C:in out Pteur_Charge; C_Aux:in Pteur_Charge) is
-   ok:boolean;
+
+   procedure Enregistre_Charge (
+         C     : in out Pteur_Charge;
+         C_Aux : in     Pteur_Charge) is
+      Ok : Boolean;
    begin
-      if c/=null then
-      Ok:=Verif_Saisie_Charge(C,C_Aux.charge.Id.Nom, C_Aux.charge.Id.Prenom);
-      if ok then 
-         C.Charge:=C_Aux.Charge;
-      else
-         Enregistre_Charge(C.Charge_Suiv,C_Aux);
+      if C/=null then
+         Ok:=Verif_Saisie_Charge(C,C_Aux.Charge.Id.Nom, C_Aux.Charge.Id.Prenom);
+         if Ok then
+            C.Charge:=C_Aux.Charge;
+         else
+            Enregistre_Charge(C.Charge_Suiv,C_Aux);
          end if;
-         end if;
-      end enregistre_charge;
+      end if;
+   end Enregistre_Charge;
 end Gestion_Charge_Etude;
 
 

@@ -1,5 +1,5 @@
-with Ada.Integer_Text_Io,Ada.Text_Io,Aleatoire,Ada.Characters.Handling;
-use Ada.Integer_Text_Io,Ada.Text_Io,Aleatoire,Ada.Characters.Handling;
+with Ada.Integer_Text_Io,Ada.Text_Io,Ada.Characters.Handling;
+use Ada.Integer_Text_Io,Ada.Text_Io,Ada.Characters.Handling;
 
 package body Connexion is
    procedure Secure_Saisie (
@@ -32,15 +32,13 @@ package body Connexion is
       C   : Character;
 
    begin
-      --Initialise(0,25);
-      --N:= Random;
-      --P.N:=N;
+
       Put("Veuillez saisir un mot de passe de 10 caracteres");
       New_Line;
       loop
          Get(C);
          case C is
-            --Utilisation des codes ASCII des caractÃ¨res (valeurs numeriques)
+            --Utilisation des codes ASCII des caractères (valeurs numeriques)
             when 'A'..'Z'=>
                C:=To_Lower(C);
                if Character'Pos(C)+ N > 122 then
@@ -75,6 +73,7 @@ package body Connexion is
          end case;
          exit when Cpt = 11;
       end loop;
+      Skip_Line;
 
 
    end Cryp_Mdp;
