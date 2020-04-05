@@ -277,6 +277,7 @@ package body Gestion_Charge_Etude is
       Put("saisir l'id de l'etude");
       Secure_Saisie(Id_Etu,Id_Etu);
       for I in T'range loop
+         if t(i)/=null then
          if Id_Etu=T(I).Etu.Id then
             if T(I).Etu.Statut/=T_Statut'Last then
                T(I).Etu.Statut:=T_Statut'Val(T_Statut'Pos(T(I).Etu.Statut)+1);
@@ -288,9 +289,11 @@ package body Gestion_Charge_Etude is
                if T(I).Etu.Statut=Cloturee then
                   Nv_Etude_Cloturee(T(I));
                   T(I):=null;
+                  p_charge.charge.Etude_En_Charge(i):=t(i);
                   P_Charge.Charge.Nb_Etude_En_Charge:=P_Charge.Charge.Nb_Etude_En_Charge-1;
                   p_charge.charge.Nb_Etude_T :=P_Charge.Charge.Nb_Etude_T+1;
                end if;
+            end if;
             end if;
          end if;
       end loop;
