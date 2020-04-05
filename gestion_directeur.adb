@@ -662,12 +662,11 @@ package body Gestion_Directeur is
                P:=(others=>' ');
                Put("saisir le nom de charge de l'etude :");
                Get_Line(N,Kn); --saisie securisee si le charge n'existe pas ou si son nombre d'etude est plein
-               n:=to_upper(n);put(n);
+               n:=to_upper(n);
                Put("saisir le prenom du charge d'etude :");
                Get_Line(P,Kn);
                P(1):=To_Upper(P(1));
                P(2..Kn):=To_Lower(P(2..Kn));
-               put(p);
                Ok:= Verif_Saisie_Charge(P_Charge,N,P);
                if Ok then
                   Cpt:=Cpt_Etude_Charge(P_Charge,N,P);
