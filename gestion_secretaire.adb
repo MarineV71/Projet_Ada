@@ -1,5 +1,5 @@
-with Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling,Aleatoire;
-use Ada.Text_Io,Ada.Integer_Text_Io,Ada.Characters.Handling,Aleatoire;
+with Ada.Text_Io,Ada.Integer_Text_Io,ada.Float_Text_IO,Ada.Characters.Handling,Aleatoire;
+use Ada.Text_Io,Ada.Integer_Text_Io,ada.Float_Text_IO,Ada.Characters.Handling,Aleatoire;
 package body Gestion_Secretaire is
    
 
@@ -41,7 +41,7 @@ package body Gestion_Secretaire is
       Put("Inscription d'une nouvelle testeuse");
       Saisie_Personne(Testeuse);
 
-      --VÈrif de la non existence dans la liste des testeuses
+      --V√©rif de la non existence dans la liste des testeuses
       while P /=null loop
          if To_Lower(Testeuse.Nom) /= To_Lower(P.Test.Id.Nom) 
             and To_Lower(Testeuse.Prenom) /= To_Lower(P.Test.Id.Prenom) then
@@ -58,7 +58,7 @@ package body Gestion_Secretaire is
       end loop;
 
       if Existe then
-         Put("Une testeuse avec les mÍmes nom et prÈnom existe deja");
+         Put("Une testeuse avec les m√™mes nom et pr√©nom existe deja");
          New_Line;
          Fait := False;
 
@@ -165,7 +165,7 @@ package body Gestion_Secretaire is
 
    ---------------------------------------------------------------------------------
    ---------------------------------------------------------------------------------
-   ---------------------- DÈsinscription d'une testeuse ----------------------------
+   ---------------------- D√©sinscription d'une testeuse ----------------------------
    ---------------------------------------------------------------------------------
    ---------------------------------------------------------------------------------
 
@@ -189,7 +189,7 @@ package body Gestion_Secretaire is
                P_Testeuse := P_Testeuse.Test_Suiv;
                Fait:= True;
             else
-               Put("Cette testeuse est actuellement incluse dans une Ètude");
+               Put("Cette testeuse est actuellement incluse dans une √©tude");
                New_Line;
                Fait:=False;
             end if;
@@ -349,7 +349,7 @@ package body Gestion_Secretaire is
       Et_Archivee : T_Etude_Archivee;
       use P_Fichier_Archive;
    begin
-      Existe:=False; --Affichage si pas d'Ètude pour cette entreprise (MAIN)
+      Existe:=False; --Affichage si pas d'√©tude pour cette entreprise (MAIN)
       Put("Etude(s) archivees pour l'entreprise ");
       Put(Ent);
       New_Line;
@@ -408,7 +408,7 @@ package body Gestion_Secretaire is
             end if;
             Put("Lors de cette etude ");
             Put(Et_Archivee.Nb_Testeuse);
-            Put(" testeuse(s) incluse(s) dont "); --> faire une vÈrif si -1 si pb lors de l'Ètude ?
+            Put(" testeuse(s) incluse(s) dont "); --> faire une v√©rif si -1 si pb lors de l'√©tude ?
             Put(Et_Archivee.Nb_Significatif);
             Put(" testeuse(s) significative(s)");
             New_Line;
@@ -434,7 +434,7 @@ package body Gestion_Secretaire is
    end Vis_Archive_Entreprise;
 
    --------------------------------------------------
-   -- Affichage des meilleurs produits testÈs
+   -- Affichage des meilleurs produits test√©s
    --------------------------------------------------
 
 
