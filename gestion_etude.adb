@@ -125,7 +125,7 @@ package body Gestion_Etude is
       Close (F);
 
       E_Aux:=E;put(m);
-       while E_aux/=null loop --cherche les égalités avec la meilleure note trouvé grace a la premiere boucle
+       while E_aux/=null loop --cherche les Ã©galitÃ©s avec la meilleure note trouvÃ© grace a la premiere boucle
          if E_aux.Etu.Produit.Cat=T_Categorie'Val(N-1) and then E_aux.Etu.Risque=False then
             if m/=0.0 and then M=E_aux.Etu.note_Moy then
                Put(E_aux.Etu.Produit.Nom_P);
@@ -145,14 +145,14 @@ package body Gestion_Etude is
       --manipulation du fichier
 
       Open(F,In_File,"Fichier_Archive");
-      while not End_Of_File(F) loop --cherche la meilleure note sans risque dans les archives
+      while not End_Of_File(F) loop --affiche la ou les meilleures notes contenues dans les archives 
          Read(F,E_Arch);
          if E_arch.Produit.Cat=T_Categorie'Val(N-1) and then E_arch.Risque=False then
             if M/=0.0 and then M=E_arch.note_Moy then
             Put(E_Arch.Produit.Nom_P);
                Put(E_Arch.Note_Moy, Exp =>0, Aft => 2);New_Line;
             elsif m=0.0 then  
-               put_line("aucun produit classé dans cette categorie");
+               put_line("aucun produit classÃ© dans cette categorie");
          end if;
          end if;
          end loop;
