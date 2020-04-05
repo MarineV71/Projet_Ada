@@ -97,9 +97,14 @@ package body Gestion_Charge_Etude is
       if Min.Charge.Nb_Etude_En_Charge=3 then
          Put("il n'y a pas de charge d'etude disponible pour la prise en charge de cette nouvelle etude");
          New_Line;
+      else 
+         Etude.Nom_Charge:=Min.Charge.Id.Nom;
+         etude.prenom_charge:=min.charge.id.prenom;
+          Nv_Etude(Etude,P_Etude);
+         Ajout_Etude_Charge (Min, P_Etude, Min.Charge.Id.Nom, Min.Charge.Id.Prenom);
+         put("l'etude est creee");
       end if;
-      Nv_Etude(Etude,P_Etude);
-      Ajout_Etude_Charge (Min, P_Etude, Min.Charge.Id.Nom, Min.Charge.Id.Prenom);
+      
    end Repartition_Etude_Charge;
 
    procedure Affiche_Liste_Etude (
