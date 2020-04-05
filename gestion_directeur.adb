@@ -1378,7 +1378,7 @@ package body Gestion_Directeur is
 
             --Affichage seulement si etude cloturee ...
             if Tete.Etu.Statut = Cloturee then
-               if Tete.Etu.Note_Moy/=-1 then
+               if Tete.Etu.Note_Moy/=-1.0 then
                   Put("La note de ce produit est =>");
                   Put(Tete.Etu.Note_Moy);
                   New_Line;
