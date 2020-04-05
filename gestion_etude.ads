@@ -85,6 +85,6 @@ package Gestion_Etude is
   procedure Nv_Etude (Etude: in out T_Etude; P_Etude:in out Pteur_Etude) ;
   procedure Nv_Incluse (Incluse: in out T_Personne_Incluse; P_Inclu:in out Pteur_Incluse);
   procedure Nv_Etude_Cloturee(P_Etude_Clo:in out Pteur_Etude); 
-
+   procedure Meilleur_Produit (E:Pteur_Etude; f:in out P_Fichier_Archive.File_Type);
 end Gestion_Etude;
 

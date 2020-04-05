@@ -1,5 +1,5 @@
-with Ada.Text_Io,  Ada.Characters.Handling;
-use Ada.Text_Io, Ada.Characters.Handling;
+with Ada.Text_Io, ada.Float_Text_IO, Ada.Characters.Handling;
+use Ada.Text_Io, ada.Float_Text_IO, Ada.Characters.Handling;
 package body Gestion_Etude is
 
    procedure Saisie_Personne (
@@ -69,5 +69,96 @@ package body Gestion_Etude is
       end if;
    end Nv_Etude_Cloturee;
 
+   procedure Meilleur_Produit (E:Pteur_Etude; f: in out P_Fichier_Archive.File_Type) is
+      E_Aux:Pteur_Etude:=E;
+      n:Integer;
+      M: Float:=0.0;
+      e_arch:T_Etude_Archivee;
+      use P_Fichier_Archive;
+   begin
+      Put_Line("saisir la categorie de produits");
+      Put("Saisir la categorie du produit :");
+      New_Line;
+      Put("1.Creme de jour");
+      New_Line;
+      Put("2.Soin de nuit");
+      New_Line;
+      Put("3.Lait corporel");
+      New_Line;
+      Put("4.Lotion visage");
+      New_Line;
+      Put("5.Gel douche");
+      New_Line;
+      Put("6.Solaire");
+      New_Line;
+      Put("=> ");
+      Secure_Saisie(n,6);
+      New_Line;
+      Put_Line("affichage des meilleurs produits");
+   while E_aux/=null loop --cherche la meilleure note sans risque
+         if E_aux.Etu.Produit.Cat=T_Categorie'Val(N-1) and then E_aux.Etu.Risque=False then
+            if M<E_aux.Etu.note_Moy then
+               M:=E_aux.Etu.note_Moy;
+            end if;
+         end if;
+         e_aux:=e_aux.etu_suiv;
+      end loop;
+      
+      begin
+         Open(F,In_File,"Fichier_Archive");
+      exception
+         when others =>
+            Create (F, Name=>"Fichier_Archive");
+      end;
+      Close(F);
+      --manipulation du fichier
+
+      Open(F,In_File,"Fichier_Archive");
+      while not End_Of_File(F) loop --cherche la meilleure note sans risque dans les archives
+         Read(F,E_Arch);
+         if E_arch.Produit.Cat=T_Categorie'Val(N-1) and then E_arch.Risque=False then
+            if M<E_arch.note_Moy then
+               M:=E_arch.note_Moy;Put(E_Arch.Produit.Nom_P);
+            end if;
+         end if;
+         end loop;
+      Close (F);
+
+      E_Aux:=E;put(m);
+       while E_aux/=null loop --cherche les égalités avec la meilleure note trouvé grace a la premiere boucle
+         if E_aux.Etu.Produit.Cat=T_Categorie'Val(N-1) and then E_aux.Etu.Risque=False then
+            if m/=0.0 and then M=E_aux.Etu.note_Moy then
+               Put(E_aux.Etu.Produit.Nom_P);
+               Put(E_Aux.Etu.Note_Moy, Exp =>0, Aft => 1);New_Line;
+            end if;
+         end if;
+         E_Aux:=E_Aux.Etu_Suiv;
+      end loop;
+      
+   begin
+         Open(F,In_File,"Fichier_Archive");
+      exception
+         when others =>
+            Create (F, Name=>"Fichier_Archive");
+      end;
+      Close(F);
+      --manipulation du fichier
+
+      Open(F,In_File,"Fichier_Archive");
+      while not End_Of_File(F) loop --cherche la meilleure note sans risque dans les archives
+         Read(F,E_Arch);
+         if E_arch.Produit.Cat=T_Categorie'Val(N-1) and then E_arch.Risque=False then
+            if M/=0.0 and then M=E_arch.note_Moy then
+            Put(E_Arch.Produit.Nom_P);
+               Put(E_Arch.Note_Moy, Exp =>0, Aft => 2);New_Line;
+            elsif m=0.0 then  
+               put_line("aucun produit classé dans cette categorie");
+         end if;
+         end if;
+         end loop;
+      Close (F);
+end meilleur_produit;
+               
+                          
 end Gestion_Etude;
 

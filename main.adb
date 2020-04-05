@@ -244,10 +244,7 @@ begin
                         Ent := (others =>' ');
 
                      when 7 => --Aff les meilleurs produits
-                        New_Line;
-                        Put("Cette fonction n'est pas disponible ...");
-                        New_Line;
-
+                        Meilleur_Produit (tete_etude,F);
 
                      when others => -- Deconnexion
                         Connect := False;
