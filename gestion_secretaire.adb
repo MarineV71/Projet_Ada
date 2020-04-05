@@ -147,7 +147,7 @@ package body Gestion_Secretaire is
             Put(" ans, a participe a ");
             Put(P_Testeuse.Test.Nb_Etude);
             Put(" etude(s)");
-            if P_Testeuse.Etude = null then
+            if P_Testeuse.Test.Etude = null then
                Put(" dont aucune actuellement.");
                New_Line;
             else
